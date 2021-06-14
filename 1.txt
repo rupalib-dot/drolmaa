@@ -1,0 +1,7 @@
+OXbVqFDB
+
+bda17e01c3bfaa5c347ac0ac5763d6f9
+
+
+
+// <form action="{{route('bookings.store')}}" method="POST">@csrf<script src="https://checkout.razorpay.com/v1/checkout.js" data-key="{{ env('RAZORPAY_KEY') }}" data-amount="'+response.price+'00" data-buttontext="Pay "'+response.price+'" INR" data-name="i4consulting.org" data-description="Rozerpay" data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png" data-prefill.name="{{Session::get('full_name')}}" data-prefill.email="rupalibhargava@gmail.com" data-theme.color="#ff7529"> </script> </form> 
