@@ -6,8 +6,8 @@
         cursor: pointer;
         width: 16px;
         position: absolute;
-        top: 6px;
-        left: 496px;
+        top: 13px;
+        left: 405px;
     }
 </style>
 <section id="appointment" class="appointment padding-top" role="appointments">
