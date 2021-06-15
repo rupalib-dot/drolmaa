@@ -80,7 +80,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-md-6">
                                 <div class="file-upload">
                                     <div class="file-upload-select3">
@@ -91,7 +90,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="back-next-next">
                                 <a href="{{route('expert.second.step')}}" class="back">Back</a>
                                 <button type="submit" class="next">Next</button>
