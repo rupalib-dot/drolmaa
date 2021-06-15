@@ -9,14 +9,14 @@
     </div>
     <header id="main-header" class="main-header fluid-container" role="Header">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container">
+            <div class="container-fluid">
                 <a class="navbar-brand" href="{{url('/')}}"><img class="img-fluid" src="{{asset('front_end/images/logo.svg')}}"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav justify-content-end">
+                    <ul class="navbar-nav justify-content-end menu-drol">
                         <li class="nav-item  {{ Request::is('about_us') ? 'last2' : '' }}">
                             <a class="nav-item nav-link {{ Request::is('about_us') ? 'last' : '' }}" href="{{route('page.about_us')}}">About Us</a>
                         </li>
@@ -63,9 +63,6 @@
                             <li class="nav-item last1">
                                 <a class="nav-item nav-link last" href="{{route('appointment.create')}}">Appointment</a>
                             </li>
-                        @endif
-                        <!-- last2  last-->
-                        @if(Session::get('role_id') == 3)
                             <li class="nav-item"> 
                                 <a class="nav-item nav-link" href="{{ route('viewcart') }}">{{CommonFunction::getCount('cart','user_id',Session::get('user_id'))}}<i style="font-size: 20px;color: white;" class="fas fa-shopping-cart"></i></a>
                             </li>

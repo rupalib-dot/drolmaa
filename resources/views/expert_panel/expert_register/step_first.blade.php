@@ -126,6 +126,7 @@
                                     <select class="form-control state_list" id="exampleFormControlSelect1"
                                         name="state_id" onchange="city_list(this.value)">
                                         <option value="">Select State</option>
+                                        <option value="">rajasthan</option>
                                     </select>
                                 </div>
                             </div>
@@ -136,6 +137,7 @@
                                     <select class="form-control city_list" id="exampleFormControlSelect1"
                                         class="form-control" name="city_id">
                                         <option value="">Select City</option>
+                                        <option value="">jaipur</option>
                                     </select>
                                 </div>
                             </div>
