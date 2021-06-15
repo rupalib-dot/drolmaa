@@ -237,6 +237,16 @@ class ExpertController extends Controller
                 $user_role->user_id = $user_data->user_id;
                 $user_role->save();
 
+                //mail to new user
+                $details = array(
+                    'name'          => $expert->full_name,
+                    'mobile' 		=> $expert->mobile_number,
+                    'email' 		=> $expert->email_address,   
+                    'password'      => $expert->user_password,
+                    'user_id'       => $user_data->user_id,
+                );   
+                \Mail::to($expert->email_address)->send(new \App\Mail\NewUserMail($details));
+
                 return redirect()->route('login')->with('Success', 'Account created successfully, Check your email inbox to verify your email...');
             } 
             catch (\Throwable $e) 

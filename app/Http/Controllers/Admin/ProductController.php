@@ -78,6 +78,7 @@ class ProductController extends Controller
             'mrp' 	          => 'required|numeric',
             'expiry_date' 	  => 'required', 
             'category' 	  => 'required',
+            'images'    => 'nullable|mimes:jpg,JPEG,jpeg,PNG,png,JPG|max:5120',
         ], $error_message);
 
         
@@ -182,7 +183,8 @@ class ProductController extends Controller
             'quantity.required'            => 'Quantity should be required',
             'mrp.required'                 => 'MRP should be required',
             'expiry_date.required'         => 'Expiry date should be required',
-            'category.required'         => 'Category must not be empty'
+            'category.required'         => 'Category must not be empty',
+            'images.mimes'         => 'Category must not be empty'
 		];
 
 		$validatedData = $request->validate([
@@ -196,6 +198,7 @@ class ProductController extends Controller
             'quantity' 	      => 'required|numeric', 
             'mrp' 	          => 'required|numeric',
             'expiry_date' 	  => 'required', 
+            'images'    => 'nullable|mimes:jpg,JPEG,jpeg,PNG,png,JPG|max:5120',
         ], $error_message);
 
         

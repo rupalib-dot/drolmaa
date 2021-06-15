@@ -54,7 +54,7 @@
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
                                         <label for="name"> Product Images <span class="text text-danger">(Note: Press cntrl to select multiple images)</span></label>
-                                        <input type="file" required name="images[]" id="images" class="form-control" multiple>
+                                        <input type="file" accept="image/*" required name="images[]" id="images" class="form-control" multiple>
                                     </div>
                                 </div>  
                             </div>

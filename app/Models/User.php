@@ -25,6 +25,10 @@ class User extends Model
         'full_name',
         'mobile_number',
         'email_address',
+        'email_status',
+        'phone_status',
+        'register_amount',
+        'payment_id',
         'user_age',
         'user_gender',
         'country_id',
@@ -54,7 +58,8 @@ class User extends Model
             $query->where('email_address',$email_address)
                   ->orWhere('mobile_number',$email_address);
         })
-        ->where('user_password',$user_password)->first(); 
+        ->where('email_status',config('constant.MAIL_STATUS.VERIFIED'))
+        ->where('phone_status',config('constant.MAIL_STATUS.VERIFIED'))->first(); 
         if(isset($user_data))
         {
             $user_status = True;

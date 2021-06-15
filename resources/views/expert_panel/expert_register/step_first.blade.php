@@ -1,5 +1,15 @@
 @include('include.header')
 @include('include.nav')
+<style>
+.feather-eye
+    {
+        cursor: pointer;
+        width: 16px;
+        position: absolute;
+        top: 6px;
+        left: 295px;
+    }
+</style>
 <section id="clientMemberLogin" class="clientMemberLogin padding-top" role="Member log In">
     <div class="container">
         <div class="row">
@@ -139,14 +149,16 @@
                             <div class="col-md-4">
                                 <div class="input-group mb-4">
                                     <input type="password" class="form-control" placeholder="Password" aria-label="Password"
-                                        aria-describedby="basic-addon1" name="user_password" value="{{old('user_password')}}">
+                                        aria-describedby="basic-addon1" name="user_password" value="{{old('user_password')}}" id="user_password">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="ShowPass('user_password')" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                    
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="input-group mb-4">
-                                <input type="text" class="form-control" placeholder="Confirm password"
-                                        aria-label="Confirm password" aria-describedby="basic-addon1" name="confirm_password" value="{{old('confirm_password')}}">
+                                <input type="password" class="form-control" placeholder="Confirm password"
+                                        aria-label="Confirm password" aria-describedby="basic-addon1" name="confirm_password" value="{{old('confirm_password')}}" id="confirm_password">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="ShowPass('confirm_password')" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                    
                                 </div>
                             </div>
@@ -177,3 +189,14 @@ $(document).ready(function() {
     }
 });
 </script>
+<script>
+        function ShowPass(id)
+        {
+            var x = document.getElementById(id);
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>

@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ExpertController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CommonController\AjaxController;
+use App\Http\Controllers\CommonController\CommonTaskController;
 use App\Http\Controllers\Customer\ProfileController;
 use App\Http\Controllers\Expert\ExpertFeedbackController;
 use App\Http\Controllers\Expert\ExpertProfileController;   
@@ -69,6 +70,10 @@ Route::get('/storage', function () {
     Route::get('user_login', [HomeController::class, 'login_index'])->name('login');
     Route::post('user_login', [HomeController::class, 'login_account'])->name('login.account');
     Route::get('user_logout', [HomeController::class, 'login_logout'])->name('logout.account');
+    Route::get('forgot_password', [HomeController::class, 'forgot_password'])->name('forgot_password');
+    Route::post('forgot_password', [HomeController::class, 'forgot_password'])->name('forgot_password.submit'); 
+    Route::get('reset_password', [HomeController::class, 'reset_password'])->name('reset_password');
+    Route::post('reset_password', [HomeController::class, 'reset_password'])->name('reset_password.submit');
 
     // EXPERT PERSONAL DETAILS ROUTES
     Route::get('expert_personal_details', [ExpertController::class, 'expert_personal'])->name('expert.first.step');
@@ -230,5 +235,7 @@ Route::namespace('CommonController')->group(function () {
     Route::post('get_expert_list', [AjaxController::class, 'get_expert'])->name('expert.list.ajax');
     Route::post('get_timeslot_list', [AjaxController::class, 'get_timeslot'])->name('timeslot.list.ajax');
     Route::post('get_workshop_detail', [AjaxController::class, 'get_workshop_detail'])->name('workshop.detail.ajax');
+    Route::get('account/verify', [CommonTaskController::class, 'verify_account'])->name('verify_account');
+    
  
 });

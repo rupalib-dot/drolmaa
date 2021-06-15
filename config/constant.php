@@ -18,6 +18,11 @@ return [
         "OFLINE"   => 104, 
     ],
 
+    "MAIL_STATUS"	=> [
+		"UNVERIFIED"	=> 309,
+		"VERIFIED"		=> 310,
+	],
+
     'STATUS' => [
         "PENDING"       => 105,
         "ACCEPTED"      => 106, 
