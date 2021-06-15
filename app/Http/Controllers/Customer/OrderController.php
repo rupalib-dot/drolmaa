@@ -132,7 +132,7 @@ class OrderController extends Controller
                 $response   = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>round($payment['amount'],2))); 
                 $order     = $request->session()->get('order');
                 $order['payment_id'] = $input['razorpay_payment_id'];
-                $order['grand_total'] = round($payment['amount'], 2);
+                $order['grand_total'] =  substr(round($payment['amount'], 2) , 0, -2);
                 $order['payment_status'] = 'paid';
                 
                 $dataorder = Order::create($order); 

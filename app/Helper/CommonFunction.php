@@ -22,7 +22,7 @@ class CommonFunction
 
     public static function GetData($table,$field, $value)
     {
-        $result = \DB::table($table)->where([$field => $value])->get();
+        $result = \DB::table($table)->where([$field => $value])->where('deleted_at',NULL)->get();
         return $result; 
     }
 

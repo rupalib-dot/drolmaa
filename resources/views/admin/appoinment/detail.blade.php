@@ -38,20 +38,20 @@
                                     <li><b>Customer :-</b> {{CommonFunction::GetSingleField('users','full_name','user_id',$appoinment['user_id'])}}</li> 
                                     <li><b>Expert :-</b> {{CommonFunction::GetSingleField('users','full_name','user_id',$appoinment['expert'])}}</li>
                                     <li><b>Designation :-</b> {{CommonFunction::GetSingleField('designation','designation_title','designation_id',$appoinment['designation'])}}</li> 
-                                    <li><b>Amount :- </b>{{$appoinment['amount']}}</li>  
-                                    <li><b>Amount Refund :- </b>{{$appoinment['amount_refund']}}</li> 
+                                    <li><b>Amount :- </b><i class="fas fa-rupee-sign"></i> {{$appoinment['amount']}}</li>  
+                                    <li><b>Amount Refund :- </b>@if($appoinment['amount_refund'] == '') N/A @else <i class="fas fa-rupee-sign"></i> {{$appoinment['amount_refund']}} @endif</li> 
                                     <li><b>Payment Mode:- </b>{{ucwords(strtolower(array_search($appoinment['payment_mode'],config('constant.PAYMENT_MODE'))))}}</li>
                                 </ul>
                             </div> 
                             <div class="col-lg-6">
                                 <ul class="contacts-block list-unstyled" style="max-width: 100%;">   
                                     <li><b>Plan :-</b> {{ucwords(strtolower(array_search($appoinment['plan'],config('constant.PLAN'))))}}</li> 
-                                    <li><b>Note :-</b> {{$appoinment['note']}}</li> 
+                                    <li><b>Note :-</b> @if($appoinment['note'] == '') N/A @else {{$appoinment['note']}} @endif</li> 
                                     <li><b>Date :-</b> {{date('d M,Y',strtotime($appoinment['date']))}}</li>
                                     <li><b>Time :-</b>{{date('h:i A',strtotime($appoinment['time'])) .' - '. date("h:i A",strtotime('+1 hours',strtotime($appoinment['time'])))}}</li>
                                     <li><b>Status :-</b> {{ucwords(strtolower(array_search($appoinment['status'],config('constant.STATUS'))))}}</li>
                                     <li><b>Payment Id :- </b>{{$appoinment['payment_id']}}</li> 
-                                    <li><b>Refund Id :- </b>{{$appoinment['refund_id']}}</li> 
+                                    <li><b>Refund Id :- </b>@if($appoinment['refund_id'] == '') N/A @else {{$appoinment['refund_id']}} @endif</li> 
                                 </ul>
                             </div> 
                         </div>             

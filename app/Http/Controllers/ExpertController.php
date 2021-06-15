@@ -133,7 +133,9 @@ class ExpertController extends Controller
 			'office_phone_number' 	=> 'required|digits:10',
 			'user_experience' 	    => 'required',
         ], $error_message); 
-
+        if(count($request->special_plan)>2){
+            return redirect()->back()->withInput($request->all())->with('Failed','Select only 2 Plan');
+        }
         $expert = $request->session()->get('expert');
         if(!empty($request->special_plan)){
             $expert->special_plan = implode(',',$request->special_plan);

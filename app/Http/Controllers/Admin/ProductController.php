@@ -53,8 +53,8 @@ class ProductController extends Controller
         $error_message = 	[
 			'product_name.required'        => 'Product name should be required',
             'product_name.min'             => 'Product name should be minimum of 3 characters',
-            'product_name.max'             => 'Product name should be maximum of 30 characters',
-            'product_name.regex'             => 'Product name should be alphabets only',
+            'product_name.max'             => 'Product name should be maximum of 50 characters',
+            'product_name.regex'             => 'Product name should be alphanumeric only',
             'product_name.unique' 		   => 'Product name already exist', 
 			'selling_price.required' 	   => 'Selling price should be required', 
             'description.required'         => 'Description should be required', 
@@ -68,7 +68,7 @@ class ProductController extends Controller
 		];
 
 		$validatedData = $request->validate([
-			'product_name' 	  => 'required|min:3|max:30|regex:/^[\pL\s\']+$/u|unique:products,product_name',
+			'product_name' 	  => 'required|min:3|max:30|regex:/^[\pL0-9\s]+$/u|unique:products,product_name',
 			'selling_price'   => 'required|numeric',
             'description' 	  => 'required',
             'instructions'    => 'required',
@@ -153,8 +153,9 @@ class ProductController extends Controller
     {
         $title  = "Edit Product";
         $product = Products::find($id);   
+        $product_image = $this->ProductImages->prod_image_list($id);
         $category = Category::get();
-        $data   = compact('title','product','category');
+        $data   = compact('title','product','category','product_image');
         return view('admin.product.edit', $data);
     }
 
@@ -170,8 +171,8 @@ class ProductController extends Controller
         $error_message = 	[
 			'product_name.required'        => 'Product name should be required',
             'product_name.min'             => 'Product name should be minimum of 3 characters',
-            'product_name.max'             => 'Product name should be maximum of 30 characters',
-            'product_name.regex'             => 'Product name should be alphabets only',
+            'product_name.max'             => 'Product name should be maximum of 50 characters',
+            'product_name.regex'             => 'Product name should be alphanumeric only',
             'product_name.unique' 		   => 'Product name already exist', 
 			'selling_price.required' 	   => 'Selling price should be required', 
             'description.required'         => 'Description should be required', 
@@ -185,7 +186,7 @@ class ProductController extends Controller
 		];
 
 		$validatedData = $request->validate([
-			'product_name' 	  => 'required|min:3|max:30|regex:/^[\pL\s\']+$/u|unique:products,product_name,'.$id.',product_id',
+			'product_name' 	  => 'required|min:3|max:30|regex:/^[\pL0-9\s]+$/u|unique:products,product_name,'.$id.',product_id',
 			'selling_price'   => 'required|numeric',
             'description' 	  => 'required',
             'instructions'    => 'required',
@@ -253,7 +254,7 @@ class ProductController extends Controller
             'updated_at'    => date('Y-m-d H:i:s'),
         ]); 
         if(!empty($product_data)){
-            return redirect()->route('product.index')->with('Success', 'Product Deleted Successfully');
+            return redirect()->back()->with('Success', 'Product Deleted Successfully');
         }else{
             return redirect()->back()->withInput($request->all())->with('Failed', 'Something went wrong');
         } 
@@ -272,7 +273,7 @@ class ProductController extends Controller
             'updated_at'    => date('Y-m-d H:i:s'),
         ]); 
         if(!empty($product_image_data)){
-            return redirect()->route('product.show',$product_id)->with('Success', 'Product Image deleted successfully');
+            return redirect()->back()->with('Success', 'Product Image deleted successfully');
         }else{
             return redirect()->back()->withInput($request->all())->with('Failed', 'Something went wrong');
         } 

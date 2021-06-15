@@ -29,7 +29,7 @@
                 <p>Payment Status :- {{$order['payment_status']}}</p> 
             </div>
             <div class="col-lg-6">
-                <p>Grand Total :- {{$order['grand_total']}}</p> 
+                <p>Grand Total :- <i class="fas fa-rupee-sign"></i> {{$order['grand_total']}}</p> 
                 <p>Address Line1 :- {{$order['address1']}}</p>
                 <p>Address Line2 :- {{$order['address2']}}</p> 
                 <p>Country :- {{CommonFunction::GetSingleField('country','country_name','country_id',$order['country_id'])}}</p>

@@ -15,6 +15,7 @@
                                 <a href="{{route('appointment.index',['type'=>'current'])}}"> <button class="@if(!isset($request['type']) || $request['type'] == 'current') curent-appoint @else previous-appoint @endif">Current Appointment</button></a>
                                 <a href="{{route('appointment.index',['type'=>'previous'])}}"> <button class="@if($request['type'] == 'previous') curent-appoint @else previous-appoint @endif">Previous Appointment</button></a>
                                 <form action="{{route('appointment.index')}}" class="form-appoint">
+                                    <input type="hidden" name="type" value="{{$request['type']}}" class="">
 
                                     <input type="date" name="from_date" value="{{old('from_date',$request['from_date'])}}" class="">
 
@@ -53,7 +54,7 @@
                                                 <td>{{ucwords(strtolower(array_search($appointment->plan,config('constant.PLAN'))))}}</td>
                                                 <td>{{$appointment->designations->designation_title}}</td>
                                                 <td>{{ucwords(strtolower(array_search($appointment->payment_mode,config('constant.PAYMENT_MODE'))))}}</td>
-                                                <td>{{$appointment->amount}}</td>
+                                                <td><i class="fas fa-rupee-sign"></i> {{$appointment->amount}}</td>
                                                 <td>
                                                 
                                                <?php  $time1 = strtotime(date('Y-m-d H:i:s'));$time2 = strtotime(date('Y-m-d H:i:s',strtotime($appointment->date.' '.$appointment->time))); $difference = round(($time2 - $time1) / 3600);?>

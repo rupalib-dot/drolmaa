@@ -124,7 +124,7 @@
                                         <td class="mb-0">
                                             Total Price
                                         </td>
-                                        <td class="text-red text-center">{{round($totalcartamount,2)}}</td>
+                                        <td class="text-red text-center"><i class="fas fa-rupee-sign"></i> {{round($totalcartamount,2)}}</td>
                                     </tr>
                                     <tr>
                                         <td class="mb-0">
@@ -142,7 +142,7 @@
                                         <td class="mb-0">
                                             Total Amount
                                         </td>
-                                        <td class="text-red text-center">{{round($totalcartamount,2)}}</td>
+                                        <td class="text-red text-center"><i class="fas fa-rupee-sign"></i> {{round($totalcartamount,2)}}</td>
                                     </tr>
                                 </tbody>
                             </table>

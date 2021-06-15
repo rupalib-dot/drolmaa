@@ -40,14 +40,14 @@
                                     <li><b>Payment Id :- </b>{{$order['payment_id']}}</li>
                                     <li><b>Payment Mode :- </b>{{array_search($order['payment_type'],config('constant.PAYMENT_MODE'))}}</li>
                                     <li><b>Payment Status :- </b>{{$order['payment_status']}}</li>  
-                                    <li><b>Refund Id :- </b>{{$order['refund_id']}}</li>
-                                    <li><b>Refund Status :- </b>{{$order['refund_status']}}</li>
-                                    <li><b>Refund Amount :- </b>{{$order['refund_amount']}}</li> 
+                                    <li><b>Refund Id :- </b>@if($order['refund_id'] == '') N/A @else {{$order['refund_id']}} @endif</li>
+                                    <li><b>Refund Status :- </b>@if($order['refund_status'] == '') N/A @else{{$order['refund_status']}} @endif</li>
+                                    <li><b>Refund Amount :- </b>@if($order['refund_amount'] == '') N/A @else<i class="fas fa-rupee-sign"></i> {{$order['refund_amount']}}@endif</li> 
                                 </ul>
                             </div> 
                             <div class="col-lg-6">
                                 <ul class="contacts-block list-unstyled" style="max-width: 100%;"> 
-                                    <li><b>Grand Total :- </b>{{$order['grand_total']}}</li> 
+                                    <li><b>Grand Total :- </b><i class="fas fa-rupee-sign"></i> {{$order['grand_total']}}</li> 
                                     <li><b>Pincode :- </b>{{$order['pincode']}}</li> 
                                     <li><b>Email Address :-</b> {{$order['email_address']}}</li> 
                                     <li><b>Address Line1 :-</b> {{$order['address1']}}</li>

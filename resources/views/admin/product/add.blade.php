@@ -33,14 +33,14 @@
                             <div class="row"> 
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
-                                        <label for="name"> Selling Price</label>
-                                        <input type="text" name="selling_price" maxlength="5" id="selling_price" value="{{old('selling_price')}}" required placeholder="Selling Price" class="form-control">
+                                        <label for="name"> Selling Price (<i class="fas fa-rupee-sign"></i>)</label>
+                                        <input type="text" name="selling_price" maxlength="7" id="selling_price" value="{{old('selling_price')}}" required placeholder="Selling Price" class="form-control">
                                     </div>
                                 </div>  
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
-                                        <label for="name"> MRP</label>
-                                        <input type="text" name="mrp" id="mrp" maxlength="5" value="{{old('mrp')}}" placeholder="MRP" required class="form-control">
+                                        <label for="name"> MRP (<i class="fas fa-rupee-sign"></i>)</label>
+                                        <input type="text" name="mrp" id="mrp" maxlength="7" value="{{old('mrp')}}" placeholder="MRP" required class="form-control">
                                     </div>
                                 </div>  
                             </div>
@@ -53,7 +53,7 @@
                                 </div>  
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
-                                        <label for="name"> Product Images</label>
+                                        <label for="name"> Product Images <span class="text text-danger">(Note: Press cntrl to select multiple images)</span></label>
                                         <input type="file" required name="images[]" id="images" class="form-control" multiple>
                                     </div>
                                 </div>  
@@ -74,7 +74,7 @@
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
                                         <label for="name"> Description</label>
-                                        <textarea required name="description" id="description" maxlength="250" placeholder="Description" class="form-control">{{old('description')}}</textarea>
+                                        <textarea required name="description" id="description" maxlength="550" placeholder="Description" class="form-control">{{old('description')}}</textarea>
                                     </div>
                                 </div>    
                             </div>
@@ -82,20 +82,20 @@
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
                                         <label for="name"> Instructions</label>
-                                        <textarea required name="instructions" id="instructions" maxlength="250" placeholder="Instructions" class="form-control">{{old('instructions')}}</textarea>
+                                        <textarea required name="instructions" id="instructions" maxlength="550" placeholder="Instructions" class="form-control">{{old('instructions')}}</textarea>
                                     </div>
                                 </div>    
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
                                         <label for="name"> References</label>
-                                        <textarea required name="referenceses" id="referenceses" maxlength="250" placeholder="References" class="form-control">{{old('referenceses')}}</textarea>
+                                        <textarea required name="referenceses" id="referenceses" maxlength="550" placeholder="References" class="form-control">{{old('referenceses')}}</textarea>
                                     </div>
                                 </div>    
                             </div>
                             <div class="row"> 
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
-                                        <label for="name"> Rating</label>
+                                        <label for="name"> Rating </label>
                                         <div style="display: flex;">
 
                                             <input  onclick="ratingSelected(this.value)" @if(old('rating') == 1 || old('rating') == 2 || old('rating') == 3 || old('rating') == 4 || old('rating') == 5) checked @endif type="checkbox" id="rating1" name="rating" data-id="1" class="form-control" value="1" id="rating">

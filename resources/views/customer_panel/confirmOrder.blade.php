@@ -45,7 +45,7 @@ p{
                         <p>Pincode:- {{$order['pincode']}}</p> 
                         <p>Mobile Number:- {{$order['mobile_number']}}</p>
                         <p>Email Address:- {{$order['email_address']}}</p>
-                        <p>Grand Total:- {{round($order['grand_total'],2)}}</p> 
+                        <p>Grand Total:- <i class="fas fa-rupee-sign"></i> {{round($order['grand_total'],2)}}</p> 
                         <p>Payment Mode:- {{array_search($order['payment_type'],config('constant.PAYMENT_MODE'))}}</p>
                         <p>Order Status:- {{array_search($order['order_status'],config('constant.STATUS'))}}</p>
                     </div> 

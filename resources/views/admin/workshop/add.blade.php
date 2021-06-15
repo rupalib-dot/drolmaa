@@ -66,7 +66,7 @@
                                 </div> 
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
-                                    <label for="name"> Price</label>
+                                    <label for="name"> Price (<i class="fas fa-rupee-sign"></i>)</label>
                                         <input type="text" maxlength="4" name="price" id="price" value="{{old('price')}}" placeholder="Price" class="form-control">
                                     </div>
                                 </div>  

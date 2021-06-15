@@ -150,7 +150,7 @@ class AppointmentController extends Controller
                 $response   = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount'])); 
                 $appoinment     = $request->session()->get('appointment');
                 $appoinment['payment_id'] = $input['razorpay_payment_id'];
-                $appoinment['amount'] = round($payment['amount'], 2);
+                $appoinment['amount'] = substr(round($payment['amount'], 2) , 0, -2);
                 $count_row = Appointment::create($appoinment);  
                 if(!empty($count_row)){
                     Availability::where('user_id',$appoinment['expert'])->where('time',Session::get('time_slot'))->update(['status'=>config('constant.AVAIL_STATUS.BOOKED')]);

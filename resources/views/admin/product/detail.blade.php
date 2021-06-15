@@ -74,8 +74,8 @@
                                 <ul class="contacts-block list-unstyled" style="max-width: 100%;">
                                     <li><b>Expiry Date:-</b> {{date('d M,Y',strtotime($product->expiry_date))}}</li>
                                     <li><b>Quantity:-</b> {{$product->quantity}}</li> 
-                                    <li><b>Selling Price:-</b> {{$product->selling_price}}</li>  
-                                    <li><b>MRP:-</b> {{$product->mrp}}</li>   
+                                    <li><b>Selling Price:-</b> <i class="fas fa-rupee-sign"></i> {{$product->selling_price}}</li>  
+                                    <li><b>MRP:-</b> <i class="fas fa-rupee-sign"></i> {{$product->mrp}}</li>   
                                     <li><b>Category Name:-</b> {{CommonFunction::GetSingleField('category','category_name','category_id',$product->category_id)}}</li>
 
                                 </ul>

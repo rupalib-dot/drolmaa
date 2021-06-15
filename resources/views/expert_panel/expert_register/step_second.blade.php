@@ -7,6 +7,7 @@
             <div class="col-sm-12">
                 <div class="back1">
                     @include('include.validation_message')
+                    @include('include.auth_message')
                     <div class="clientTextF">
                         <h4 class="wel-heading">Welcome to</h4>
                         <h3>DrolMaa Constellation Club</h3>
@@ -124,5 +125,6 @@
         </div>
     </div>
 </section>
-@include('include.footer')
 
+@include('include.footer')
+ 

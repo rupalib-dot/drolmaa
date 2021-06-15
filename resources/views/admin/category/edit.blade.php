@@ -28,7 +28,7 @@
                                     <div class="form-group mb-4">
                                         <label for="name"> Category Images</label>
                                         <input type="file" name="category_image" id="category_image" class="form-control">
-                                        <img style="width: 80px;" src="<?php if(!empty($category->category_image)){?>{{asset('storage/category/'.$category->category_image)}}<?php }else{?>{{asset('front_end/images/blogimg.jpg')}}<?php }?>">
+                                        <img style="width: 120px; margin-top: 20px;" src="<?php if(!empty($category->category_image)){?>{{asset('storage/category/'.$category->category_image)}}<?php }else{?>{{asset('front_end/images/blogimg.jpg')}}<?php }?>">
                                     </div>
                                 </div>  
                             </div> 

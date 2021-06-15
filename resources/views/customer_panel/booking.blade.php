@@ -46,7 +46,7 @@
                                                     <td>{{CommonFunction::GetSingleField('designation','designation_title','designation_id',$booking->designation)}}</td>
                                                     <td>{{date('M d,Y',strtotime($booking->date))}}</td>
                                                     <td>{{date('h:i A',strtotime($booking->time))}}</td>
-                                                    <td>{{$booking->price}}</td> 
+                                                    <td><i class="fas fa-rupee-sign"></i> {{$booking->price}}</td> 
                                                     <td>
                                                         @php $exist = CommonFunction::GetRow('feedback','feedback_by',Session::get('user_id'),'module_type',config("constant.FEEDBACK.BOOKING"),'module_id',$booking->booking_id);@endphp
                                                         @if(empty($exist))

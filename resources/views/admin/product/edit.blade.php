@@ -34,14 +34,14 @@
                             <div class="row"> 
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
-                                        <label for="name"> Selling Price</label>
-                                        <input type="text" required maxlength="5" name="selling_price" id="selling_price" value="{{old('selling_price',$product->selling_price)}}" placeholder="Selling Price" class="form-control">
+                                        <label for="name"> Selling Price (<i class="fas fa-rupee-sign"></i>)</label>
+                                        <input type="text" required maxlength="7" name="selling_price" id="selling_price" value="{{old('selling_price',$product->selling_price)}}" placeholder="Selling Price" class="form-control">
                                     </div>
                                 </div>  
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
-                                        <label for="name"> MRP</label>
-                                        <input type="text" required maxlength="5" name="mrp" id="mrp" value="{{old('mrp',$product->mrp)}}" placeholder="MRP" class="form-control">
+                                        <label for="name"> MRP (<i class="fas fa-rupee-sign"></i>)</label>
+                                        <input type="text" required maxlength="7" name="mrp" id="mrp" value="{{old('mrp',$product->mrp)}}" placeholder="MRP" class="form-control">
                                     </div>
                                 </div>  
                             </div>
@@ -54,10 +54,16 @@
                                 </div>  
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
-                                        <label for="name"> Product Images</label>
-                                        <input type="file" name="images[]" id="images" class="form-control" multiple>
+                                        <label for="name"> Rating</label>
+                                        <div style="display: flex;">
+                                            <input  onclick="ratingSelected(this.value)" @if($product->rating == 1 || $product->rating == 2 || $product->rating == 3 || $product->rating == 4 || $product->rating == 5) checked @endif type="checkbox" id="rating1" name="rating" data-id="1" class="form-control" value="1" id="rating">
+                                            <input  onclick="ratingSelected(this.value)" @if($product->rating == 2 ||$product->rating == 3 || $product->rating == 4 || $product->rating == 5) checked @endif type="checkbox" id="rating2" name="rating" data-id="2" class="form-control" value="2" id="rating"> 
+                                            <input  onclick="ratingSelected(this.value)" @if($product->rating == 3 || $product->rating == 4 || $product->rating == 5) checked @endif type="checkbox" id="rating3" name="rating" data-id="3" class="form-control" value="3" id="rating"> 
+                                            <input  onclick="ratingSelected(this.value)" @if($product->rating == 4 || $product->rating == 5) checked @endif type="checkbox" id="rating4" name="rating" data-id="4" class="form-control" value="4" id="rating"> 
+                                            <input  onclick="ratingSelected(this.value)" @if($product->rating == 5) checked @endif type="checkbox" id="rating5" name="rating" data-id="5" class="form-control" value="5" id="rating"> 
+                                        </div> 
                                     </div>
-                                </div>  
+                                </div>     
                             </div>
 
                             <div class="row"> 
@@ -75,7 +81,7 @@
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
                                         <label for="name"> Description</label>
-                                        <textarea required name="description" id="description" maxlength="250" placeholder="Description" class="form-control">{{old('description',$product->description)}}</textarea>
+                                        <textarea required name="description" id="description" maxlength="550" placeholder="Description" class="form-control">{{old('description',$product->description)}}</textarea>
                                     </div>
                                 </div>    
                             </div>
@@ -84,13 +90,13 @@
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
                                         <label for="name"> Instructions</label>
-                                        <textarea required name="instructions" id="instructions" maxlength="250" placeholder="Instructions" class="form-control">{{old('instructions',$product->instructions)}}</textarea>
+                                        <textarea required name="instructions" id="instructions" maxlength="550" placeholder="Instructions" class="form-control">{{old('instructions',$product->instructions)}}</textarea>
                                     </div>
                                 </div>    
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
                                         <label for="name"> References</label>
-                                        <textarea required name="referenceses" id="referenceses" maxlength="250" placeholder="References" class="form-control">{{old('referenceses',$product->referenceses)}}</textarea>
+                                        <textarea required name="referenceses" id="referenceses" maxlength="550" placeholder="References" class="form-control">{{old('referenceses',$product->referenceses)}}</textarea>
                                     </div>
                                 </div>    
                             </div>
@@ -98,18 +104,23 @@
                             <div class="row"> 
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
-                                        <label for="name"> Rating</label>
-                                        <div style="display: flex;">
-                                            <input  onclick="ratingSelected(this.value)" @if($product->rating == 1 || $product->rating == 2 || $product->rating == 3 || $product->rating == 4 || $product->rating == 5) checked @endif type="checkbox" id="rating1" name="rating" data-id="1" class="form-control" value="1" id="rating">
-                                            <input  onclick="ratingSelected(this.value)" @if($product->rating == 2 ||$product->rating == 3 || $product->rating == 4 || $product->rating == 5) checked @endif type="checkbox" id="rating2" name="rating" data-id="2" class="form-control" value="2" id="rating"> 
-                                            <input  onclick="ratingSelected(this.value)" @if($product->rating == 3 || $product->rating == 4 || $product->rating == 5) checked @endif type="checkbox" id="rating3" name="rating" data-id="3" class="form-control" value="3" id="rating"> 
-                                            <input  onclick="ratingSelected(this.value)" @if($product->rating == 4 || $product->rating == 5) checked @endif type="checkbox" id="rating4" name="rating" data-id="4" class="form-control" value="4" id="rating"> 
-                                            <input  onclick="ratingSelected(this.value)" @if($product->rating == 5) checked @endif type="checkbox" id="rating5" name="rating" data-id="5" class="form-control" value="5" id="rating"> 
-                                        </div> 
+                                        <label for="name"> Product Images <span class="text text-danger">(Note: Press cntrl to select multiple images)</span></label>
+                                        <input type="file" name="images[]" id="images" class="form-control" multiple>
                                     </div>
-                                </div>     
-                            </div> 
- 
+                                </div>  
+                                <div class="col-xl-6 col-md-12 col-sm-12 col-12">
+                                    <div class="row">
+                                        <?php if(count($product_image)>0){
+                                            foreach($product_image as $productImg){?>
+                                                <div class="col-lg-2" style="margin-top:25px">
+                                                    <span class="view-icon" title="Delete"><a onclick="return confirm('Are you sure you want to delete this product Image?')" href="{{route('productImage.delete',['id'=>$productImg->product_image_id,'product_id'=>$product->product_id])}}" style="cursor:pointer"><i class="far fa-times-circle"></i></a></span> 
+                                                  <?php if(!empty($productImg->image_name)){?> <img style="width: 50px;" title="{{$productImg->image_name}}" src="{{asset('products/'.$productImg->image_name)}}"> <?php }?>
+                                                </div> 
+                                            <?php }
+                                        } ?>      
+                                    </div>           
+                                </div>  
+                            </div>  
                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
                                 <div class="form-group mb-4">
                                     <input type="submit" name="submit" class="mt-4 mb-4 btn btn-primary">
