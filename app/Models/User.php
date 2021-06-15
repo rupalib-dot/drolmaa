@@ -58,8 +58,7 @@ class User extends Model
             $query->where('email_address',$email_address)
                   ->orWhere('mobile_number',$email_address);
         })
-        ->where('email_status',config('constant.MAIL_STATUS.VERIFIED'))
-        ->where('phone_status',config('constant.MAIL_STATUS.VERIFIED'))->first(); 
+        ->where(['email_status' => config('constant.MAIL_STATUS.VERIFIED'),'phone_status' => config('constant.MAIL_STATUS.VERIFIED'),'user_password'=>$user_password])->first(); 
         if(isset($user_data))
         {
             $user_status = True;

@@ -84,14 +84,13 @@ class HomeController extends Controller
 
             try
             { 
-                $email 	= base64_decode($request['email']);
+                $email 	= base64_decode($request['email_address']);
                 $userId 	= base64_decode($request['userId']); 
-                $user_exist = User::where(['email_address'=>$email,'user_id'=>base64_decode($request['userId'])])->first(); 
+                $user_exist = User::where(['email_address'=>$email,'user_id'=> $userId])->first(); 
                 if($user_exist)
                 { 
                     $aPassArr = array("user_password"	=> md5($request->confirm_password),'updated_at'=>date('Y-m-d H:i:s'));
-                    $nRow		= User::where('user_id',base64_decode($request['userId']))->update($aPassArr);
-                    print_r($nRow);exit;
+                    $nRow		= User::where(['email_address'=>$email,'user_id'=> $userId])->update($aPassArr); 
                     if ($nRow) { 
                         return redirect('user_login')->with('Success', "Password has been reset successfully...");
                     } else {
@@ -157,7 +156,17 @@ class HomeController extends Controller
             $user_exist = $this->User->login_account($request->email_address, md5($request->user_password), $user_data);
 
             if($user_exist)
-            {
+            { 
+                if(isset($request["remember_me"]) && $request['remember_me'] == 1) {
+                    setcookie ("email_address",$request->email_address,time()+ 3600);
+                    setcookie ("user_password",$request->user_password,time()+ 3600); 
+                    setcookie ("remember_me",$request->remember_me,time()+ 3600);
+                } else {
+                    setcookie("email_address","");
+                    setcookie("user_password",""); 
+                    setcookie ("remember_me","");
+                }
+                
                 if($request['loginFor'] == 'admin' && $user_data->user_role->role_id == 1){
                     Session::put('user_id',$user_data->user_id);
                     Session::put('role_id',$user_data->user_role->role_id);

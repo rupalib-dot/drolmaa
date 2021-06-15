@@ -36,10 +36,10 @@
                             <div class="col-md-6">
                                 <div class="input-group mb-4">
                                     <input type="text" class="form-control" placeholder="Mobile Number / Email Id"
-                                        aria-label="Mobile Number /  Email Id" aria-describedby="basic-addon1" name="email_address" value="{{old('email_address')}}">
+                                        aria-label="Mobile Number /  Email Id" aria-describedby="basic-addon1" name="email_address" value="{{old('email_address',isset($_COOKIE['email_address'])? $_COOKIE['email_address'] : '')}}">
                                 </div>
                                 <div class="form-check list-regular">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <input class="form-check-input" name="remember_me" type="checkbox" value="1" @if(isset($_COOKIE['remember_me'])) @if($_COOKIE['remember_me']==1) checked @endif @endif id="flexCheckDefault">
                                     <label class="form-check-label" for="flexCheckDefault">
                                         Remember me
                                     </label>
@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="input-group mb-4">
-                                    <input type="password" class="form-control" placeholder="Password" aria-label="Password"
+                                    <input type="password" class="form-control" value="{{isset($_COOKIE['user_password'])? $_COOKIE['user_password'] : ''}}" placeholder="Password" aria-label="Password"
                                         aria-describedby="basic-addon1" name="user_password" id="user_password">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="ShowPass('user_password')" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                 </div>

@@ -58,7 +58,7 @@
                                             <!-- <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked1" checked> -->
                                             <a href="{{route('page.shopDetail',$data->product_id)}}">
                                                 <label style="cursor: pointer;" class="form-check-label text-color" for="flexCheckChecked1">
-                                                    {{$data->product_name}}
+                                                    {{ucwords(strtolower($data->product_name))}}
                                                 </label>
                                             </a>
                                         </div> 
@@ -77,10 +77,10 @@
                     @if(count($products)>0)
                         @foreach($products as $prod)
                             <div class="col-md-6 col-sm-6 col-lg-3 col-xl-3"> 
-                                    <div class="product-box">
+                                    <div class="product-box" >
                                         <?php $image_name = CommonFunction::GetSingleField('product_images','image_name','product_id',$prod->product_id);
                                         $favExist = CommonFunction::GetMultiWhereData('favourate','product_id',$prod->product_id,'user_id',Session::get('user_id'))?>
-                                        <img src="<?php if(!empty($image_name)){?>{{asset('products/'.$image_name)}}<?php }else{?>{{asset('front_end/images/blogimg.jpg')}}<?php }?>" alt="" class="img-fluid m-icos">
+                                        <img style="height: 00px;min-height: 160px;    width: 100%;max-width: 100% !important;position: relative;" src="<?php if(!empty($image_name)){?>{{asset('products/'.$image_name)}}<?php }else{?>{{asset('front_end/images/blogimg.jpg')}}<?php }?>" alt="" class="img-fluid m-icos">
                                         <div class="overlay"></div> 
                                         <div class="wis-lis"> 
                                             @if(!empty($favExist))
@@ -95,7 +95,7 @@
                                         </div>
                                     </div>
                                     <a href="{{route('page.shopDetail',$prod->product_id)}}">
-                                        <h5 class="tool-the">{{$prod->product_name}}</h5>
+                                        <h5 class="tool-the">{{ucwords(strtolower($prod->product_name))}}</h5>
                                         <p class="tool-para"> {{CommonFunction::GetSingleField('category','category_name','category_id',$prod->category_id)}}</p>
                                         <p class="indrupee"> &#8377 <span class="yerupee">{{$prod->selling_price}}</span></P>
                                         <p class="mb-5">{{$prod->rating}} <span class="star-rating">@if($prod->rating == 1) <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @elseif($prod->rating == 2) <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @elseif($prod->rating == 3) <i class="fas fa-star"></i>  <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i>  <i class="far fa-star"></i> @elseif($prod->rating == 4) <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> @elseif($prod->rating == 5) <i class="fas fa-star"></i> <i class="fas fa-star"></i>  <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> @else <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @endif</p>
