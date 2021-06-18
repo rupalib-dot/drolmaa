@@ -11,12 +11,12 @@
                             <div class="dashboard-panel">
                                 @include('include.validation_message')
                                 @include('include.auth_message')
-                                <h3>My Appointment</h3>
+                                <h3>My Appointments</h3>
                                 <a href="{{route('expappointment.index',['type'=>'current'])}}"> <button class="@if(!isset($request['type']) || $request['type'] == 'current') curent-appoint @else previous-appoint @endif">Current Appointment</button></a>
                                 <a href="{{route('expappointment.index',['type'=>'previous'])}}"> <button class="@if($request['type'] == 'previous') curent-appoint @else previous-appoint @endif">Previous Appointment</button></a>
                                 <form action="{{route('expappointment.index')}}" class="form-appoint">
 
-                                    <input type="date" name="from_date" value="{{old('from_date',$request['from_date'])}}" class="">
+                                    <input type="date" name="from_date" value="{{old('from_date',$request['from_date'])}}" class="mr-3">
 
                                     <input type="date" name="to_date" value="{{old('to_date',$request['to_date'])}}">
                                     <select  name="payment_type" style="border: 1px solid var(--black1);padding: 8px;">

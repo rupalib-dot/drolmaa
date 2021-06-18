@@ -81,7 +81,7 @@
                                         </div>
                                     </div>
                                     <div class="back-next">
-                                        <button type="submit" class="next">Update Profile</button>
+                                        <button type="submit" class="next mr-2">Update Profile</button>
                                         <a href="{{url('profile')}}/{{Session::get('user_id')}}/edit"><button type="button" class="next" style="background-color: #aca4a2;">Cancel</button></a>
                                     </div>
                             </form>

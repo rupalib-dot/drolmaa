@@ -16,17 +16,17 @@
                                 <a href="{{route('appointment.index',['type'=>'previous'])}}"> <button class="@if($request['type'] == 'previous') curent-appoint @else previous-appoint @endif">Previous Appointment</button></a>
                                 <form action="{{route('appointment.index')}}" class="form-appoint">
 
-                                    <input type="date" name="from_date" value="{{old('from_date',$request['from_date'])}}" class="">
+                                    <input type="date" name="from_date" value="{{old('from_date',$request['from_date'])}}" class="mr-2">
 
-                                    <input type="date" name="to_date" value="{{old('to_date',$request['to_date'])}}" class="">
-                                    <select  name="payment_type" style="border: 1px solid var(--black1);padding: 8px;">
+                                    <input type="date" name="to_date" value="{{old('to_date',$request['to_date'])}}" class="mr-2">
+                                    <select  name="payment_type" style="border: 1px solid var(--black1);padding: 10px;">
                                         <option value="">Select Payment</option>
                                         @foreach(config('constant.PAYMENT_MODE') as $value => $key)
                                             <option {{ old('payment_type',$request['payment_type']) == $key ? 'selected' : ''}} value="{{$key}}">{{ucfirst(strtolower($value))}}</option>
                                         @endforeach
                                     </select>
                                     <button type="submit" class="filter" style="margin-left:0px">Filter</button> 
-                                    <a href="{{url('appointment')}}"> <button type="button" class="filter" style="margin-left:0px">Clear </button></a>
+                                    <a href="{{url('appointment')}}"> <button type="button" class="filter" style="margin-right:10px">Clear </button></a>
                                 </form>
                                 <table class="table table-bordered appoint-table" style="width:100%">
                                     <thead>
@@ -38,7 +38,7 @@
                                             <th>Plan</th>
                                             <th>Designation</th>
                                             <th>Payment</th>
-                                            <td>Amount</td>
+                                            <th>Amount</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
