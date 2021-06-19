@@ -227,6 +227,8 @@ class ExpertController extends Controller
             {
                 $response   = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount'])); 
                 $expert     = $request->session()->get('expert');
+                $expert->payment_id = $request['razorpay_payment_id'];
+                $expert->register_amount = substr(round($payment['amount'], 2) , 0, -2);
                 $expert->save();
 
                 $user_data = User::Where('mobile_number',$expert->mobile_number)->first('user_id');

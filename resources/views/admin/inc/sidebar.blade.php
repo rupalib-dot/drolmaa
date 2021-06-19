@@ -34,6 +34,31 @@
                 </ul>
             </li>
             <li class="menu">
+                <a href="#transactions" data-toggle="collapse" data-active="{{ Request::is('admin/transactions*') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('admin/transactions*') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('admin/transactions*') ? '' : 'collapsed' }}">
+                    <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-award"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                        <span>Transactions</span>
+                    </div>
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </div>
+                </a>
+                <ul class="collapse submenu list-unstyled {{ Request::is('admin/transactions*') ? 'collapse show' : '' }}" id="transactions" data-parent="#accordionExample">
+                    <li class="{{ Request::is('admin/transactions*') ? 'active' : '' }}">
+                        <a href="{{route('transaction.index',['type'=>'order'])}}"> Order  </a>
+                    </li> 
+                    <li class="{{ Request::is('admin/transactions*') ? 'active' : '' }}">
+                        <a href="{{route('transaction.index',['type'=>'registration'])}}"> Registration  </a>
+                    </li>    
+                    <li class="{{ Request::is('admin/transactions*') ? 'active' : '' }}">
+                        <a href="{{route('transaction.index',['type'=>'booking'])}}"> Booking  </a>
+                    </li>    
+                    <li class="{{ Request::is('admin/transactions*') ? 'active' : '' }}">
+                        <a href="{{route('transaction.index',['type'=>'appointment'])}}"> Appointment </a>
+                    </li>                           
+                </ul>
+            </li>
+            <li class="menu">
                 <a href="#order" data-toggle="collapse" data-active="{{ Request::is('admin/adminOrder') || Request::is('admin/adminOrder*') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('admin/adminOrder') || Request::is('admin/adminOrder*')  ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('admin/adminOrder') || Request::is('admin/adminOrder*') ? '' : 'collapsed' }}">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-award"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>

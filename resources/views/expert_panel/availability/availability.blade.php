@@ -39,7 +39,7 @@
                                                         <td>{{date('l',strtotime($date))}}</td>
                                                         <td>{{date('d M, Y',strtotime($date))}}</td> 
                                                         <td>@php $count = CommonFunction::GetDateSlotCount('availability','date',$date,'user_id',Session::get('user_id'),'status',config('constant.AVAIL_STATUS.AVAILABLE')); @endphp @if($count == 0) No Slot Available @else {{$count}} Slots Available @endif</td> 
-                                                        <td>@php $count = CommonFunction::GetDateSlotCount('availability','date',$date,'user_id',Session::get('user_id'),'status',config('constant.AVAIL_STATUS.BOOKED')); @endphp @if($count == 0) No Slot Available @else {{$count}} Slots Available @endif</td> 
+                                                        <td>@php $count = CommonFunction::GetDateSlotCount('availability','date',$date,'user_id',Session::get('user_id'),'status',config('constant.AVAIL_STATUS.BOOKED')); @endphp @if($count == 0) No Slot Booked @else {{$count}} Slots Booked @endif</td> 
                                                         <td>
                                                             <span class="view-icon" title="feedback"><a style="cursor:pointer" href="{{route('availabilty.edit',$date)}}"><i class="fas fa-edit"></i></a></span>
                                                         </td>

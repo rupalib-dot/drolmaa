@@ -15,8 +15,10 @@ use App\Http\Controllers\Expert\AvailabiltyController;
 use App\Http\Controllers\Customer\OrderController;
 use App\Http\Controllers\Customer\BookingController;
 use App\Http\Controllers\Customer\FeedbackController;
+use App\Http\Controllers\Customer\CustomerTransactionController; 
 use App\Http\Controllers\Admin\AdminController; 
 use App\Http\Controllers\Admin\AdminAppoinmentController;
+use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\AdminOrderController; 
 use App\Http\Controllers\Admin\AdminExpertController;
 use App\Http\Controllers\Admin\WorkshopController;
@@ -165,6 +167,10 @@ Route::group(['middleware' => ['administrator']], function(){
         
         //settings
         Route::resource('settings', SettingController::class)->only(['update', 'edit']); 
+
+        //transactions
+        Route::get('transactions/{type}',[TransactionController::class, 'index'])->name('transaction.index');
+        
     }); 
 
     Route::group(['middleware' => ['customer']], function() {
@@ -209,6 +215,9 @@ Route::group(['middleware' => ['administrator']], function(){
         Route::get('deletecartItem/{id}/{delType}', [OrderController::class, 'deletecartItem'])->name('cartItem.delete');
         
         Route::post('addtofavourate', [OrderController::class, 'addtofavourate'])->name('addtofavourate');
+
+        //transactions
+        Route::get('custransaction/{type}',[CustomerTransactionController::class, 'index'])->name('custransaction.index');
     });                    
 });
 

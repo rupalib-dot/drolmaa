@@ -73,9 +73,9 @@ class Feedback extends Authenticatable
                 if (isset($feedback_by) && !empty($feedback_by)) { 
                     $query->where('feedback_to',$feedback_by);                 
                 }  
-            })->get();
+            })->orderBy('feedback_id','desc')->get();
         }else{
-            $feedback_data['feedbackBy']   = Feedback::with('feedbackBy_users')->where('feedback_to',$feedback_by)->get();
+            $feedback_data['feedbackBy']   = Feedback::with('feedbackBy_users')->where('feedback_to',$feedback_by)->orderBy('feedback_id','desc')->get();
         }
         return $feedback_data;
     }

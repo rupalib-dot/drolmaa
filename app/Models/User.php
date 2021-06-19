@@ -35,6 +35,8 @@ class User extends Model
         'state_id',
         'city_id',
         'address_details',
+        'payment_id',
+        'register_amount',
         'designation_id',
         'office_phone_number',
         'user_experience',
@@ -80,6 +82,12 @@ class User extends Model
      public function total_users($user_role)
     { 
         $user_data      = User::select('users.*')->Where('user_role.role_id',$user_role)->join('user_role','user_role.user_id','=','users.user_id')->orderBy('users.user_id','desc')->get(); 
+        return $user_data;
+    }
+
+    public function users_trans($user_role)
+    { 
+        $user_data      = User::select('users.*')->Where('user_role.role_id',$user_role)->join('user_role','user_role.user_id','=','users.user_id')->orderBy('users.user_id','desc')->paginate(15); 
         return $user_data;
     }
  

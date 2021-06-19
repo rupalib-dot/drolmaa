@@ -50,6 +50,7 @@ class Bookings extends Authenticatable
                 $query->where('workshop.date','<=',$to_date);                 
             }  
         })
+        ->orderBy('booking_id','desc')
         ->paginate(15);
         return $booking_data;
     }
@@ -58,6 +59,19 @@ class Bookings extends Authenticatable
     { 
         $user_Booked_workshop  = Bookings::with('Users')->Where('module_id',$module_id)->orderBy('workshop_id','desc')->paginate(15);
         return $user_Booked_workshop;
+    }
+
+    public function UsersBookings(){
+        $booking_data      = Bookings::select('bookings.booking_id','bookings.user_id','bookings.booking_no','bookings.status','bookings.payment_mode','bookings.payment_id','workshop.workshop_id','workshop.title','workshop.date','workshop.price','workshop.time')
+        ->join('workshop','workshop.workshop_id','=','bookings.module_id') 
+        ->orderBy('booking_id','desc')
+        ->paginate(15);
+        return $booking_data;
+    }
+
+    public function UsersBookingsTotal(){
+        $booking_total      = Bookings::join('workshop','workshop.workshop_id','=','bookings.module_id')->sum('workshop.price');
+        return $booking_total;
     }
       
 }

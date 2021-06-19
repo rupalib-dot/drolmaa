@@ -26,6 +26,37 @@
             </div>
 
         </li>
+        
+
+        <!-- <li class="sidebar-dropdown data-sheet {{ Request::is('customer/custransaction*') ? 'active' : '' }}">
+            <span class="icons"><img src="{{asset('front_end/images/profile.png')}}" alt=""></span><a
+                href="{{url('customer/custransaction*')}}">Transactions
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                    <a href="{{route('custransaction.index',['type'=>'order'])}}">Orders</a>
+                </li>
+                <li>
+                    <a href="{{route('custransaction.index',['type'=>'appointment'])}}">Appoinments</a>
+                </li>
+                <li>
+                    <a href="{{route('custransaction.index',['type'=>'booking'])}}">Bookings</a>
+                </li>
+              </ul>
+            </div> 
+        </li> -->
+
+        <!-- <li>
+                    <a href="{{route('custransaction.index',['type'=>'order'])}}">Orders</a>
+                </li>
+                <li>
+                    <a href="{{route('custransaction.index',['type'=>'appointment'])}}">Appoinments</a>
+                </li>
+                <li>
+                    <a href="{{route('custransaction.index',['type'=>'booking'])}}">Bookings</a>
+                </li> -->
+
         <li class="data-sheet {{ Request::is('appointment*') ? 'active' : '' }}">
             <span class="icons"><img src="{{asset('front_end/images/calender.png')}}" alt=""></span><a
                 href="{{route('appointment.index')}}">My Appointments</a>

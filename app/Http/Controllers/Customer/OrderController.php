@@ -20,7 +20,7 @@ class OrderController extends Controller
     public function order_list(Request $request)
     {
         $title  = "Orders";
-        $order = Order::where('user_id',Session::get('user_id'))->paginate(15);
+        $order = Order::where('user_id',Session::get('user_id'))->orderBy('order_id','desc')->paginate(15);
         $data   = compact('title','order','request');
         return view('customer_panel.order', $data);
     } 

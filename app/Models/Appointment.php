@@ -104,7 +104,8 @@ class Appointment extends Authenticatable
                 $query->where('status',config('constant.STATUS.PENDING'))
                 ->orWhere('status',config('constant.STATUS.ACCEPTED'));  
             }
-        })->Where('expert',$user_id)->paginate(15);
+        })->Where('expert',$user_id)
+        ->orderBy('appointment_id','desc')->paginate(15);
         return $appoinment_data;
     }
 
@@ -112,5 +113,11 @@ class Appointment extends Authenticatable
     { 
         $appoinment_data      = Appointment::with('users','expertUsers','designations')->orderBy('appointment_id','desc')->paginate(15);
         return $appoinment_data;
+    }
+
+    public function appoinment_list_trans()
+    { 
+        $appoinment_trans_data = Appointment::select('appointment_id','name','appoinment_no','plan','date','time','status','payment_mode','amount','payment_id','refund_id','amount_refund')->orderBy('appointment_id','desc')->paginate(15);
+        return $appoinment_trans_data;
     }
 }
