@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\User;
 use App\Models\Bookings;
 use App\Models\Appointment;
+use Session;
 
 
 class CustomerTransactionController extends Controller
@@ -28,17 +29,17 @@ class CustomerTransactionController extends Controller
     { 
         $title  = $type." transactions";  
         if($type == 'order'){ 
-            $transactions = Order::orderBy('order_id','desc')->paginate(15);
+            $transactions = Order::orderBy('order_id','desc')->where('user_id',Session::get('user_id'))->paginate(15);
             $amountearned = Order::sum('grand_total');
             $amountrefund = Order::sum('refund_amount');
             $TotalColection = $amountearned -  $amountrefund ;
         }else if($type == 'booking'){
-            $transactions = $this->Bookings->UsersBookings(); 
-            $amountearned =  $this->Bookings->UsersBookingsTotal(); 
+            $transactions = $this->Bookings->UsersBookings('user'); 
+            $amountearned =  $this->Bookings->UsersBookingsTotal('user'); 
             $amountrefund = 0;
             $TotalColection = $amountearned;
         }else if($type == 'appointment'){ 
-            $transactions = $this->Appointment->appoinment_list_trans(); 
+            $transactions = $this->Appointment->appoinment_list_trans('user'); 
             $amountearned = Appointment::sum('amount');
             $amountrefund = Appointment::sum('amount_refund');
             $TotalColection =  $amountearned -  $amountrefund ;

@@ -38,12 +38,12 @@ class TransactionController extends Controller
             $amountrefund = 0;
             $TotalColection = $amountearned;
         }else if($type == 'booking'){
-            $transactions = $this->Bookings->UsersBookings(); 
-            $amountearned =  $this->Bookings->UsersBookingsTotal(); 
+            $transactions = $this->Bookings->UsersBookings('admin'); 
+            $amountearned =  $this->Bookings->UsersBookingsTotal('admin'); 
             $amountrefund = 0;
             $TotalColection = $amountearned;
         }else if($type == 'appointment'){ 
-            $transactions = $this->Appointment->appoinment_list_trans(); 
+            $transactions = $this->Appointment->appoinment_list_trans('admin'); 
             $amountearned = Appointment::sum('amount');
             $amountrefund = Appointment::sum('amount_refund');
             $TotalColection =  $amountearned -  $amountrefund ;

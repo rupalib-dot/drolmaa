@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Session;
 
 class Appointment extends Authenticatable
 {
@@ -115,9 +116,14 @@ class Appointment extends Authenticatable
         return $appoinment_data;
     }
 
-    public function appoinment_list_trans()
+    public function appoinment_list_trans($userType)
     { 
-        $appoinment_trans_data = Appointment::select('appointment_id','name','appoinment_no','plan','date','time','status','payment_mode','amount','payment_id','refund_id','amount_refund')->orderBy('appointment_id','desc')->paginate(15);
+        $appoinment_trans_data = Appointment::select('appointment_id','name','appoinment_no','plan','date','time','status','payment_mode','amount','payment_id','refund_id','amount_refund')->orderBy('appointment_id','desc')
+        ->Where(function($query) use ($userType) {
+            if (isset($userType) && $userType == 'user') { 
+                $query->where('user_id',Session::get('user_id'));
+            }  
+        })->paginate(15);
         return $appoinment_trans_data;
     }
 }

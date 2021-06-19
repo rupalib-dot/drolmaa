@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Session;
+
 
 class Bookings extends Authenticatable
 {
@@ -61,16 +63,26 @@ class Bookings extends Authenticatable
         return $user_Booked_workshop;
     }
 
-    public function UsersBookings(){
+    public function UsersBookings($userType){
         $booking_data      = Bookings::select('bookings.booking_id','bookings.user_id','bookings.booking_no','bookings.status','bookings.payment_mode','bookings.payment_id','workshop.workshop_id','workshop.title','workshop.date','workshop.price','workshop.time')
         ->join('workshop','workshop.workshop_id','=','bookings.module_id') 
+        ->Where(function($query) use ($userType) {
+            if (isset($userType) && $userType == 'user') { 
+                $query->where('user_id',Session::get('user_id'));
+            }  
+        })
         ->orderBy('booking_id','desc')
         ->paginate(15);
         return $booking_data;
     }
 
-    public function UsersBookingsTotal(){
-        $booking_total      = Bookings::join('workshop','workshop.workshop_id','=','bookings.module_id')->sum('workshop.price');
+    public function UsersBookingsTotal($userType){
+        $booking_total      = Bookings::join('workshop','workshop.workshop_id','=','bookings.module_id')
+        ->Where(function($query) use ($userType) {
+            if (isset($userType) && $userType == 'user') { 
+                $query->where('user_id',Session::get('user_id'));
+            }  
+        })->sum('workshop.price');
         return $booking_total;
     }
       

@@ -71,18 +71,13 @@
                                                         <td>{{$aGetData->grand_total}}</td> 
                                                         <td>@if(!empty($aGetData->refund_id)) {{$aGetData->refund_id}} @else N/A @endif</td>
                                                         <td>@if(!empty($aGetData->amount_refund)) {{$aGetData->refund_amount}} @else N/A @endif</td>   
-                                                    <?php }else if($type == 'registration'){ ?>
-                                                        <td><a style="color:blue" href="{{route('adminexpert.show',$aGetData->user_id)}}">{{$i}}</a></td>
-                                                        <td>{{date('d M, Y',strtotime($aGetData->created_at))}}</td>
-                                                        <td>{{$aGetData->payment_id}}</td>
-                                                        <td>{{$aGetData->register_amount}}</td>
                                                     <?php }else if($type == 'booking'){ ?>
-                                                        <td><a style="color:blue" href="{{route('workshop.show',$aGetData->workshop_id)}}">{{$aGetData->booking_no}}</a></td>
+                                                        <td>{{$aGetData->booking_no}}</td>
                                                         <td>{{date('d M, Y',strtotime($aGetData->date))}}</td>
                                                         <td>{{$aGetData->payment_id}}</td> 
                                                         <td>{{$aGetData->price}}</td>
                                                     <?php }else if($type == 'appointment'){  ?>
-                                                        <td><a style="color:blue" href="{{route('adminappoinment.show',$aGetData->appointment_id)}}">{{$aGetData->appoinment_no}}</a></td>
+                                                        <td>{{$aGetData->appoinment_no}}</td>
                                                         <td>{{date('d M, Y',strtotime($aGetData->date))}}</td>
                                                         <td>{{$aGetData->payment_id}}</td> 
                                                         <td>{{$aGetData->amount}}</td>
