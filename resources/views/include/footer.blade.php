@@ -7,9 +7,9 @@
                         <ul class="footerMenu">
                             <li><a href="#">About Us</a></li>
                             <li><a href="#">Services</a></li>
-                            <li><a href="#">Shop</a></li>
+                            <li><a href="#">Shops</a></li>
                             <li><a href="#"> Tools</a></li>
-                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Blogs</a></li>
                             <li><a href="#">Collaborations</a></li>
                         </ul>
                         <ul class="footerLink">
