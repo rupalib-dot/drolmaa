@@ -46,9 +46,9 @@
                                 <div class="col-md-12">
                                     <div class="form-group"> 
                                         <input type="text" class="form-control" id="address" placeholder="House Number and street name *" aria-label="Address"
-                                            aria-describedby="basic-addon1" name="address1" value="{{old('address1',!empty($session) ? $session['address1']:'',!empty($user) ? $user['address_details'] : '')}}">
+                                            aria-describedby="basic-addon1" name="address1" maxlength="250" value="{{old('address1',!empty($session) ? $session['address1']:'',!empty($user) ? $user['address_details'] : '')}}">
                                         <input type="text" class="form-control" id="address" placeholder="Apartment, suite, unit, etc, (optional)" aria-label="Address"
-                                            aria-describedby="basic-addon1" name="address2"  value="{{old('address2',!empty($session) ? $session['address2']:'')}}" style="margin-top:15px">
+                                            aria-describedby="basic-addon1" name="address2" maxlength="250"  value="{{old('address2',!empty($session) ? $session['address2']:'')}}" style="margin-top:15px">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -124,7 +124,7 @@
                                         <td class="mb-0">
                                             Total Price
                                         </td>
-                                        <td class="text-red text-center"><i class="fas fa-rupee-sign"></i> {{round($totalcartamount,2)}}</td>
+                                        <td class="text-red text-center"><i class="fas fa-rupee-sign"></i> {{number_format($totalcartamount,2,'.',',')}}</td>
                                     </tr>
                                     <tr>
                                         <td class="mb-0">
@@ -142,7 +142,7 @@
                                         <td class="mb-0">
                                             Total Amount
                                         </td>
-                                        <td class="text-red text-center"><i class="fas fa-rupee-sign"></i> {{round($totalcartamount,2)}}</td>
+                                        <td class="text-red text-center"><i class="fas fa-rupee-sign"></i> {{number_format($totalcartamount,2,'.',',')}}</td>
                                     </tr>
                                 </tbody>
                             </table>

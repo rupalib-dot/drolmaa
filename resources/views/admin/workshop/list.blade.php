@@ -60,7 +60,7 @@
                                                 <td>{{$aGetData->title}}</td> 
                                                 <td>{{$aGetData->expertUsers->full_name}}</td>
                                                 <td>{{$aGetData->designations->designation_title}}</td> 
-                                                <td><i class="fas fa-rupee-sign"></i> {{$aGetData->price}}</td>
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($aGetData->price,2,'.',','}}</td>
                                                 <td>{{date('d M,Y',strtotime($aGetData->date))}}</td> 
                                                 <td>{{date('H:i A',strtotime($aGetData->time))}}</td>
                                                 <td>{{CommonFunction::workshopBookedCount($aGetData->workshop_id)}}</td>

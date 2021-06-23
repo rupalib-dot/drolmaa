@@ -49,7 +49,7 @@
                                                 <td>{{date('Y-m-d',strtotime($aGetData->Users->user_dob))}}</td> 
                                                 <td>{{ucwords(strtolower(array_search($aGetData->status,config('constant.STATUS'))))}}</td>
                                                 <td>{{$aGetData->payment_id}}</td> 
-                                                <td><i class="fas fa-rupee-sign"></i> {{CommonFunction::GetSingleField('workshop','price','workshop_id ',$aGetData->module_id)}}</td> 
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format(CommonFunction::GetSingleField('workshop','price','workshop_id ',$aGetData->module_id),2,'.',',')}}</td> 
                                                 <td>{{array_search($aGetData->Users->user_gender,config('constant.GENDER'))}}</td>
                                             </tr> 
                                         @php $i++; @endphp

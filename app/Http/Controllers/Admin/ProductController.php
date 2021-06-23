@@ -257,6 +257,7 @@ class ProductController extends Controller
             'updated_at'    => date('Y-m-d H:i:s'),
         ]); 
         if(!empty($product_data)){
+            DB::table('cart')->where(['product_id'=>$id])->delete();
             return redirect()->back()->with('Success', 'Product Deleted Successfully');
         }else{
             return redirect()->back()->withInput($request->all())->with('Failed', 'Something went wrong');

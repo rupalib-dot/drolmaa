@@ -9,10 +9,10 @@
                 @include('admin.inc.auth_message')
                 <div class="statbox widget box box-shadow mb-1">
                     <div class="widget-header">
-                        <div class="row">
+                        <div class="row"> 
                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
                                 <h4>{{ucwords($type)}} Transaction Listing </h4>
-                            </div>
+                            </div> 
                         </div>
                     </div>
                     <!-- <form action="" method="GET">
@@ -53,24 +53,28 @@
                                             <?php }else if($type == 'appointment'){  ?>
                                                 <th>Amount Earned</th>
                                                 <th>Amount Refund</th>
+                                                <th>Amount Paid To Expert</th>
                                                 <th>Total Collection</th>   
+                                                <th>Total Amount Left</th>   
                                             <?php  } ?> 
                                         </tr>
                                     </thead>
                                     <tbody> 
                                         <tr> 
                                             <?php if($type == 'order'){ ?>
-                                                <td> {{$amountearned}}</td> 
-                                                <td> {{$amountrefund}}</td>
-                                                <td> {{$TotalColection}} </td>  
+                                                <td> {{number_format($amountearned,2,'.',',')}}</td> 
+                                                <td> {{number_format($amountrefund,2,'.',',')}}</td>
+                                                <td> {{number_format($TotalColection,2,'.',',')}} </td>  
                                             <?php }else if($type == 'registration'){ ?>
-                                                <td> {{$TotalColection}} </td>  
+                                                <td> {{number_format($TotalColection,2,'.',',')}} </td>  
                                             <?php }else if($type == 'booking'){ ?>
-                                                <td> {{$TotalColection}} </td>  
+                                                <td> {{number_format($TotalColection,2,'.',',')}} </td>  
                                             <?php }else if($type == 'appointment'){  ?>
-                                                <td> {{$amountearned}}</td> 
-                                                <td> {{$amountrefund}}</td>
-                                                <td> {{$TotalColection}} </td>  
+                                                <td> {{number_format($amountearned,2,'.',',')}}</td> 
+                                                <td> {{number_format($amountrefund,2,'.',',')}}</td>
+                                                <td> {{number_format($totalPaidamount,2,'.',',')}} </td>
+                                                <td> {{number_format($TotalColection,2,'.',',')}} </td> 
+                                                <td> {{number_format(($TotalColection - $totalPaidamount),2,'.',',')}} </td>  
                                             <?php  } ?>
                                         </tr> 
                                     </tbody>
@@ -81,8 +85,15 @@
                     </div> 
                 </div>
                 <div class="statbox widget box box-shadow">
-                    <div class="widget-content widget-content-area">
-                        <div class="table-responsive">
+                <div class="row">
+                    <div class="col-lg-6">
+                    </div>
+                    <div class="col-lg-6" style="text-align:right">
+                        <a href="{{route('pay-details')}}"><button class="btn btn-primary"> Amount Paid Details </button></a>
+                    </div>
+                </div> 
+                    <div class="widget-content widget-content-area"> 
+                        <div class="table-responsive"> 
                             <table class="table table-bordered mb-4 table-hover">
                                 <thead>  
                                     <tr>
@@ -94,6 +105,7 @@
                                                 <th>Refund Id</th>
                                                 <th>Refund Amount</th>  
                                         <?php }else if($type == 'appointment'){ ?> 
+                                                <th>Expert</th>
                                                 <th>Refund Id</th>
                                                 <th>Refund Amount</th>    
                                         <?php } ?>
@@ -125,9 +137,10 @@
                                                     <td><a style="color:blue" href="{{route('adminappoinment.show',$aGetData->appointment_id)}}">{{$aGetData->appoinment_no}}</a></td>
                                                     <td>{{date('d M, Y',strtotime($aGetData->date))}}</td>
                                                     <td>{{$aGetData->payment_id}}</td> 
-                                                    <td>{{$aGetData->amount}}</td>
+                                                    <td>{{number_format($aGetData->amount,2,'.',',')}}</td> 
+                                                    <td><a style="color:blue" href="{{route('adminexpert.show',$aGetData->expert)}}">{{$aGetData->expertUsers->full_name}}</a></td> 
                                                     <td>@if(!empty($aGetData->refund_id)) {{$aGetData->refund_id}}  @else N/A @endif </td>
-                                                    <td>@if(!empty($aGetData->amount_refund)) {{$aGetData->amount_refund}}  @else N/A @endif</td>  
+                                                    <td>@if(!empty($aGetData->amount_refund)) {{number_format($aGetData->amount_refund,2,'.',',')}}  @else N/A @endif</td>  
                                                 <?php  } ?>
                                             </tr>
                                         @php $i++; @endphp

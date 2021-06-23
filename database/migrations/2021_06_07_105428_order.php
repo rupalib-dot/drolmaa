@@ -20,8 +20,8 @@ class Order extends Migration
             $table->string('full_name','50')->nullable();
             $table->integer('user_gender')->nullable(); 
             $table->string('company_name','50')->nullable();
-            $table->string('address1','50')->nullable();
-            $table->string('address2','50')->nullable();
+            $table->string('address1','250')->nullable();
+            $table->string('address2','250')->nullable();
             $table->integer('country_id')->nullable(); 
             $table->integer('state_id')->nullable(); 
             $table->integer('city_id')->nullable();

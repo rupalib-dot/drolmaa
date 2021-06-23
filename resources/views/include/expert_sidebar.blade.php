@@ -23,10 +23,33 @@
                   <a href="#">Document</a>
                 </li>
               </ul>
-            </div>
-
+            </div> 
         </li>
-         
+
+        <li class="sidebar-dropdown data-sheet {{ Request::is('expert/exptransaction*') ? 'active' : '' }}">
+            <span class="icons"><img src="{{asset('front_end/images/profile.png')}}" alt=""></span><a
+                href="{{url('expert/exptransaction*')}}">Transactions
+            </a>
+            <div class="sidebar-submenu">
+                <ul> 
+                    <li>
+                        <a href="{{route('exptransaction.index',['type'=>'registration'])}}"> Registration  </a>
+                    </li>   
+                    <li>
+                        <a href="{{route('exptransaction.index',['type'=>'appointment'])}}">Appoinments</a>
+                    </li> 
+                </ul>
+            </div> 
+        </li>
+
+        <li>
+            <a href="{{route('exptransaction.index',['type'=>'registration'])}}"> Registration  </a>
+        </li>   
+        <li>
+            <a href="{{route('exptransaction.index',['type'=>'appointment'])}}">Appoinments</a>
+        </li> 
+
+
          <li class="data-sheet {{ Request::is('expert/expappointment*') ? 'active' : '' }}">
             <span class="icons"><img src="{{asset('front_end/images/calender.png')}}" alt=""></span><a href="{{route('expappointment.index')}}">My Appointments</a></span>
         </li>

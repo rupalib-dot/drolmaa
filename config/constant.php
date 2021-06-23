@@ -15,7 +15,7 @@ return [
 
     'PAYMENT_MODE' => [
         "ONLINE"   => 103,
-        "OFLINE"   => 104, 
+        "OFFLINE"   => 104, 
     ],
 
     "MAIL_STATUS"	=> [

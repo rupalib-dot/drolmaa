@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-md-12 col-sm-12 col-lg-6 col-xl-6">
                 <div class="product-photo">
-                    <?php $image_name = CommonFunction::GetSingleField('product_images','image_name','product_id',$product->product_id)?>
+                    <?php $image_name = CommonFunction::GetSingleField('product_images','image_name','product_id',$id)?>
                     <img style="width: 100%;height: 320px;" src="<?php if(!empty($image_name)){?>{{asset('products/'.$image_name)}}<?php }else{?>{{asset('front_end/images/blogimg.jpg')}}<?php }?>" alt="" class="mas-img">
                 </div>
             </div>

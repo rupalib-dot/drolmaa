@@ -8,6 +8,8 @@ use App\Models\Order;
 use App\Models\User;
 use App\Models\Bookings;
 use App\Models\Appointment;
+use App\Models\ExpertPayments;
+
 
 
 class TransactionController extends Controller
@@ -32,24 +34,28 @@ class TransactionController extends Controller
             $amountearned = Order::sum('grand_total');
             $amountrefund = Order::sum('refund_amount');
             $TotalColection = $amountearned -  $amountrefund ;
+            $totalPaidamount = 0;
         }else if($type == 'registration'){
-            $transactions = $this->User->users_trans(2);
+            $transactions = $this->User->users_trans(2,'admin');
             $amountearned = User::sum('register_amount'); 
             $amountrefund = 0;
             $TotalColection = $amountearned;
+            $totalPaidamount = 0;
         }else if($type == 'booking'){
             $transactions = $this->Bookings->UsersBookings('admin'); 
             $amountearned =  $this->Bookings->UsersBookingsTotal('admin'); 
             $amountrefund = 0;
             $TotalColection = $amountearned;
+            $totalPaidamount = 0;
         }else if($type == 'appointment'){ 
+            $totalPaidamount = ExpertPayments::sum('amount');
             $transactions = $this->Appointment->appoinment_list_trans('admin'); 
             $amountearned = Appointment::sum('amount');
             $amountrefund = Appointment::sum('amount_refund');
             $TotalColection =  $amountearned -  $amountrefund ;
         }
 
-        $data   = compact('title','request','type','transactions','amountearned','amountrefund','TotalColection');
+        $data   = compact('title','request','type','transactions','amountearned','amountrefund','TotalColection','totalPaidamount');
         return view('admin.transactions.list', $data);
     }
 
@@ -117,5 +123,63 @@ class TransactionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function payexpert(Request $request)
+    {  
+        $error_message = 	[
+			'payment_mode.required'         => 'Payment mode should be required', 
+			'transaction_id.required' 	    => 'Transaction id should be required',
+            'amount.required'               => 'Amount should be required',
+            'transaction_date.required'     => 'Transaction Date should be required', 
+		];
+
+		$validatedData = $request->validate([
+			'payment_mode' 	        => 'required',
+			'transaction_id' 	    => 'required',
+            'amount' 	            => 'required',
+            'transaction_date' 	    => 'required', 
+        ], $error_message);
+
+        
+        try  {
+            $pay_data = array( 
+                'user_id'               => $request->userid,
+                'transaction_id'        => $request->transaction_id,
+                'transaction_date'      => $request->transaction_date,
+                'payment_mode'          => $request->payment_mode,
+                'amount'                => $request->amount, 
+                'created_at'            => date('Y-m-d H:i:s'),
+                'updated_at'            => date('Y-m-d H:i:s'),
+            ); 
+            $id = ExpertPayments::create($pay_data);
+            
+            if(!empty($id)){
+                return Response()->json([
+                    "success" => true,
+                    "message" => 'Amount Paid Successfully',
+                ]); 
+            }else{ 
+                return Response()->json([
+                    "success" => false,
+                    "message" => 'Something went wrong',
+                ]);
+            }
+        }
+        catch (\Throwable $e) 
+        {
+            return Response()->json([
+                "success" => false,
+                "message" => $e->getMessage(),
+            ]);  
+        } 
+    }
+
+    public function payDetails(Request $request){
+        $title  = "Amount paid to Expert";  
+        $totalPaidamount = ExpertPayments::sum('amount');
+        $expertPayment = ExpertPayments::paginate(15); 
+        $data   = compact('title','request','expertPayment','totalPaidamount');
+        return view('admin.transactions.expert_payments', $data);
     }
 }

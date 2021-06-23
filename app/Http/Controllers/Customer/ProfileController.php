@@ -143,5 +143,11 @@ class ProfileController extends Controller
         $data   = compact('title','request','favourate');
         return view('customer_panel.myWishlist', $data);
     }
-
+ 
+    public function deleteWishlist(Request $request)
+    {  
+        $favourate = Favourate::where('favourate_id',$request['favourate_id'])->paginate(15);
+        $data   = compact('title','request','favourate');
+        return view('customer_panel.myWishlist', $data);
+    }
 }

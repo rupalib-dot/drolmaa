@@ -38,8 +38,8 @@
                                     <li><b>Customer :-</b> {{CommonFunction::GetSingleField('users','full_name','user_id',$appoinment['user_id'])}}</li> 
                                     <li><b>Expert :-</b> {{CommonFunction::GetSingleField('users','full_name','user_id',$appoinment['expert'])}}</li>
                                     <li><b>Designation :-</b> {{CommonFunction::GetSingleField('designation','designation_title','designation_id',$appoinment['designation'])}}</li> 
-                                    <li><b>Amount :- </b><i class="fas fa-rupee-sign"></i> {{$appoinment['amount']}}</li>  
-                                    <li><b>Amount Refund :- </b>@if($appoinment['amount_refund'] == '') N/A @else <i class="fas fa-rupee-sign"></i> {{$appoinment['amount_refund']}} @endif</li> 
+                                    <li><b>Amount :- </b><i class="fas fa-rupee-sign"></i>  {{number_format($appoinment['amount'], 2, '.', ',')}}</li>  
+                                    <li><b>Amount Refund :- </b>@if($appoinment['amount_refund'] == '') N/A @else <i class="fas fa-rupee-sign"></i> {{number_format($appoinment['amount_refund'],2,'.',',')}} @endif</li> 
                                     <li><b>Payment Mode:- </b>{{ucwords(strtolower(array_search($appoinment['payment_mode'],config('constant.PAYMENT_MODE'))))}}</li>
                                 </ul>
                             </div> 

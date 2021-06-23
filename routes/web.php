@@ -16,6 +16,7 @@ use App\Http\Controllers\Customer\OrderController;
 use App\Http\Controllers\Customer\BookingController;
 use App\Http\Controllers\Customer\FeedbackController;
 use App\Http\Controllers\Customer\CustomerTransactionController; 
+use App\Http\Controllers\Expert\ExpertTransactionController;
 use App\Http\Controllers\Admin\AdminController; 
 use App\Http\Controllers\Admin\AdminAppoinmentController;
 use App\Http\Controllers\Admin\TransactionController;
@@ -127,6 +128,9 @@ Route::group(['middleware' => ['administrator']], function(){
         Route::resource('availabilty', AvailabiltyController::class)->only([
             'index','create', 'store','update', 'edit'
         ]); 
+
+        //transactions
+        Route::get('exptransaction/{type}',[ExpertTransactionController::class, 'index'])->name('exptransaction.index');
     });
 
     Route::group(['prefix' => 'admin','middleware' => ['admin']], function() { 
@@ -170,6 +174,10 @@ Route::group(['middleware' => ['administrator']], function(){
 
         //transactions
         Route::get('transactions/{type}',[TransactionController::class, 'index'])->name('transaction.index');
+
+         //transactions
+         Route::post('payexpert-submit',[TransactionController::class, 'payexpert'])->name('payexpert');
+         Route::get('payDetails',[TransactionController::class, 'payDetails'])->name('pay-details');
         
     }); 
 
@@ -201,6 +209,7 @@ Route::group(['middleware' => ['administrator']], function(){
 
         // wishlist ROUTE
         Route::get('wishlist', [ProfileController::class, 'myWishlist'])->name('customer.myWishlist');
+        Route::get('deleteWishlist', [ProfileController::class, 'deleteWishlist'])->name('wishlist.delete');
 
          // ORDERS ROUTE
          Route::get('orders', [OrderController::class, 'order_list'])->name('customer.order');

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
+use Session;
 
 class User extends Model
 {
@@ -85,9 +86,15 @@ class User extends Model
         return $user_data;
     }
 
-    public function users_trans($user_role)
+    public function users_trans($user_role,$userType)
     { 
-        $user_data      = User::select('users.*')->Where('user_role.role_id',$user_role)->join('user_role','user_role.user_id','=','users.user_id')->orderBy('users.user_id','desc')->paginate(15); 
+        $user_data      = User::select('users.*')->Where('user_role.role_id',$user_role)->join('user_role','user_role.user_id','=','users.user_id')
+        ->Where(function($query) use ($userType) {
+            if (isset($userType) && $userType == 'user') { 
+                $query->where('users.user_id',Session::get('user_id'));
+            }   
+        })
+        ->orderBy('users.user_id','desc')->paginate(15); 
         return $user_data;
     }
  

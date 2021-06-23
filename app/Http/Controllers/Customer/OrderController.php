@@ -67,7 +67,7 @@ class OrderController extends Controller
 			'country_id' 	    => 'required',
 			'state_id' 	        => 'required',
 			'city_id' 	        => 'required',
-            'address1'   	    => 'required|min:3|max:50',
+            'address1'   	    => 'required|min:3|max:250',
             'pincode'           => 'required|min:3|max:6',
 			  
         ], $error_message);
@@ -195,11 +195,26 @@ class OrderController extends Controller
             'updated_at' 	    => date('Y-m-d H:i:s'), 
         );
         $exist = Cart::where(['user_id'=>$request['userid'],'product_id'=>$request['id']])->first();
-        if(!empty($exist)){
-            $qty = $exist->quantity + 1;
-            $count_row = Cart::where(['user_id'=>$request['userid'],'product_id'=>$request['id']])->update(['quantity'=> $qty, 'total_price'=> $qty * round($getRow->selling_price,2)]); 
+        if(!empty($exist)){ 
+            if($exist->quantity > $getRow->quantity || $exist->quantity == $getRow->quantity){
+                return Response()->json([
+                    "success" => false,
+                    "message" => 'No more products are allowded to add in cart',
+                ]);
+            }else{
+                $qty = $exist->quantity + 1;
+                $count_row = Cart::where(['user_id'=>$request['userid'],'product_id'=>$request['id']])->update(['quantity'=> $qty, 'total_price'=> $qty * round($getRow->selling_price,2)]); 
+            }
         }else{
-            $count_row = Cart::create($data);  
+            $qty = 1;
+            if($qty > $getRow->quantity || $qty == $getRow->quantity){
+                return Response()->json([
+                    "success" => false,
+                    "message" => 'No more products are allowded to add in cart',
+                ]);
+            }else{
+                $count_row = Cart::create($data); 
+            } 
         } 
         if(!empty($count_row)){
             return Response()->json([
@@ -256,7 +271,17 @@ class OrderController extends Controller
         }else if($request['type'] == 'add'){
             $qty = $exist->quantity + 1;
         } 
-        $count_row = Cart::where(['user_id'=>$request['userid'],'product_id'=>$request['pid']])->update(['quantity'=> $qty, 'total_price'=> $qty * round($getRow->selling_price,2)]); 
+
+        if($exist->quantity > $getRow->quantity || $exist->quantity == $getRow->quantity){
+            return Response()->json([
+                "success" => false,
+                "message" => 'No more products are allowded to add in cart',
+            ]);
+        }else{ 
+            $count_row = Cart::where(['user_id'=>$request['userid'],'product_id'=>$request['pid']])->update(['quantity'=> $qty, 'total_price'=> $qty * round($getRow->selling_price,2)]); 
+        }
+     
+
          
         if(!empty($count_row)){
             return Response()->json([

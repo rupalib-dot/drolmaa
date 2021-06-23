@@ -30,8 +30,8 @@ class CustomerTransactionController extends Controller
         $title  = $type." transactions";  
         if($type == 'order'){ 
             $transactions = Order::orderBy('order_id','desc')->where('user_id',Session::get('user_id'))->paginate(15);
-            $amountearned = Order::sum('grand_total');
-            $amountrefund = Order::sum('refund_amount');
+            $amountearned = Order::where('user_id',Session::get('user_id'))->sum('grand_total');
+            $amountrefund = Order::where('user_id',Session::get('user_id'))->sum('refund_amount');
             $TotalColection = $amountearned -  $amountrefund ;
         }else if($type == 'booking'){
             $transactions = $this->Bookings->UsersBookings('user'); 
@@ -40,8 +40,8 @@ class CustomerTransactionController extends Controller
             $TotalColection = $amountearned;
         }else if($type == 'appointment'){ 
             $transactions = $this->Appointment->appoinment_list_trans('user'); 
-            $amountearned = Appointment::sum('amount');
-            $amountrefund = Appointment::sum('amount_refund');
+            $amountearned = Appointment::where('user_id',Session::get('user_id'))->sum('amount');
+            $amountrefund = Appointment::where('user_id',Session::get('user_id'))->sum('amount_refund');
             $TotalColection =  $amountearned -  $amountrefund ;
         }
 

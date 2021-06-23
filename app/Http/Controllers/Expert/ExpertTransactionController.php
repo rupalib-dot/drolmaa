@@ -1,20 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Expert;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Order;
 use App\Models\User;
+use App\Models\Bookings;
 use App\Models\Appointment;
+use Session;
 use App\Models\ExpertPayments;
 
 
-class AdminExpertController extends Controller
+class ExpertTransactionController extends Controller
 {
     public function __construct()
     { 
-        $this->User     = new User;  
-        $this->Appointment = new Appointment;
+        $this->Bookings     = new Bookings; 
+        $this->User     = new User; 
+        $this->Appointment     = new Appointment; 
     }
 
     /**
@@ -22,12 +26,24 @@ class AdminExpertController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
-        $title  = "Experts";
-        $experts = $this->User->total_users('2'); 
-        $data   = compact('title','experts','request');
-        return view('admin.expert.list', $data);
+    public function index(Request $request,$type)
+    { 
+        $title  = $type." transactions";  
+        if($type == 'registration'){
+            $transactions = $this->User->users_trans(2,'user');
+            $amountearned = User::where('user_id',Session::get('user_id'))->sum('register_amount'); 
+            $amountrefund = 0;
+            $TotalColection = $amountearned;
+        }else if($type == 'appointment'){ 
+            $transactions = $this->Appointment->appoinment_list_trans('expert'); 
+            $amountearned = Appointment::where('expert',Session::get('user_id'))->sum('amount');
+            $amountrefund = Appointment::where('expert',Session::get('user_id'))->sum('amount_refund');
+            $totalPaidamount = ExpertPayments::where('user_id',Session::get('user_id'))->sum('amount');
+            $TotalColection =  $amountearned -  $amountrefund ;
+        }
+
+        $data   = compact('title','request','type','transactions','amountearned','amountrefund','TotalColection','totalPaidamount');
+        return view('expert_panel.trans-list', $data);
     }
 
     /**
@@ -59,14 +75,7 @@ class AdminExpertController extends Controller
      */
     public function show($id)
     {
-        $title  = "Expert Detail";
-        $expert   = User::find($id); 
-        $appoinment = $this->Appointment->admin_appoinment_list($id);  
-        $totalamount = Appointment::where('expert',$id)->sum('amount');
-        $totalPaidamount = ExpertPayments::where('user_id',$id)->sum('amount');
-        $amountLeft = $totalamount - $totalPaidamount;
-        $data   = compact('title','expert','appoinment','totalamount','totalPaidamount','amountLeft');
-        return view('admin.expert.detail', $data);
+        //
     }
 
     /**

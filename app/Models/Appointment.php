@@ -110,18 +110,27 @@ class Appointment extends Authenticatable
         return $appoinment_data;
     }
 
-    public function admin_appoinment_list()
+    public function admin_appoinment_list($userid = '')
     { 
-        $appoinment_data      = Appointment::with('users','expertUsers','designations')->orderBy('appointment_id','desc')->paginate(15);
+        $appoinment_data      = Appointment::with('users','expertUsers','designations')
+        ->Where(function($query) use ($userid) {
+            if (isset($userid) && !empty($userid)) { 
+                $query->where('expert',$userid);
+            }   
+        })
+        ->orderBy('appointment_id','desc')->paginate(15);
         return $appoinment_data;
     }
 
     public function appoinment_list_trans($userType)
     { 
-        $appoinment_trans_data = Appointment::select('appointment_id','name','appoinment_no','plan','date','time','status','payment_mode','amount','payment_id','refund_id','amount_refund')->orderBy('appointment_id','desc')
+        $appoinment_trans_data = Appointment::with('expertUsers')->select('expert','appointment_id','name','appoinment_no','plan','date','time','status','payment_mode','amount','payment_id','refund_id','amount_refund')->orderBy('appointment_id','desc')
         ->Where(function($query) use ($userType) {
             if (isset($userType) && $userType == 'user') { 
                 $query->where('user_id',Session::get('user_id'));
+            }  
+            if (isset($userType) && $userType == 'expert') { 
+                $query->where('expert',Session::get('user_id'));
             }  
         })->paginate(15);
         return $appoinment_trans_data;

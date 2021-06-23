@@ -42,12 +42,12 @@
                                     <li><b>Payment Status :- </b>{{$order['payment_status']}}</li>  
                                     <li><b>Refund Id :- </b>@if($order['refund_id'] == '') N/A @else {{$order['refund_id']}} @endif</li>
                                     <li><b>Refund Status :- </b>@if($order['refund_status'] == '') N/A @else{{$order['refund_status']}} @endif</li>
-                                    <li><b>Refund Amount :- </b>@if($order['refund_amount'] == '') N/A @else<i class="fas fa-rupee-sign"></i> {{$order['refund_amount']}}@endif</li> 
+                                    <li><b>Refund Amount :- </b>@if($order['refund_amount'] == '') N/A @else<i class="fas fa-rupee-sign"></i> {{number_format($order['refund_amount'],2,'.',','}}@endif</li> 
                                 </ul>
                             </div> 
                             <div class="col-lg-6">
                                 <ul class="contacts-block list-unstyled" style="max-width: 100%;"> 
-                                    <li><b>Grand Total :- </b><i class="fas fa-rupee-sign"></i> {{$order['grand_total']}}</li> 
+                                    <li><b>Grand Total :- </b><i class="fas fa-rupee-sign"></i> {{number_format($order['grand_total'],2,'.',','}}</li> 
                                     <li><b>Pincode :- </b>{{$order['pincode']}}</li> 
                                     <li><b>Email Address :-</b> {{$order['email_address']}}</li> 
                                     <li><b>Address Line1 :-</b> {{$order['address1']}}</li>
