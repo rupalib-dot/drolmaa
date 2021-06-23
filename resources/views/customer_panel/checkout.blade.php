@@ -24,7 +24,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group"> 
-                                        <input type="text" class="form-control" placeholder="Name *" name="full_name" id="first name" value="{{old('full_name',!empty($session) ? $session['full_name'] : '',!empty($user) ? $user['full_name'] : '')}}">
+                                        <input type="text" class="form-control" placeholder="Full Name*" name="full_name" id="first name" value="{{old('full_name',!empty($session) ? $session['full_name'] : '',!empty($user) ? $user['full_name'] : '')}}">
                                     </div>
                                 </div>  
                                 <div class="col-md-6">
