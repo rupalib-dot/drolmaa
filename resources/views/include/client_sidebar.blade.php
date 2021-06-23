@@ -44,7 +44,7 @@
         </li>
         <li class="data-sheet {{ Request::is('wishlist*') ? 'active' : '' }}">
             <span class="icons"><img src="{{asset('front_end/images/feedback.png')}}" alt=""></span><a
-                href="{{route('customer.myWishlist')}}">My whishlist</a>
+                href="{{route('customer.myWishlist')}}">My Wishlist</a>
         </li>
         <li class="data-sheet {{ Request::is('change-password*') ? 'active' : '' }}">
             <span class="icons"><img src="{{asset('front_end/images/lock.png')}}" alt=""></span><a
