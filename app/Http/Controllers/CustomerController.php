@@ -109,7 +109,7 @@ class CustomerController extends Controller
             \DB::commit();
 
              //mail to new user
-             $details = array(
+            $details = array(
                 'name'         => $request->full_name,
                 'mobile' 		=>  $request->mobile_number,
                 'email' 		=> $request->email_address,   

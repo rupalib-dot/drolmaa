@@ -30,6 +30,7 @@ class User extends Model
         'phone_status',
         'register_amount',
         'payment_id',
+        'user_dob',
         'user_age',
         'user_gender',
         'country_id',
@@ -46,6 +47,7 @@ class User extends Model
         'pan_card_pic',
         'aadhar_card_pic',
         'professional_certificate_pic',
+        'user_password',
     ];
 
     public function user_role()

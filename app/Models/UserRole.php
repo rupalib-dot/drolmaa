@@ -23,4 +23,9 @@ class UserRole extends Model
         'role_id',
         'user_id',
     ];
+
+    public function roles()
+    {
+        return $this->hasOne('App\Models\Role','role_id');
+    }
 }
