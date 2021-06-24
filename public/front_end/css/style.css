@@ -96,6 +96,10 @@ button.sub:hover{
 .wel-heading {
     margin-top: 25px;
 }
+input.form-control::placeholder {
+    color:var(--black) !important;
+  }
+
 
 /*----------------------Navbar-----------------------*/
 div#navbarNav {
