@@ -109,6 +109,7 @@
             </div>
         </div>
 </section>
+
 <script>
 function addToCart(id, userid){ 
     if(userid == ''){

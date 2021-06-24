@@ -38,7 +38,7 @@
                                             <th>Plan</th>
                                             <th>Designation</th>
                                             <th>Appointment type</th> 
-                                            <td>Amount</td>
+                                            <th>Amount</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
