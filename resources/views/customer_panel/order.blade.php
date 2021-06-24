@@ -30,7 +30,7 @@
                                                     <td>{{date('M d, Y',strtotime($getData->created_at))}}</td>
                                                     <td>{{array_search($getData['order_status'],config('constant.STATUS'))}}</td> 
                                                     <td>{{array_search($getData['payment_type'],config('constant.PAYMENT_MODE'))}}</td>
-                                                    <td><i class="fas fa-rupee-sign"></i> {{$getData->grand_total}}</td>
+                                                    <td><i class="fas fa-rupee-sign"></i> {{number_format($getData->grand_total,2,'.',',')}}</td>
                                                     <td class="cancel-icon">
                                                         <span class="view-icon"><a href="{{route('customer.order_detail',$getData->order_id)}}"><i class="fas fa-eye"></i></a></span>
                                                         <!-- <span class="chat-icon"><a href="#"><i class="flaticon-chat"></i></a><span> -->

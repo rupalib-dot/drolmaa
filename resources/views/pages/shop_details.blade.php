@@ -25,7 +25,7 @@
                     <h3>{{CommonFunction::GetSingleField('category','category_name','category_id',$product->category_id)}}</h3>
                     <p class="mt-5"><span class="star-rating">@if($product->rating == 1) <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @elseif($product->rating == 2) <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @elseif($product->rating == 3) <i class="fas fa-star"></i>  <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i>  <i class="far fa-star"></i> @elseif($product->rating == 4) <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> @elseif($product->rating == 5) <i class="fas fa-star"></i> <i class="fas fa-star"></i>  <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> @else <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @endif<span
                                 class="cust-review ml-2"></span></p>
-                    <p class="indrupee"> &#8377 <span class="yerupee">{{$product->selling_price}}</span></P>
+                    <p class="indrupee"> &#8377 <span class="yerupee">{{number_format($product->selling_price,2,'.',',')}}</span></P>
                     <hr>
                     <p class="guide-text">{{$product->description}}</P>
                     @if(Session::get('role_id') == 3)

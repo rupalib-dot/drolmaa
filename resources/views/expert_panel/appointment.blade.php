@@ -38,7 +38,7 @@
                                             <th>Plan</th>
                                             <th>Designation</th>
                                             <th>Appointment type</th> 
-                                            <td>Amount</td>
+                                            <th>Amount</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -53,7 +53,7 @@
                                                 <td>{{ucwords(strtolower(array_search($appointment->plan,config('constant.PLAN'))))}}</td>
                                                 <td>{{$appointment->designations->designation_title}}</td>
                                                 <td>{{ucwords(strtolower(array_search($appointment->payment_mode,config('constant.PAYMENT_MODE'))))}}</td>
-                                                <td><i class="fas fa-rupee-sign"></i> {{$appointment->amount}}</td>
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($appointment->amount,2,'.',',')}}</td>
                                                 <td>
                                                     <span class="view-icon" title="Note"><a style="cursor:pointer" onclick="addNote('{{$appointment->appointment_id}}','{{$appointment->note}}')"><i class="far fa-comments"></i></a></span> 
 

@@ -36,9 +36,7 @@ class User extends Migration
             $table->string('special_plan',10)->nullable();
             $table->string('licance_pic')->nullable();
             $table->string('pan_card_pic')->nullable();
-            $table->string('aadhar_card_pic')->nullable();
-            $table->string('payment_id',50)->nullable();
-            $table->string('register_amount',10)->nullable();
+            $table->string('aadhar_card_pic')->nullable();  
             $table->string('professional_certificate_pic')->nullable();
             $table->string('user_password')->nullable();
             $table->softDeletes();

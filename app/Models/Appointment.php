@@ -72,7 +72,7 @@ class Appointment extends Authenticatable
                 $query->where('status',config('constant.STATUS.PENDING'))
                 ->orWhere('status',config('constant.STATUS.ACCEPTED'));  
             }
-        })->Where('user_id',$user_id)->paginate(15);
+        })->orderBy('appointment_id','desc')->Where('user_id',$user_id)->paginate(15);
         return $appoinment_data;
     }
 

@@ -30,15 +30,15 @@
                                     <tbody> 
                                         <tr> 
                                             <?php if($type == 'order'){ ?>
-                                                <td> {{$amountearned}}</td> 
-                                                <td> {{$amountrefund}}</td>
-                                                <td> {{$TotalColection}} </td>  
+                                                <td> {{number_format($amountearned,2,'.',',')}}</td> 
+                                                <td> {{number_format($amountrefund,2,'.',',')}}</td>
+                                                <td> {{number_format($TotalColection,2,'.',',')}} </td>  
                                             <?php }else if($type == 'booking'){ ?>
-                                                <td> Total Spend:- {{$TotalColection}} </td>  
+                                                <td> Total Spend:- {{number_format($TotalColection,2,'.',',')}} </td>  
                                             <?php }else if($type == 'appointment'){  ?>
-                                                <td> {{$amountearned}}</td> 
-                                                <td> {{$amountrefund}}</td>
-                                                <td> {{$TotalColection}} </td>  
+                                                <td> {{number_format($amountearned,2,'.',',')}}</td> 
+                                                <td> {{number_format($amountrefund,2,'.',',')}}</td>
+                                                <td> {{number_format($TotalColection,2,'.',',')}} </td>  
                                             <?php  } ?>
                                         <tr>
                                     </tbody>
@@ -68,21 +68,21 @@
                                                         <td><a style="color:blue" href="{{route('adminOrder.show',$aGetData->order_id)}}">{{$aGetData->order_no}}</a></td>
                                                         <td>{{date('d M, Y',strtotime($aGetData->created_at))}}</td>
                                                         <td>{{$aGetData->payment_id}}</td> 
-                                                        <td>{{$aGetData->grand_total}}</td> 
+                                                        <td>{{number_format($aGetData->grand_total,2,'.',',')}}</td> 
                                                         <td>@if(!empty($aGetData->refund_id)) {{$aGetData->refund_id}} @else N/A @endif</td>
-                                                        <td>@if(!empty($aGetData->amount_refund)) {{$aGetData->refund_amount}} @else N/A @endif</td>   
+                                                        <td>@if(!empty($aGetData->amount_refund)) {{number_format($aGetData->refund_amount,2,'.',',')}} @else N/A @endif</td>   
                                                     <?php }else if($type == 'booking'){ ?>
                                                         <td>{{$aGetData->booking_no}}</td>
                                                         <td>{{date('d M, Y',strtotime($aGetData->date))}}</td>
                                                         <td>{{$aGetData->payment_id}}</td> 
-                                                        <td>{{$aGetData->price}}</td>
+                                                        <td>{{number_format($aGetData->price,2,'.',',')}}</td>
                                                     <?php }else if($type == 'appointment'){  ?>
                                                         <td>{{$aGetData->appoinment_no}}</td>
                                                         <td>{{date('d M, Y',strtotime($aGetData->date))}}</td>
                                                         <td>{{$aGetData->payment_id}}</td> 
-                                                        <td>{{$aGetData->amount}}</td>
+                                                        <td>{{number_format($aGetData->amount,2,'.',',')}}</td>
                                                         <td>@if(!empty($aGetData->refund_id)) {{$aGetData->refund_id}}  @else N/A @endif </td>
-                                                        <td>@if(!empty($aGetData->amount_refund)) {{$aGetData->amount_refund}}  @else N/A @endif</td>  
+                                                        <td>@if(!empty($aGetData->amount_refund)) {{number_format($aGetData->amount_refund,2,'.',',')}}  @else N/A @endif</td>  
                                                     <?php  } ?>
                                                 </tr>
                                             @php $i++; @endphp

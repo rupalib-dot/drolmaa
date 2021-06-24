@@ -63,8 +63,8 @@
                                         <?php $image_name = CommonFunction::GetSingleField('product_images','image_name','product_id',$getOrderData->product_id); ?>
                                         <td><img style="    width: 100px; height: 100px;" src="<?php if(!empty($image_name)){?>{{asset('products/'.$image_name)}}<?php }else{?>{{asset('front_end/images/blogimg.jpg')}}<?php }?>" alt="" class="img-pro"> <p class="fnt mt-2">{{$getOrderData->product_name}}</p> </td>
                                         <td class="py-0"> {{$getOrderData->quantity}} </td>
-                                        <td class="py-0"> <p class="indrupee"> &#8377 <span class="yerupee">{{$getOrderData->price}}</span></p> </td>
-                                        <td class="text-red py-0"> <p class="indrupee">&#8377 <span class="yerupee">{{$getOrderData->total_price}}</span></p></td>
+                                        <td class="py-0"> <p class="indrupee"> &#8377 <span class="yerupee">{{number_format($getOrderData->price,2,'.',',')}}</span></p> </td>
+                                        <td class="text-red py-0"> <p class="indrupee">&#8377 <span class="yerupee">{{number_format($getOrderData->total_price,2,'.',',')}}</span></p></td>
                                     </tr>
                                 @endforeach 
                             @else

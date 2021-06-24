@@ -93,7 +93,7 @@
 
                             <div class="plan-box"
                                 style="background-image:url({{asset('front_end/images/planimg1.png')}});">
-                                <h3><i class="fas fa-rupee-sign"></i> 2100</h3>
+                                <h3><i class="fas fa-rupee-sign"></i> 2,100</h3>
                                 <p>6 Months (Basic plan)</p>
                             </div>
                             <div class="plan-body">
@@ -121,7 +121,7 @@
                         <div class="plan-des">
                             <div class="plan-box"
                                 style="background-image:url({{asset('front_end/images/planimg2.png')}});">
-                                <h3><i class="fas fa-rupee-sign"></i> 5300</h3>
+                                <h3><i class="fas fa-rupee-sign"></i> 5,300</h3>
                                 <p>6 Months (Advance Plan)</p>
                             </div>
                             <div class="plan-body">
@@ -149,7 +149,7 @@
                         <div class="plan-des">
                             <div class="plan-box"
                                 style="background-image:url({{asset('front_end/images/planimg2.png')}});">
-                                <h3><i class="fas fa-rupee-sign"></i> 1500</h3>
+                                <h3><i class="fas fa-rupee-sign"></i> 1,500</h3>
                                 <p>6 Months (Subscription)</p>
                             </div>
                             <div class="plan-body">
@@ -179,7 +179,7 @@
                         <div class="plan-des">
                             <div class="plan-box"
                                 style="background-image:url({{asset('front_end/images/planimg1.png')}});">
-                                <h3><i class="fas fa-rupee-sign"></i> 1900</h3>
+                                <h3><i class="fas fa-rupee-sign"></i> 1,900</h3>
                                 <p>6 Months (Basic plan)</p>
                             </div>
                             <div class="plan-body">
@@ -207,7 +207,7 @@
                         <div class="plan-des">
                             <div class="plan-box"
                                 style="background-image:url({{asset('front_end/images/planimg2.png')}});">
-                                <h3><i class="fas fa-rupee-sign"></i> 5000</h3>
+                                <h3><i class="fas fa-rupee-sign"></i> 5,000</h3>
                                 <p>6 Months (Advance Plan)</p>
                             </div>
                             <div class="plan-body">
@@ -237,7 +237,7 @@
                         <div class="plan-des">
                             <div class="plan-box"
                                 style="background-image:url({{asset('front_end/images/planimg2.png')}});">
-                                <h3><i class="fas fa-rupee-sign"></i> 1300</h3>
+                                <h3><i class="fas fa-rupee-sign"></i> 1,300</h3>
                                 <p>6 Months (Subscription)</p>
                             </div>
                             <div class="plan-body">
@@ -267,7 +267,7 @@
                         <div class="plan-des">
                             <div class="plan-box"
                                 style="background-image:url({{asset('front_end/images/planimg1.png')}});">
-                                <h3><i class="fas fa-rupee-sign"></i> 1100</h3>
+                                <h3><i class="fas fa-rupee-sign"></i> 1,100</h3>
                                 <p>6 Months (Basic plan)</p>
                             </div>
                             <div class="plan-body">
@@ -295,7 +295,7 @@
                         <div class="plan-des">
                             <div class="plan-box"
                                 style="background-image:url({{asset('front_end/images/planimg2.png')}});">
-                                <h3><i class="fas fa-rupee-sign"></i> 4800</h3>
+                                <h3><i class="fas fa-rupee-sign"></i> 4,800</h3>
                                 <p>6 Months (Advance Plan)</p>
                             </div>
                             <div class="plan-body">
@@ -323,7 +323,7 @@
                         <div class="plan-des">
                             <div class="plan-box"
                                 style="background-image:url({{asset('front_end/images/planimg2.png')}});">
-                                <h3><i class="fas fa-rupee-sign"></i>  1250</h3>
+                                <h3><i class="fas fa-rupee-sign"></i>  1,250</h3>
                                 <p>6 Months (Subscription)</p>
                             </div>
                             <div class="plan-body">
