@@ -23,6 +23,7 @@ class Appointment extends JsonResource
         $current_time       = strtotime(date('Y-m-d H:i:s'));
         $appointment_time   = strtotime(date('Y-m-d H:i:s',strtotime($this->date.' '.$this->time))); 
         $difference = round(($appointment_time - $current_time) / 3600);
+        $feedback_data      = new FeedbackArtical(Feedback::where('module_id',$this->appointment_id)->where('module_type',config('constant.FEEDBACK.APPOINMENT'))->first());
         return [
             'appoinment_no'     => $this->appoinment_no,
             'date'              => date('d M, Y', strtotime($this->date)),
@@ -33,9 +34,9 @@ class Appointment extends JsonResource
             'payment_mode'      => ucwords(strtolower(array_search($this->payment_mode,config('constant.PAYMENT_MODE')))),
             'amount'            => number_format($this->amount, 2, '.', ','),
             'status'            => ucwords(strtolower(array_search($this->status,config('constant.STATUS')))),
-            'cancel_status'     => $difference >=48 ? 'Yes' : 'No',
-            'feedback_status'   => $this->status == config('constant.STATUS.COMPLETED') ? 'Yes' : 'No',
-            'feedback_data'     => new FeedbackArtical(Feedback::where('module_id',$this->appointment_id)->where('module_type',config('constant.FEEDBACK.APPOINMENT'))->first()),
+            'cancel_status'     => $difference >=48 ? True : False,
+            'feedback_status'   => $this->status == config('constant.STATUS.COMPLETED') || !isset($feedback_data) ? True : False,
+            'feedback_data'     => $feedback_data,
         ];
     }
 }

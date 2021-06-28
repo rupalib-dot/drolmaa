@@ -7,6 +7,7 @@ use App\Http\Controllers\ApiController\LocationController;
 use App\Http\Controllers\ApiController\WrokshopController;
 use App\Http\Controllers\ApiController\BookingController;
 use App\Http\Controllers\ApiController\AppointmentController;
+use App\Http\Controllers\ApiController\OrderController;
 use App\Http\Controllers\ApiController\CommonController;
 
 /*
@@ -47,6 +48,11 @@ Route::resource('workshop', WrokshopController::class)->only([
 
 // BOOKING API
 Route::resource('booking', BookingController::class)->only([
+    'index', 'store'
+]);
+
+// ORDER API
+Route::resource('order', OrderController::class)->only([
     'index', 'store'
 ]);
 
