@@ -57,7 +57,11 @@
                                                 <td><i class="fas fa-rupee-sign"></i> {{number_format($appointment->amount, 2, '.', ',')}}</td>
                                                 <td>
                                                 
-                                               <?php  $time1 = strtotime(date('Y-m-d H:i:s'));$time2 = strtotime(date('Y-m-d H:i:s',strtotime($appointment->date.' '.$appointment->time))); $difference = round(($time2 - $time1) / 3600);?>
+                                               <?php  
+                                                    $time1 = strtotime(date('Y-m-d H:i:s'));
+                                                    $time2 = strtotime(date('Y-m-d H:i:s',strtotime($appointment->date.' '.$appointment->time))); 
+                                                    $difference = round(($time2 - $time1) / 3600);
+                                                ?>
                                                     @if($appointment->status == config('constant.STATUS.PENDING') || $appointment->status == config('constant.STATUS.ACCEPTED'))
                                                         @if($difference >= 48)
                                                             <span onclick="return confirm('Are you sure you want to cancel this appoinment?')" class="view-icon" title="cancel"><a href="{{route('appointment.cancelAppoinment',['id'=>$appointment->appointment_id,'status'=>config('constant.STATUS.CANCELLED')])}}"><i class="fas fa-ban"></i></a></span>

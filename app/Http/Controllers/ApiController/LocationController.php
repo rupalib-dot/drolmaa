@@ -63,25 +63,11 @@ class LocationController extends BaseController
     	}
 	}
 
-	public function state_list(Request $request)
+	public function state_list($country_id)
 	{
-		$error_message = 	[
-			'required'       => 'Country missing',
-		];
-
-        $validatedData = [
-			'country_id' 	    => 'required',
-		];
-
-		$validator = Validator::make($request->all(), $rules, $error_message);
-   
-        if($validator->fails()){
-            return $this->sendFailed($validator->errors()->all(), 200);       
-        }
-
 		try
 		{
-			$record_data = State::Where('country_id',$request->country_id)->OrderBy('state_name')->get();
+			$record_data = State::Where('country_id',$country_id)->OrderBy('state_name')->get();
             if(count($record_data) > 0)
             {
                 $record_data = ArticalState::collection($record_data);
@@ -99,25 +85,11 @@ class LocationController extends BaseController
     	}
 	}
 
-	public function city_list(Request $request)
+	public function city_list($state_id)
 	{
-		$error_message = 	[
-			'required'       => 'Country missing',
-		];
-
-        $validatedData = [
-			'state_id' 	    => 'required',
-		];
-
-		$validator = Validator::make($request->all(), $rules, $error_message);
-   
-        if($validator->fails()){
-            return $this->sendFailed($validator->errors()->all(), 200);       
-        }
-
 		try
 		{
-			$record_data = City::Where('state_id',$request->state_id)->OrderBy('city_name')->get();
+			$record_data = City::Where('state_id',$state_id)->OrderBy('city_name')->get();
             if(count($record_data) > 0)
             {
                 $record_data = ArticalCity::collection($record_data);

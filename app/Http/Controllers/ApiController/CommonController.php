@@ -8,7 +8,11 @@ use Illuminate\Support\Facades\Storage;
 use Validator;
 use App\Http\Controllers\ApiController\BaseController as BaseController;
 use App\Models\User;
+use App\Models\Designation;
+use App\Models\Feedback;
+use App\Http\Resources\Designation as DesignationArtical;
 use App\Http\Resources\CustomerProfile;
+use App\Http\Resources\Feedback as FeedbackArtical;
 use Hash;
 use DB;
 
@@ -235,6 +239,69 @@ class CommonController extends BaseController
 		catch (\Throwable $e)
     	{
             \DB::rollback();
+    		return $this->sendFailed($e->getMessage().' on line '.$e->getLine(), 400);  
+    	}
+	}
+
+	public function designation_list()
+	{
+		try
+		{
+			$record_data = Designation::OrderBy('designation_title')->get();
+			if(isset($record_data))
+			{
+				$record_data = DesignationArtical::collection($record_data);
+				return $this->sendSuccess($record_data, 'Designation listed successfully');
+			}
+			else
+			{
+				return $this->sendFailed('Designation not found', 200);       
+			}
+		}
+		catch (\Throwable $e)
+    	{
+    		return $this->sendFailed($e->getMessage().' on line '.$e->getLine(), 400);  
+    	}
+	}
+
+	public function store(Request $request)
+	{
+		$error_message = 	[
+			'feedback_by.required' 			=> 'User Id should be required',
+			'feedback_to.required' 			=> 'Expert Id should be required',
+			'rating.required' 				=> 'Ratting should be required',
+            'message.required'      		=> 'Message should be required',
+            'module_type.required'      	=> 'Module should be required',
+            'module_id.required'      		=> 'Module Id be required',
+		];
+
+		$rules = [
+			'feedback_by'			=> 'required',
+			'feedback_to'			=> 'required|max:32',
+            'rating'				=> 'required',
+            'message'		        => 'required',
+            'module_type'			=> 'required',
+			'module_id'				=> 'required'
+		];
+
+		$validator = Validator::make($request->all(), $rules, $error_message);
+
+        if($validator->fails()){
+            return $this->sendFailed($validator->errors()->all(), 200);       
+        }
+
+		try
+		{
+			\DB::beginTransaction();
+				$feedback = new Feedback;
+				$feedback->fill($request->all())->save();
+			\DB::commit();
+			$record_data = new FeedbackArtical(Feedback::find($feedback->feedback_id));
+			return $this->sendSuccess($record_data, 'Feedback sent successfully');
+		}
+		catch (\Throwable $e)
+    	{
+			\DB::rollback();
     		return $this->sendFailed($e->getMessage().' on line '.$e->getLine(), 400);  
     	}
 	}
