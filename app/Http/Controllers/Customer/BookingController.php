@@ -76,7 +76,7 @@ class BookingController extends Controller
                         'booking_no' =>"BOO-".rand(11111,99999), 
                         'module_id'          => $request->module_id,
                         'module_type'   => $request->module_type,
-                        'status'  => config('constant.STATUS.ACCEPTED'),
+                        'status'        => config('constant.STATUS.ACCEPTED'),
                         'payment_mode'        => config('constant.PAYMENT_MODE.ONLINE'), 
                         'payment_id'        => $input['razorpay_payment_id'], 
                         'created_at'    => date('Y-m-d H:i:s'),
