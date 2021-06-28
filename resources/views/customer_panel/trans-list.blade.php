@@ -30,15 +30,15 @@
                                     <tbody> 
                                         <tr> 
                                             <?php if($type == 'order'){ ?>
-                                                <td> {{number_format($amountearned,2,'.',',')}}</td> 
-                                                <td> {{number_format($amountrefund,2,'.',',')}}</td>
-                                                <td> {{number_format($TotalColection,2,'.',',')}} </td>  
+                                                <td>  <i class="fas fa-rupee-sign"></i> {{number_format($amountearned,2,'.',',')}}</td> 
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($amountrefund,2,'.',',')}}</td>
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($TotalColection,2,'.',',')}} </td>  
                                             <?php }else if($type == 'booking'){ ?>
-                                                <td> Total Spend:- {{number_format($TotalColection,2,'.',',')}} </td>  
+                                                <td> Total Spend:- <i class="fas fa-rupee-sign"></i> {{number_format($TotalColection,2,'.',',')}} </td>  
                                             <?php }else if($type == 'appointment'){  ?>
-                                                <td> {{number_format($amountearned,2,'.',',')}}</td> 
-                                                <td> {{number_format($amountrefund,2,'.',',')}}</td>
-                                                <td> {{number_format($TotalColection,2,'.',',')}} </td>  
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($amountearned,2,'.',',')}}</td> 
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($amountrefund,2,'.',',')}}</td>
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($TotalColection,2,'.',',')}} </td>  
                                             <?php  } ?>
                                         <tr>
                                     </tbody>
@@ -68,21 +68,21 @@
                                                         <td><a style="color:blue" href="{{route('adminOrder.show',$aGetData->order_id)}}">{{$aGetData->order_no}}</a></td>
                                                         <td>{{date('d M, Y',strtotime($aGetData->created_at))}}</td>
                                                         <td>{{$aGetData->payment_id}}</td> 
-                                                        <td>{{number_format($aGetData->grand_total,2,'.',',')}}</td> 
+                                                        <td><i class="fas fa-rupee-sign"></i> {{number_format($aGetData->grand_total,2,'.',',')}}</td> 
                                                         <td>@if(!empty($aGetData->refund_id)) {{$aGetData->refund_id}} @else N/A @endif</td>
-                                                        <td>@if(!empty($aGetData->amount_refund)) {{number_format($aGetData->refund_amount,2,'.',',')}} @else N/A @endif</td>   
+                                                        <td>@if(!empty($aGetData->amount_refund)) <i class="fas fa-rupee-sign"></i> {{number_format($aGetData->refund_amount,2,'.',',')}} @else N/A @endif</td>   
                                                     <?php }else if($type == 'booking'){ ?>
                                                         <td>{{$aGetData->booking_no}}</td>
                                                         <td>{{date('d M, Y',strtotime($aGetData->date))}}</td>
                                                         <td>{{$aGetData->payment_id}}</td> 
-                                                        <td>{{number_format($aGetData->price,2,'.',',')}}</td>
+                                                        <td><i class="fas fa-rupee-sign"></i> {{number_format($aGetData->price,2,'.',',')}}</td>
                                                     <?php }else if($type == 'appointment'){  ?>
                                                         <td>{{$aGetData->appoinment_no}}</td>
                                                         <td>{{date('d M, Y',strtotime($aGetData->date))}}</td>
                                                         <td>{{$aGetData->payment_id}}</td> 
-                                                        <td>{{number_format($aGetData->amount,2,'.',',')}}</td>
+                                                        <td><i class="fas fa-rupee-sign"></i> {{number_format($aGetData->amount,2,'.',',')}}</td>
                                                         <td>@if(!empty($aGetData->refund_id)) {{$aGetData->refund_id}}  @else N/A @endif </td>
-                                                        <td>@if(!empty($aGetData->amount_refund)) {{number_format($aGetData->amount_refund,2,'.',',')}}  @else N/A @endif</td>  
+                                                        <td>@if(!empty($aGetData->amount_refund)) <i class="fas fa-rupee-sign"></i> {{number_format($aGetData->amount_refund,2,'.',',')}}  @else N/A @endif</td>  
                                                     <?php  } ?>
                                                 </tr>
                                             @php $i++; @endphp
@@ -96,7 +96,7 @@
                                 </table>
                             </div>
                             <div class="paginationPara">
-                            {{$transactions->appends($request->all())->render()}}
+                            {{$transactions->appends($request->all())->render('vendor.pagination.custom')}}
                                 <!-- <ul class="pagination justify-content-center">
                                     <li class="page-serial"><a class="page-start" href="#"><button
                                                 class="page-next">Previouss</button>

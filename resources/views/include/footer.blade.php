@@ -5,17 +5,17 @@
                     <div class="footerBox">
                         <img src="{{asset('front_end/images/bannerimg2.png')}}" alt="" class="img-fluid">
                         <ul class="footerMenu">
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Services</a></li>
-                            <li><a href="#">Shops</a></li>
-                            <li><a href="#"> Tools</a></li>
-                            <li><a href="#">Blogs</a></li>
-                            <li><a href="#">Collaborations</a></li>
+                            <li><a href="{{route('page.about_us')}}">About Us</a></li>
+                            <li><a href="{{route('page.services')}}">Services</a></li>
+                            <li><a href="{{route('page.shop')}}">Shops</a></li>
+                            <li><a href="{{route('page.tools')}}"> Tools</a></li>
+                            <li><a href="{{route('page.blog')}}">Blogs</a></li>
+                            <li><a href="{{route('page.collaboration')}}">Collaborations</a></li>
                         </ul>
                         <ul class="footerLink">
-                            <li><a href="#" class="footerSocialRound"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                            <li><a href="#" class="footerSocialRound"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#" class="footerSocialRound"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="https://www.instagram.com/" class="footerSocialRound"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                            <li><a href="https://twitter.com/" class="footerSocialRound"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                            <li><a href="https://www.facebook.com/" class="footerSocialRound"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                         </ul>
                         <ul class="footerChannel">
                             <li><span class="footerContact"><i class="fa fa-volume-control-phone"

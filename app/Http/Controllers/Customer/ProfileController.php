@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Country;
 use Session;
+use DB;
 use App\Models\Favourate;
 
 class ProfileController extends Controller
@@ -139,15 +140,44 @@ class ProfileController extends Controller
     public function myWishlist(Request $request)
     { 
         $title  = "My Wishlist";
-        $favourate = Favourate::where('user_id',Session::get('user_id'))->paginate(15);
+        $favourate = Favourate::where('user_id',Session::get('user_id'))->orderBy('favourate_id','desc')->paginate(15);
         $data   = compact('title','request','favourate');
         return view('customer_panel.myWishlist', $data);
     }
  
     public function deleteWishlist(Request $request)
     {  
-        $favourate = Favourate::where('favourate_id',$request['favourate_id'])->paginate(15);
-        $data   = compact('title','request','favourate');
-        return view('customer_panel.myWishlist', $data);
+        $favourate = DB::table('favourate')->where('favourate_id',$request['favourate_id'])->delete();
+        if(!empty($favourate)){
+            return redirect()->back()->with('Success', 'Wishlist updated successfully');
+        }else{
+            return redirect()->back()->with('Failed', 'Wishlist not updated successfully');
+        }
+    }
+ 
+    public function del_multi_wishlist(Request $request)
+    {  
+        $ids = explode(',',$request['areaofinterest']);
+        if(count($ids)>0){
+            foreach($ids as $id){
+                $delete=DB::table('favourate')->where('favourate_id',$id)->delete(); 
+            }
+    		if($delete){ 
+    			return Response()->json([
+                    "success" => true,
+                    "message" =>'Wishlist updated successfully',
+                ]); 
+    		}else{
+    			return Response()->json([
+                    "success" => false,
+                    "message" => 'Wishlist not updated successfully',
+                ]);
+    		} 
+        }else{
+			return Response()->json([
+                "success" => false,
+                "message" => 'Wishlist not updated successfully',
+            ]);
+		}
     }
 }

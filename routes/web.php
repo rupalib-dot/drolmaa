@@ -210,7 +210,9 @@ Route::group(['middleware' => ['administrator']], function(){
         // wishlist ROUTE
         Route::get('wishlist', [ProfileController::class, 'myWishlist'])->name('customer.myWishlist');
         Route::get('deleteWishlist', [ProfileController::class, 'deleteWishlist'])->name('wishlist.delete');
+        Route::post('del_multi_wishlist', [ProfileController::class, 'del_multi_wishlist'])->name('del_multi_wishlist');
 
+        
          // ORDERS ROUTE
          Route::get('orders', [OrderController::class, 'order_list'])->name('customer.order');
          Route::get('order_detail/{id}', [OrderController::class, 'order_detail'])->name('customer.order_detail');

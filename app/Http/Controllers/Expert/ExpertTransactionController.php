@@ -32,7 +32,8 @@ class ExpertTransactionController extends Controller
         if($type == 'registration'){
             $transactions = $this->User->users_trans(2,'user');
             $amountearned = User::where('user_id',Session::get('user_id'))->sum('register_amount'); 
-            $amountrefund = 0;
+            $amountrefund = 0; 
+            $totalPaidamount = 0;
             $TotalColection = $amountearned;
         }else if($type == 'appointment'){ 
             $transactions = $this->Appointment->appoinment_list_trans('expert'); 

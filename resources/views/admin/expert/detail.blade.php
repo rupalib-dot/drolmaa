@@ -32,7 +32,7 @@
                             <div class="col-lg-6">
                                 <ul class="contacts-block list-unstyled" style="max-width: 100%;">
                                     <li><b>Email:-</b> {{$expert->email_address}}</li>
-                                    <li><b>Mobile Number:-</b> {{$expert->mobile_number}}</li> 
+                                    <li><b>Mobile Number:-</b> +91 {{$expert->mobile_number}}</li> 
                                     <li><b>Office Phone Number:-</b> {{$expert->office_phone_number}}</li>  
                                     <li><b>Designation:-</b> {{CommonFunction::GetSingleField('designation','designation_title','designation_id',$expert->designation_id)}}</li>
                                     <li><b>Age:-</b> {{$expert->user_age}}</li>
@@ -75,7 +75,7 @@
                                         <th>Amount</th>
                                         <th>Action</th>
                                     </tr>
-                                </thead>number_format(
+                                </thead>
                                 <tbody>  
                                     @if(count($appoinment)>0) 
                                         @php $i=1; @endphp 
@@ -86,7 +86,7 @@
                                                 <td>{{date('d M,Y',strtotime($aGetData->date))}}</td>
                                                 <td>{{date('h:i A',strtotime($aGetData->time)) .' - '. date("h:i A",strtotime('+1 hours',strtotime($aGetData->time)))}}</td>
                                                 <td>{{ucwords(strtolower(array_search($aGetData->status,config('constant.STATUS'))))}}</td>
-                                                <td><i class="fas fa-rupee-sign"></i> {{$aGetData->amount,2,'.',','}}</td>
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($aGetData->amount,2,'.',',')}}</td>
                                                 <td><span class="view-icon"><a href="{{route('adminappoinment.show',$aGetData->appointment_id)}}" title="Details"><i class="fas fa-eye"></i></a></span> </td> 
                                             </tr> 
                                         @php $i++; @endphp

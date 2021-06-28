@@ -74,11 +74,20 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="input-group mb-4">
-                                    <input type="text" class="form-control" placeholder="Mobile Number"
-                                        aria-label="Phone" aria-describedby="basic-addon1" name="mobile_number"
-                                        value="{{old('mobile_number', !empty($expert) ? $expert->mobile_number : '')}}">
-                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3" style="padding-right:0px">
+                                        <div class="input-group mb-4">
+                                            <input type="text" class="form-control" aria-label="Country Code" aria-describedby="basic-addon1" name="country_code" value="+91" ReadOnly>
+                                        </div> 
+                                    </div>
+                                    <div class="col-lg-9" style="padding-left:0px">  
+                                        <div class="input-group mb-4">
+                                            <input type="text" class="form-control" placeholder="Mobile Number"
+                                                aria-label="Phone" aria-describedby="basic-addon1" name="mobile_number"
+                                                value="{{old('mobile_number', !empty($expert) ? $expert->mobile_number : '')}}">
+                                        </div>
+                                    </div>
+                                </div> 
                             </div>
                             <div class="col-md-4">
                                 <div class="input-group mb-4">

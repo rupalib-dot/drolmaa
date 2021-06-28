@@ -36,7 +36,7 @@
                                     <li><b>Name :- </b>{{$order['full_name']}}</li>
                                     <li><b>Company Name :- </b>{{$order['company_name']}}</li>
                                     <li><b>Gender :- </b>{{array_search($order['user_gender'],config('constant.GENDER'))}}</li> 
-                                    <li><b>Mobile Number :-</b> {{$order['mobile_number']}}</li>
+                                    <li><b>Mobile Number :-</b> +91 {{$order['mobile_number']}}</li>
                                     <li><b>Payment Id :- </b>{{$order['payment_id']}}</li>
                                     <li><b>Payment Mode :- </b>{{array_search($order['payment_type'],config('constant.PAYMENT_MODE'))}}</li>
                                     <li><b>Payment Status :- </b>{{$order['payment_status']}}</li>  

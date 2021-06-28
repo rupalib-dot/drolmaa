@@ -10,7 +10,7 @@ p{
     color: var(--white);
     border-radius: 3px;
     margin-right: 13px;
-    margin-left: 45px;
+    margin-left: 15px;
     padding: 10px;
 } 
 </style>
@@ -34,24 +34,27 @@ p{
             <div class="col-md-12 col-lg-12 col-xl-12">
                 <div class="row">   
                     <div class="col-lg-6">  
-                        <p>Name:- {{$order['full_name']}}</p>
-                        <p>Company Name:- {{$order['company_name']}}</p>
-                        <p>Address:- {{$order['address1']}}</p>
+                        <p>Full Name:- {{$order['full_name']}}</p>
+                        <p>Company Name:- @if(!empty($order['company_name'])){{$order['company_name']}} @else N/A @endif</p>
+                        <p>Address Line1:- {{$order['address1']}}</p>
+                        <p>Address Line2:- @if(!empty($order['address2'])){{$order['address2']}} @else N/A @endif</p>
                         <p>Country:- {{CommonFunction::GetSingleField('country','country_name','country_id',$order['country_id'])}}</p>
                         <p>State:- {{CommonFunction::GetSingleField('state','state_name','state_id',$order['state_id'])}}</p>
                         <p>City:- {{CommonFunction::GetSingleField('city','city_name','city_id',$order['city_id'])}}</p> 
                     </div>
                     <div class="col-lg-6">
                         <p>Pincode:- {{$order['pincode']}}</p> 
-                        <p>Mobile Number:- {{$order['mobile_number']}}</p>
+                        <p>Gender:- {{array_search($order['user_gender'],config('constant.GENDER'))}}</p> 
+                        <p>Mobile Number:- +91 {{$order['mobile_number']}}</p>
                         <p>Email Address:- {{$order['email_address']}}</p>
                         <p>Grand Total:- <i class="fas fa-rupee-sign"></i> {{number_format($order['grand_total'],2,'.',',')}}</p> 
                         <p>Payment Mode:- {{array_search($order['payment_type'],config('constant.PAYMENT_MODE'))}}</p>
                         <p>Order Status:- {{array_search($order['order_status'],config('constant.STATUS'))}}</p>
                     </div> 
+                    
                     <form action="{{route('order.payment')}}" method="POST">
-                        @csrf 
-                        <script src="https://checkout.razorpay.com/v1/checkout.js"
+                        @csrf  
+                        <script  
                                 data-key="{{ env('RAZORPAY_KEY') }}"
                                 data-amount="{{round($order['grand_total'],2)}}00"
                                 data-buttontext="Pay {{round($order['grand_total'],2)}} INR"

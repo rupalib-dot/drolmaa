@@ -66,7 +66,7 @@
                                 </table>
                             </div>
                             <div class="paginationPara">
-                            {{$booking_list->appends($request->all())->render()}}
+                            {{$booking_list->appends($request->all())->render('vendor.pagination.custom')}}
                                 <!-- <ul class="pagination justify-content-center">
                                     <li class="page-serial"><a class="page-start" href="#"><button class="page-next">Previouss</button></a></li>
                                     <li class="page-serial"><a class="page-start" href="#">01</a></li>

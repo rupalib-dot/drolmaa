@@ -57,72 +57,74 @@
                         </div>             
                     </div>
                 </div>  
-                <div class="statbox widget box box-shadow mb-1"> 
-                    <div class="widget-content widget-content-area">
-                        <div class="row">
-                        <h3>Feedback</h3>
-                            <div class="col-sm-12">
-                                @if(count($feedback_list)>0)
-                                    @foreach($feedback_list as $feedback)
-                                    <?php $image_name = CommonFunction::GetSingleField('users','user_image','user_id',$feedback->feedback_by); ?>
-                                        <div class="feedback-profile">
-                                            <div class="feedback-rating">
-                                                <div class="feedback-box"
-                                                    style="background-image:<?php if(!empty($image_name)){?>{{asset('user_images/'.$image_name)}}<?php }else{?>{{asset('front_end/images/blogimg.jpg')}}<?php }?> ">
-                                                </div>
-                                                <h2>{{CommonFunction::GetSingleField('users','full_name','user_id',$feedback->feedback_by)}}</h2>
-                                                <p class="java-tech">Feedback On:- {{ucwords(strtolower(array_search($feedback->module_type,config('constant.FEEDBACK'))))}}</p>
+                @if($appoinment['status'] == config('constant.STATUS.COMPLETED'))
+                    <div class="statbox widget box box-shadow mb-1"> 
+                        <div class="widget-content widget-content-area">
+                            <div class="row">
+                                <h3>Feedback</h3>
+                                <div class="col-sm-12">
+                                    @if(count($feedback_list)>0)
+                                        @foreach($feedback_list as $feedback)
+                                        <?php $image_name = CommonFunction::GetSingleField('users','user_image','user_id',$feedback->feedback_by); ?>
+                                            <div class="feedback-profile">
+                                                <div class="feedback-rating">
+                                                    <div class="feedback-box"
+                                                        style="background-image:<?php if(!empty($image_name)){?>{{asset('user_images/'.$image_name)}}<?php }else{?>{{asset('front_end/images/blogimg.jpg')}}<?php }?> ">
+                                                    </div>
+                                                    <h2>{{CommonFunction::GetSingleField('users','full_name','user_id',$feedback->feedback_by)}}</h2>
+                                                    <p class="java-tech">Feedback On:- {{ucwords(strtolower(array_search($feedback->module_type,config('constant.FEEDBACK'))))}}</p>
 
+                                                </div>
+                                                <div class="star">
+                                                    <span class="review-star">{{$feedback->rating}}</span>
+                                                    @if($feedback->rating == 1)
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                    @elseif($feedback->rating == 2)
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                    @elseif($feedback->rating == 3)
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                    @elseif($feedback->rating == 4)
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                    @else 
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star checked"></span>
+                                                    @endif
+                                                </div>
+                                                <p class="quote-feedback">
+                                                    {{$feedback->message}}
+                                                </p>
+                                                <p style="padding-top: 15px;text-align: right;color: var(--black1);">
+                                                    {{$feedback->created_at}}
+                                                </p>
                                             </div>
-                                            <div class="star">
-                                                <span class="review-star">{{$feedback->rating}}</span>
-                                                @if($feedback->rating == 1)
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star-o"></span>
-                                                    <span class="fa fa-star-o"></span>
-                                                    <span class="fa fa-star-o"></span>
-                                                    <span class="fa fa-star-o"></span>
-                                                @elseif($feedback->rating == 2)
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star-o"></span>
-                                                    <span class="fa fa-star-o"></span>
-                                                    <span class="fa fa-star-o"></span>
-                                                @elseif($feedback->rating == 3)
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star-o"></span>
-                                                    <span class="fa fa-star-o"></span>
-                                                @elseif($feedback->rating == 4)
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star-o"></span>
-                                                @else 
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                    <span class="fa fa-star checked"></span>
-                                                @endif
-                                            </div>
-                                            <p class="quote-feedback">
-                                                {{$feedback->message}}
-                                            </p>
-                                            <p style="padding-top: 15px;text-align: right;color: var(--black1);">
-                                                {{$feedback->created_at}}
-                                            </p>
-                                        </div>
-                                    @endforeach
-                                    @else
-                                    No record found
-                                @endif 
-                            </div>
-                        </div>            
-                    </div>
-                </div> 
+                                        @endforeach
+                                        @else
+                                        No record found
+                                    @endif 
+                                </div>
+                            </div>            
+                        </div>
+                    </div> 
+                @endif
             </div>
         </div>
     </div>

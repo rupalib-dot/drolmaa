@@ -243,7 +243,7 @@ class OrderController extends Controller
         $exist = Favourate::where(['user_id'=>$request['userid'],'product_id'=>$request['id']])->first();
         if(!empty($exist)){
             $count_row = DB::table('favourate')->where(['user_id'=>$request['userid'],'product_id'=>$request['id']])->delete(); 
-            $msg = "Product added to favourites successfully";
+            $msg = "Product removed from favourites successfully";
         }else{
             $count_row = Favourate::create($data);  
             $msg = "Product added to favourites successfully";
@@ -305,7 +305,7 @@ class OrderController extends Controller
             $count_row = DB::table('cart')->where(['cart_id'=>$id])->delete();
         }
         if(!empty($count_row)){
-            return redirect()->back()->with('Success', 'cart updated successfully');
+            return redirect()->back()->with('Success', 'Cart updated successfully');
         }else{
             return redirect()->back()->with('Failed', 'Something went wrong');
         } 

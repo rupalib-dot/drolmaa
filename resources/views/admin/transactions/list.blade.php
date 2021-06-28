@@ -62,19 +62,19 @@
                                     <tbody> 
                                         <tr> 
                                             <?php if($type == 'order'){ ?>
-                                                <td> {{number_format($amountearned,2,'.',',')}}</td> 
-                                                <td> {{number_format($amountrefund,2,'.',',')}}</td>
-                                                <td> {{number_format($TotalColection,2,'.',',')}} </td>  
+                                                <td> <i class="fas fa-rupee-sign"></i> {{number_format($amountearned,2,'.',',')}}</td> 
+                                                <td> <i class="fas fa-rupee-sign"></i> {{number_format($amountrefund,2,'.',',')}}</td>
+                                                <td> <i class="fas fa-rupee-sign"></i> {{number_format($TotalColection,2,'.',',')}} </td>  
                                             <?php }else if($type == 'registration'){ ?>
-                                                <td> {{number_format($TotalColection,2,'.',',')}} </td>  
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($TotalColection,2,'.',',')}} </td>  
                                             <?php }else if($type == 'booking'){ ?>
-                                                <td> {{number_format($TotalColection,2,'.',',')}} </td>  
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($TotalColection,2,'.',',')}} </td>  
                                             <?php }else if($type == 'appointment'){  ?>
-                                                <td> {{number_format($amountearned,2,'.',',')}}</td> 
-                                                <td> {{number_format($amountrefund,2,'.',',')}}</td>
-                                                <td> {{number_format($totalPaidamount,2,'.',',')}} </td>
-                                                <td> {{number_format($TotalColection,2,'.',',')}} </td> 
-                                                <td> {{number_format(($TotalColection - $totalPaidamount),2,'.',',')}} </td>  
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($amountearned,2,'.',',')}}</td> 
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($amountrefund,2,'.',',')}}</td>
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($totalPaidamount,2,'.',',')}} </td>
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($TotalColection,2,'.',',')}} </td> 
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format(($TotalColection - $totalPaidamount),2,'.',',')}} </td>  
                                             <?php  } ?>
                                         </tr> 
                                     </tbody>
@@ -85,13 +85,15 @@
                     </div> 
                 </div>
                 <div class="statbox widget box box-shadow">
-                <div class="row">
-                    <div class="col-lg-6">
-                    </div>
-                    <div class="col-lg-6" style="text-align:right">
-                        <a href="{{route('pay-details')}}"><button class="btn btn-primary"> Amount Paid Details </button></a>
-                    </div>
-                </div> 
+                    <?php if($type == 'appointment'){ ?> 
+                        <div class="row">
+                            <div class="col-lg-6">
+                            </div>
+                            <div class="col-lg-6" style="text-align:right">
+                                <a href="{{route('pay-details')}}"><button class="btn btn-primary"> Amount Paid Details </button></a>
+                            </div>
+                        </div> 
+                    <?php } ?>
                     <div class="widget-content widget-content-area"> 
                         <div class="table-responsive"> 
                             <table class="table table-bordered mb-4 table-hover">
@@ -120,27 +122,27 @@
                                                     <td><a style="color:blue" href="{{route('adminOrder.show',$aGetData->order_id)}}">{{$aGetData->order_no}}</a></td>
                                                     <td>{{date('d M, Y',strtotime($aGetData->created_at))}}</td>
                                                     <td>{{$aGetData->payment_id}}</td> 
-                                                    <td>{{$aGetData->grand_total}}</td> 
+                                                    <td><i class="fas fa-rupee-sign"></i> {{number_format($aGetData->grand_total,2,'.',',')}}</td> 
                                                     <td>@if(!empty($aGetData->refund_id)) {{$aGetData->refund_id}} @else N/A @endif</td>
-                                                    <td>@if(!empty($aGetData->amount_refund)) {{$aGetData->refund_amount}} @else N/A @endif</td>   
+                                                    <td>@if(!empty($aGetData->amount_refund)) <i class="fas fa-rupee-sign"></i> {{$aGetData->refund_amount}} @else N/A @endif</td>   
                                                 <?php }else if($type == 'registration'){ ?>
                                                     <td><a style="color:blue" href="{{route('adminexpert.show',$aGetData->user_id)}}">{{$i}}</a></td>
                                                     <td>{{date('d M, Y',strtotime($aGetData->created_at))}}</td>
                                                     <td>{{$aGetData->payment_id}}</td>
-                                                    <td>{{$aGetData->register_amount}}</td>
+                                                    <td><i class="fas fa-rupee-sign"></i> {{number_format($aGetData->register_amount,2,'.',',')}}</td>
                                                 <?php }else if($type == 'booking'){ ?>
                                                     <td><a style="color:blue" href="{{route('workshop.show',$aGetData->workshop_id)}}">{{$aGetData->booking_no}}</a></td>
                                                     <td>{{date('d M, Y',strtotime($aGetData->date))}}</td>
                                                     <td>{{$aGetData->payment_id}}</td> 
-                                                    <td>{{$aGetData->price}}</td>
+                                                    <td><i class="fas fa-rupee-sign"></i> {{number_format($aGetData->price,2,'.',',')}}</td>
                                                 <?php }else if($type == 'appointment'){  ?>
                                                     <td><a style="color:blue" href="{{route('adminappoinment.show',$aGetData->appointment_id)}}">{{$aGetData->appoinment_no}}</a></td>
                                                     <td>{{date('d M, Y',strtotime($aGetData->date))}}</td>
                                                     <td>{{$aGetData->payment_id}}</td> 
-                                                    <td>{{number_format($aGetData->amount,2,'.',',')}}</td> 
+                                                    <td><i class="fas fa-rupee-sign"></i> {{number_format($aGetData->amount,2,'.',',')}}</td> 
                                                     <td><a style="color:blue" href="{{route('adminexpert.show',$aGetData->expert)}}">{{$aGetData->expertUsers->full_name}}</a></td> 
                                                     <td>@if(!empty($aGetData->refund_id)) {{$aGetData->refund_id}}  @else N/A @endif </td>
-                                                    <td>@if(!empty($aGetData->amount_refund)) {{number_format($aGetData->amount_refund,2,'.',',')}}  @else N/A @endif</td>  
+                                                    <td>@if(!empty($aGetData->amount_refund)) <i class="fas fa-rupee-sign"></i> {{number_format($aGetData->amount_refund,2,'.',',')}}  @else N/A @endif</td>  
                                                 <?php  } ?>
                                             </tr>
                                         @php $i++; @endphp

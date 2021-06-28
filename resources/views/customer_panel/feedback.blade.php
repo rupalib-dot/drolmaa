@@ -130,8 +130,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="paginationPara">
-                                <ul class="pagination justify-content-center">
+                           <div class="paginationPara">
+                                @if(count($feedback_list['feedbackBy'])>0)
+                                    {{$feedback_list['feedbackBy']->appends($request->all())->render('vendor.pagination.custom')}}
+                                @else if(count($feedback_list['feedbackTo'])>0)
+                                    {{$feedback_list['feedbackTo']->appends($request->all())->render('vendor.pagination.custom')}}
+                                @endif
+                           
+                                <!--<ul class="pagination justify-content-center">
                                     <li class="page-serial"><a class="page-start" href="#"><button
                                                 class="page-next">Previouss</button>
                                         </a></li>
@@ -146,8 +152,8 @@
                                                 class="page-next">Next</button>
                                         </a>
                                     </li>
-                                </ul>
-                            </div> -->
+                                </ul> -->
+                            </div>
                         </div>
                     </div>
                 </div>

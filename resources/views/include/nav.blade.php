@@ -1,3 +1,15 @@
+<style>
+.cart_value{
+    position: absolute;
+    top: -12px;
+    right: -20px;
+    font-size: 12px;
+    border: 1px solid red;
+    border-radius: 100%;
+    padding: 3px 7px;
+    background: red;
+}
+</style>
 <div class="search" id="search-box">
         <div class="search-overlay" onclick="closeSearch()"></div>
         <span class="close-search" onclick="closeSearch()"><i class="fa fa-times" aria-hidden="true"></i></span>
@@ -64,7 +76,7 @@
                                 <a class="nav-item nav-link last" href="{{route('appointment.create')}}">Appointment</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-item nav-link" href="{{ route('viewcart') }}">{{CommonFunction::getCount('cart','user_id',Session::get('user_id'))}}<i style="font-size: 20px;color: white;" class="fas fa-shopping-cart"></i></a>
+                                <a class="nav-item nav-link" href="{{ route('viewcart') }}"><i style="font-size: 20px;color: white;position relative" class="fas fa-shopping-cart"></i><b class="cart_value">{{CommonFunction::getCount('cart','user_id',Session::get('user_id'))}}</b></a>
                             </li>
                         @endif
                     </ul>

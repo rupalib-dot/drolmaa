@@ -20,7 +20,7 @@
             <div class="col-lg-6">  
                 <p>Name :- {{$order['full_name']}}</p>
                 <p>Company Name :- {{$order['company_name']}}</p>
-                <p>Mobile Number :- {{$order['mobile_number']}}</p>
+                <p>Mobile Number :- +91 {{$order['mobile_number']}}</p>
                 <p>Email Address :- {{$order['email_address']}}</p> 
                 <p>Gender :- {{array_search($order['user_gender'],config('constant.GENDER'))}}</p>  
                 <p>Pincode :- {{$order['pincode']}}</p> 

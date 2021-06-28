@@ -52,7 +52,7 @@
                                 </table>
                             </div>
                             <div class="paginationPara">
-                            {{$order->appends($request->all())->render()}}
+                            {{$order->appends($request->all())->render('vendor.pagination.custom')}}
                                 <!-- <ul class="pagination justify-content-center">
                                     <li class="page-serial"><a class="page-start" href="#"><button
                                                 class="page-next">Previouss</button>

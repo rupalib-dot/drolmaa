@@ -89,7 +89,7 @@ class BookingController extends Controller
                         return redirect()->back()->with('Failed', 'Something went wrong');
                     } 
                 }else{
-                    return redirect()->back()->with('Failed', 'This workshop has been already booked');
+                    return redirect()->back()->withInput($request->all())->with('Failed', 'You have alerady booked this workshop');
                 } 
             }
             catch (\Throwable $e) 

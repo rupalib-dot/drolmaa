@@ -60,7 +60,7 @@ class Feedback extends Authenticatable
                 if (isset($feedback_to) && !empty($feedback_to)) { 
                     $query->where('feedback_to',$feedback_to);                 
                 }  
-            })->get();
+            })->orderBy('feedback_id','desc')->paginate(15);
             $feedback_data['feedbackTo']   = Feedback::with('feedbackBy_users')
             ->Where(function($query) use ($module_id,$feedback_by,$feedback_to,$module_type) {
                 if (isset($apoinment_id) && !empty($module_id)) { 
@@ -73,9 +73,9 @@ class Feedback extends Authenticatable
                 if (isset($feedback_by) && !empty($feedback_by)) { 
                     $query->where('feedback_to',$feedback_by);                 
                 }  
-            })->orderBy('feedback_id','desc')->get();
+            })->orderBy('feedback_id','desc')->paginate(15);
         }else{
-            $feedback_data['feedbackBy']   = Feedback::with('feedbackBy_users')->where('feedback_to',$feedback_by)->orderBy('feedback_id','desc')->get();
+            $feedback_data['feedbackBy']   = Feedback::with('feedbackBy_users')->where('feedback_to',$feedback_by)->orderBy('feedback_id','desc')->paginate(15);
         }
         return $feedback_data;
     }

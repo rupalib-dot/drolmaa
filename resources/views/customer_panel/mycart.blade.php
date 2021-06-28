@@ -50,7 +50,7 @@
                                                         type="button">+</button>
                                                 </div>
                                             </td>
-                                            <td class="text-red py-0">{{number_format($getData->total_price, 2,'.',',')}}</td>
+                                            <td class="text-red py-0"><i class="fas fa-rupee-sign"></i>{{number_format($getData->total_price, 2,'.',',')}}</td>
                                             <td class="text-red py-0"><span class="view-icon" title="Delete"><a onclick="return confirm('Are you sure you want to delete this item?')" href="{{route('cartItem.delete',['id'=>$getData->cart_id,'delType'=>'single'])}}" style="cursor:pointer"><i class="far fa-trash-alt"></i></a></span></td>
                                         </tr>
                                     @endforeach
@@ -58,7 +58,7 @@
                                         <td> Grand Total</td>
                                         <td class="py-0"></td>
                                         <td class="py-0"></td>
-                                        <td class="text-red py-0">{{number_format($totalcartamount,2,'.',',')}}</td>
+                                        <td class="text-red py-0"><i class="fas fa-rupee-sign"></i>{{number_format($totalcartamount,2,'.',',')}}</td>
                                         <td class="py-0"></td>
                                     </tr>
                                 @else
@@ -91,7 +91,7 @@
                                     <td class="mb-0">
                                     Total Price
                                     </td>
-                                    <td class="text-red text-center">{{number_format($totalcartamount,2,'.',',')}}</td>
+                                    <td class="text-red text-center"><i class="fas fa-rupee-sign"></i>{{number_format($totalcartamount,2,'.',',')}}</td>
                                 </tr>
                                 <tr>
                                     <td class="mb-0">
@@ -109,7 +109,7 @@
                                     <td class="mb-0">
                                 Total Amount
                                     </td>
-                                    <td class="text-red text-center">{{number_format($totalcartamount,2,'.',',')}}</td>
+                                    <td class="text-red text-center"><i class="fas fa-rupee-sign"></i>{{number_format($totalcartamount,2,'.',',')}}</td>
                                 </tr>
                             </tbody>
                         </table> 

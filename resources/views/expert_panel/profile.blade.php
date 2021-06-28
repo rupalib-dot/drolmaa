@@ -47,11 +47,20 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="input-group mb-4">
-                                            <input type="text" class="form-control" placeholder="Mobile Number"
-                                                aria-label="Mobile Number" aria-describedby="basic-addon1" name="mobile_number" value="{{old('mobile_number', $record_data->mobile_number)}}">
-                                        </div>
-                                    </div>
+                                        <div class="row">
+                                            <div class="col-lg-3" style="padding-right:0px">
+                                                <div class="input-group mb-4">
+                                                    <input type="text" class="form-control" aria-label="Country Code" aria-describedby="basic-addon1" name="country_code" value="+91" ReadOnly>
+                                                </div> 
+                                            </div>
+                                            <div class="col-lg-9" style="padding-left:0px">  
+                                                <div class="input-group mb-4">
+                                                    <input type="text" class="form-control" placeholder="Mobile Number"
+                                                    aria-label="Mobile Number" aria-describedby="basic-addon1" name="mobile_number" value="{{old('mobile_number', $record_data->mobile_number)}}">
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div> 
                                     <div class="col-md-6">
                                         <div class="input-group mb-4">
                                             <select class="form-control" class="form-control country_id" id="exampleFormControlSelect1" name="country_id" onchange="state_list(this.value)">

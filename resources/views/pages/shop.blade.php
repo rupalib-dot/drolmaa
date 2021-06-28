@@ -80,15 +80,15 @@
                                     <div class="product-box" >
                                         <?php $image_name = CommonFunction::GetSingleField('product_images','image_name','product_id',$prod->product_id);
                                         $favExist = CommonFunction::GetMultiWhereData('favourate','product_id',$prod->product_id,'user_id',Session::get('user_id'))?>
-                                        <img style="height: 00px;min-height: 160px;    width: 100%;max-width: 100% !important;position: relative;" src="<?php if(!empty($image_name)){?>{{asset('products/'.$image_name)}}<?php }else{?>{{asset('front_end/images/blogimg.jpg')}}<?php }?>" alt="" class="img-fluid m-icos">
+                                        <img style="height: 00px;min-height: 160px;width: 100%;max-width: 100% !important;position: relative;" src="<?php if(!empty($image_name)){?>{{asset('products/'.$image_name)}}<?php }else{?>{{asset('front_end/images/blogimg.jpg')}}<?php }?>" alt="" class="img-fluid m-icos">
                                         <div class="overlay"></div> 
                                         <div class="wis-lis"> 
-                                            @if(!empty($favExist))
-                                                <i onclick="addTofavourat('{{$prod->product_id}}','{{Session::get('user_id')}}')" style="color:#952A16;font-size: 30px;" class="fas fa-heart"></i>
-                                            @else
-                                                <img onclick="addTofavourat('{{$prod->product_id}}','{{Session::get('user_id')}}')" src="{{asset('front_end/images/like.png')}}" alt="" class=" img-fluid like-img">
-                                            @endif
                                             @if(Session::get('role_id') == 3)
+                                                @if(!empty($favExist))
+                                                    <i onclick="addTofavourat('{{$prod->product_id}}','{{Session::get('user_id')}}')" style="color:#952A16;font-size: 30px;" class="fas fa-heart"></i>
+                                                @else
+                                                    <img onclick="addTofavourat('{{$prod->product_id}}','{{Session::get('user_id')}}')" src="{{asset('front_end/images/like.png')}}" alt="" class=" img-fluid like-img">
+                                                @endif 
                                                 <img src="{{asset('front_end/images/shopping-cart.png')}}" alt="" onclick="addToCart('{{$prod->product_id}}','{{Session::get('user_id')}}')" class=" img-fluid like-img"> 
                                             @endif
                                             <a href="{{route('page.shopDetail',$prod->product_id)}}"><img src="{{asset('front_end/images/view.png')}}" alt="" class=" img-fluid like-img"> </a>

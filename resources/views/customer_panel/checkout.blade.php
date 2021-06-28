@@ -87,9 +87,18 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <div class="form-group"> 
-                                        <input type="text" class="form-control" placeholder="Mobile Number *"
-                                            aria-label="Mobile Number" aria-describedby="basic-addon1" name="mobile_number" value="{{old('mobile_number',!empty($session) ? $session['mobile_number']:'',!empty($user) ? $user['mobile_number'] : '')}}">
+                                    <div class="row">
+                                        <div class="col-lg-2" style="padding-right:0px">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" aria-label="Country Code" aria-describedby="basic-addon1" name="country_code" value="+91" ReadOnly>
+                                            </div> 
+                                        </div>
+                                        <div class="col-lg-10" style="padding-left:0px">  
+                                            <div class="form-group"> 
+                                                <input type="text" class="form-control" placeholder="Mobile Number *"
+                                                    aria-label="Mobile Number" aria-describedby="basic-addon1" name="mobile_number" value="{{old('mobile_number',!empty($session) ? $session['mobile_number']:'',!empty($user) ? $user['mobile_number'] : '')}}">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
