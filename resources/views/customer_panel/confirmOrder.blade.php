@@ -51,13 +51,14 @@ p{
                         <p>Payment Mode:- {{array_search($order['payment_type'],config('constant.PAYMENT_MODE'))}}</p>
                         <p>Order Status:- {{array_search($order['order_status'],config('constant.STATUS'))}}</p>
                     </div> 
-                    
+                     
+                        
                     <form action="{{route('order.payment')}}" method="POST">
                         @csrf  
-                        <script  
+                        <script src="https://checkout.razorpay.com/v1/checkout.js"
                                 data-key="{{ env('RAZORPAY_KEY') }}"
                                 data-amount="{{round($order['grand_total'],2)}}00"
-                                data-buttontext="Pay {{round($order['grand_total'],2)}} INR"
+                                data-buttontext="Pay {{number_format($order['grand_total'],2,'.',',')}} INR"
                                 data-name="i4consulting.org"
                                 data-description="Rozerpay"
                                 data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png"

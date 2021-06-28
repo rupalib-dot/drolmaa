@@ -78,7 +78,7 @@ class ProductController extends Controller
             'mrp' 	          => 'required|numeric',
             'expiry_date' 	  => 'required', 
             'category' 	  => 'required',
-            'images'    => 'nullable|mimes:jpg,JPEG,jpeg,PNG,png,JPG|max:5120',
+            'images'    => 'nullable|max:5120',
         ], $error_message);
 
         
@@ -198,7 +198,7 @@ class ProductController extends Controller
             'quantity' 	      => 'required|numeric', 
             'mrp' 	          => 'required|numeric',
             'expiry_date' 	  => 'required', 
-            'images'    => 'nullable|mimes:jpg,JPEG,jpeg,PNG,png,JPG|max:5120',
+            'images'    => 'nullable|max:5120',
         ], $error_message);
 
         

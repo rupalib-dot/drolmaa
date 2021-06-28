@@ -90,8 +90,7 @@ function expert_list(designation_id, expert_id_hidden = '')
 }
 
 function workshop_details(module_id) 
-{ 
-    $('#loadingBox').removeClass('d-none');
+{  
     $.ajax({
         url:"{{route('workshop.detail.ajax')}}",
         type: "POST",
@@ -101,29 +100,56 @@ function workshop_details(module_id)
         },
         dataType : 'json',
         success: function (response) { 
-            console.log(response);   
-                $('#title').text(response.title);
-                $('#designation').text(response.designation);
-                $('#expert').text(response.expert);
-                $('#price').text(response.price);
-                $('#date').text(response.date);
-                $('#time').text(response.time);
-                $('#module_id').val(response.module_id);
-                $('#module_type').val(response.module_type); 
-                $('#payment').attr('action',response.action);  
+            if(response.success == true){ 
+                $('#title').text(response.message.title);
+                $('#designation').text(response.message.designation);
+                $('#expert').text(response.message.expert);
+                $('#price').text(response.message.price);
+                $('#date').text(response.message.date);
+                $('#time').text(response.message.time);
+                $('#module_id').val(response.message.module_id);
+                $('#module_type').val(response.message.module_type); 
+                $('#payment').attr('action',response.message.action);  
                 $('.paymentWidget').attr('src',"https://checkout.razorpay.com/v1/checkout.js");
-                $('.paymentWidget').attr('data-amount',response.amount);
-                $('.paymentWidget').attr('data-buttontext',response.buttonText);  
+                $('.paymentWidget').attr('data-amount',response.message.amount);
+                $('.paymentWidget').attr('data-buttontext',response.message.buttonText);  
                 $('.paymentWidget').attr('data-key',"{{env('RAZORPAY_KEY')}}");
                 $('.paymentWidget').attr('data-name',"i4consulting.org");
                 $('.paymentWidget').attr('data-description',"Rozerpay" ); 
                 $('.paymentWidget').attr('data-image',"https://www.itsolutionstuff.com/frontTheme/images/logo.png"); 
                 $('.paymentWidget').attr('data-theme.color',"#ff7529" );
-                $('.razorpay-payment-button').val(response.buttonText); 
+                $('.razorpay-payment-button').val(response.message.buttonText); 
                
                 $('.workshop_detail').show();
-            // $('.workshop_detail').html(response); 
-            $('#loadingBox').addClass('d-none');
+                // $('.workshop_detail').html(response); 
+            }else if(response.success == false){  
+                $('#title').text("");
+                $('#designation').text("");
+                $('#expert').text("");
+                $('#price').text("");
+                $('#date').text("");
+                $('#time').text("");
+                $('#module_id').val("");
+                $('#module_type').val(""); 
+                $('#payment').attr('action',"");  
+                $('.paymentWidget').attr('src',"https://checkout.razorpay.com/v1/checkout.js");
+                $('.paymentWidget').attr('data-amount',"");
+                $('.paymentWidget').attr('data-buttontext',"");  
+                $('.paymentWidget').attr('data-key',"{{env('RAZORPAY_KEY')}}");
+                $('.paymentWidget').attr('data-name',"i4consulting.org");
+                $('.paymentWidget').attr('data-description',"Rozerpay" ); 
+                $('.paymentWidget').attr('data-image',"https://www.itsolutionstuff.com/frontTheme/images/logo.png"); 
+                $('.paymentWidget').attr('data-theme.color',"#ff7529" );
+                $('.razorpay-payment-button').val(""); 
+               
+                $('.workshop_detail').hide();
+                alert(response.message);
+              
+            }
+        },error: function(xhr,status,error){  
+            var err = eval("(" + xhr.responseText + ")");
+            console.log(err);
+            alert(err.message); 
         }
     });
 }

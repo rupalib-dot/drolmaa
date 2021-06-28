@@ -48,8 +48,8 @@ class AjaxController extends Controller
 
     public function get_workshop_detail(Request $request)
     {
-        $bookingExist = Bookings::where('user_id',Session::get('user_id'))->where('module_id',$request->module_id)->first();
-        if(empty($bookingExist)){ 
+        $bookingExist = Bookings::select('booking_id')->where('user_id',Session::get('user_id'))->where('module_id',$request->module_id)->first();
+        if(empty($bookingExist)){  
             $workshop_detail  = Workshop::select('workshop.*') 
             ->where('workshop.workshop_id',$request->module_id)
             ->where('workshop.deleted_at',NULL) 
@@ -68,12 +68,22 @@ class AjaxController extends Controller
                 'amount' => $workshop_detail->price.'00',
                 'buttonText' => 'Pay '.$workshop_detail->price.' INR',
             ); 
-            return response()->json($data);
+             
+            return Response()->json([
+               "success" => true,
+               "message" =>$data,
+           ]); 
+             
         } 
-        else{
-            return redirect()->back()->with('Failed', 'You have alerady booked this workshop');
+        else{  
+           return Response()->json([
+               "success" => false,
+               "message" => 'You have alerady booked this workshop',
+           ]); 
         }  
     }
+    
+    
     
     public function get_timeslot(Request $request)
     {

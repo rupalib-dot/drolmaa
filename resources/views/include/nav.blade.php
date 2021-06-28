@@ -76,7 +76,8 @@
                                 <a class="nav-item nav-link last" href="{{route('appointment.create')}}">Appointment</a>
                             </li>
                             <li class="nav-item"> 
-                                <a class="nav-item nav-link" href="{{ route('viewcart') }}"><i style="font-size: 20px;color: white;position relative" class="fas fa-shopping-cart"></i><b class="cart_value">{{CommonFunction::getCount('cart','user_id',Session::get('user_id'))}}</b></a>
+                                <?php $count = CommonFunction::getCount('cart','user_id',Session::get('user_id')); ?>
+                                <a class="nav-item nav-link" href="{{ route('viewcart') }}"><i style="font-size: 20px;color: white;position relative" class="fas fa-shopping-cart"></i><?php if($count > 0){ ?><b class="cart_value">{{$count}}</b> <?php } ?></a> 
                             </li>
                         @endif
                     </ul>
