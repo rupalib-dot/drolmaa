@@ -8,6 +8,8 @@ use App\Http\Controllers\ApiController\WrokshopController;
 use App\Http\Controllers\ApiController\BookingController;
 use App\Http\Controllers\ApiController\AppointmentController;
 use App\Http\Controllers\ApiController\OrderController;
+use App\Http\Controllers\ApiController\CategoryController;
+use App\Http\Controllers\ApiController\ProductController;
 use App\Http\Controllers\ApiController\CommonController;
 
 /*
@@ -37,24 +39,22 @@ Route::get('state/{country_id}', [LocationController::class, 'state_list']);
 Route::get('city/{state_id}', [LocationController::class, 'city_list']);
 
 // CUSTOMER REGISTER, UPDATE, PROFILE API
-Route::resource('customer', CustomerController::class)->only([
-    'store', 'show', 'update'
-]);
+Route::resource('customer', CustomerController::class)->only(['store', 'show', 'update']);
 
 // WORKSHOP API
-Route::resource('workshop', WrokshopController::class)->only([
-    'index'
-]);
+Route::resource('workshop', WrokshopController::class)->only(['index']);
+
+// CATEGORY API
+Route::resource('category', CategoryController::class)->only(['index']);
+
+// PRODUCT API
+Route::resource('product', ProductController::class)->only(['index']);
 
 // BOOKING API
-Route::resource('booking', BookingController::class)->only([
-    'index', 'store'
-]);
+Route::resource('booking', BookingController::class)->only(['index', 'store']);
 
 // ORDER API
-Route::resource('order', OrderController::class)->only([
-    'index', 'store'
-]);
+Route::resource('order', OrderController::class)->only(['index', 'store']);
 
 // FEEDBACK API
 Route::resource('feedback', CommonController::class)->only(['index','store']);

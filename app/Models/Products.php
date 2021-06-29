@@ -27,6 +27,10 @@ class Products extends Authenticatable
 
     protected $dates = [ 'deleted_at' ];
   
+    public function product_image()
+    {
+        return $this->hasOne('App\Models\ProductImages','product_id');
+    }
 
     public function product_list()
     { 
