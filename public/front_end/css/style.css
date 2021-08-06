@@ -805,15 +805,20 @@ section#clientLogIn {
     border: none;
     border-bottom: 1px solid var(--black1);
     border-radius: 0;
-    padding-left: 0;
+    padding-left: 5px;
     color: var(--black);
 }
-
+.sign-up {
+    text-align:center;
+}
+.sign-up a{
+    font-weight: 500;
+}
 a.forgotPasswrd {
-    float: right;
-    color: var(--red);
+    float: right ;
     text-decoration: none;
     font-size: 14px;
+    font-weight:bold;
 }
 
 button.login.btn {
@@ -1085,9 +1090,9 @@ align-items: center;
 .custom-file-container__image-preview {
     position: absolute;
     top: -33px;
-    right: 0;
-    height: 60px;
-    width: 60px;
+    left: 0;
+    height: 200px;
+    width: 200px;
     overflow: hidden;
     border-radius: 50%;
     opacity: 1;

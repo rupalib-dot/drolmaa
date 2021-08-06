@@ -92,9 +92,9 @@
                         <div class="plan-des">
 
                             <div class="plan-box"
-                                style="background-image:url({{asset('front_end/images/planimg1.png')}});">
+                                style="background-image:url({{asset('front_end/images/planimg1_1.png')}});">
                                 <h3><i class="fas fa-rupee-sign"></i> 2,100</h3>
-                                <p>6 Months (Basic plan)</p>
+                                <p>3 Months (Basic plan)</p>
                             </div>
                             <div class="plan-body">
                                 <ul>
@@ -107,22 +107,23 @@
                             <form action="{{ route('expert.fourth.step.post') }}" method="POST">
                                 @csrf
                                 <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                    data-key="{{ env('RAZORPAY_KEY') }}" data-amount="210000"
-                                    data-buttontext="Pay 2100 INR" data-name="i4consulting.org"
+                                    data-key="rzp_test_tazXyaYClLVzyb" data-amount="210000"
+                                    data-buttontext="Pay 2,100 INR" data-name="i4consulting.org"
                                     data-description="Rozerpay"
                                     data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png"
                                     data-prefill.name="{{$expert->full_name}}"
                                     data-prefill.email="{{$expert->email_address}}" data-theme.color="#ff7529">
                                 </script>
+                                <input type="hidden" value="3_basic" id="month" name="month">
                             </form>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="plan-des">
                             <div class="plan-box"
-                                style="background-image:url({{asset('front_end/images/planimg2.png')}});">
+                                style="background-image:url({{asset('front_end/images/planimg1_1.png')}});">
                                 <h3><i class="fas fa-rupee-sign"></i> 5,300</h3>
-                                <p>6 Months (Advance Plan)</p>
+                                <p>3 Months (Advance Plan)</p>
                             </div>
                             <div class="plan-body">
                                 <ul>
@@ -135,22 +136,23 @@
                             <form action="{{ route('expert.fourth.step.post') }}" method="POST">
                                 @csrf
                                 <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                    data-key="{{ env('RAZORPAY_KEY') }}" data-amount="530000"
-                                    data-buttontext="Pay 5300 INR" data-name="i4consulting.org"
+                                    data-key="rzp_test_tazXyaYClLVzyb" data-amount="530000"
+                                    data-buttontext="Pay 5,300 INR" data-name="i4consulting.org"
                                     data-description="Rozerpay"
                                     data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png"
                                     data-prefill.name="{{$expert->full_name}}"
                                     data-prefill.email="{{$expert->email_address}}" data-theme.color="#ff7529">
                                 </script>
+                                <input type="hidden" value="3_advance" id="month" name="month">
                             </form>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="plan-des">
                             <div class="plan-box"
-                                style="background-image:url({{asset('front_end/images/planimg2.png')}});">
+                                style="background-image:url({{asset('front_end/images/planimg1_1.png')}});">
                                 <h3><i class="fas fa-rupee-sign"></i> 1,500</h3>
-                                <p>6 Months (Subscription)</p>
+                                <p>3 Months (Subscription)</p>
                             </div>
                             <div class="plan-body">
                                 <ul>
@@ -163,13 +165,14 @@
                             <form action="{{ route('expert.fourth.step.post') }}" method="POST">
                                 @csrf
                                 <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                    data-key="{{ env('RAZORPAY_KEY') }}" data-amount="150000"
-                                    data-buttontext="Pay 1500 INR" data-name="i4consulting.org"
+                                    data-key="rzp_test_tazXyaYClLVzyb" data-amount="150000"
+                                    data-buttontext="Pay 1,500 INR" data-name="i4consulting.org"
                                     data-description="Rozerpay"
                                     data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png"
                                     data-prefill.name="{{$expert->full_name}}"
                                     data-prefill.email="{{$expert->email_address}}" data-theme.color="#ff7529">
                                 </script>
+                                <input type="hidden" value="3_subscription" id="month" name="month">
                             </form>
                         </div>
                     </div>
@@ -178,7 +181,7 @@
                     <div class="col-md-4">
                         <div class="plan-des">
                             <div class="plan-box"
-                                style="background-image:url({{asset('front_end/images/planimg1.png')}});">
+                                style="background-image:url({{asset('front_end/images/planimg1_1.png')}});">
                                 <h3><i class="fas fa-rupee-sign"></i> 1,900</h3>
                                 <p>6 Months (Basic plan)</p>
                             </div>
@@ -193,20 +196,21 @@
                             <form action="{{ route('expert.fourth.step.post') }}" method="POST">
                                 @csrf
                                 <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                    data-key="{{ env('RAZORPAY_KEY') }}" data-amount="190000"
-                                    data-buttontext="Pay 1900 INR" data-name="i4consulting.org"
+                                    data-key="rzp_test_tazXyaYClLVzyb" data-amount="190000"
+                                    data-buttontext="Pay 1,900 INR" data-name="i4consulting.org"
                                     data-description="Rozerpay"
                                     data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png"
                                     data-prefill.name="{{$expert->full_name}}"
                                     data-prefill.email="{{$expert->email_address}}" data-theme.color="#ff7529">
                                 </script>
+                                <input type="hidden" value="6_basic" id="month" name="month">
                             </form>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="plan-des">
                             <div class="plan-box"
-                                style="background-image:url({{asset('front_end/images/planimg2.png')}});">
+                                style="background-image:url({{asset('front_end/images/planimg1_1.png')}});">
                                 <h3><i class="fas fa-rupee-sign"></i> 5,000</h3>
                                 <p>6 Months (Advance Plan)</p>
                             </div>
@@ -221,14 +225,14 @@
                             <form action="{{ route('expert.fourth.step.post') }}" method="POST">
                                 @csrf
                                 <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                    data-key="{{ env('RAZORPAY_KEY') }}" data-amount="500000"
-                                    data-buttontext="Pay 5000 INR" data-name="i4consulting.org"
+                                    data-key="rzp_test_tazXyaYClLVzyb" data-amount="500000"
+                                    data-buttontext="Pay 5,000 INR" data-name="i4consulting.org"
                                     data-description="Rozerpay"
                                     data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png"
                                     data-prefill.name="{{$expert->full_name}}"
                                     data-prefill.email="{{$expert->email_address}}" data-theme.color="#ff7529">
                                 </script>
-                                <!-- <button type="submit">Pay Now</button> -->
+                                <input type="hidden" value="6_advance" id="month" name="month">
                             </form>
                         </div>
                     </div>
@@ -236,7 +240,7 @@
                     <div class="col-md-4">
                         <div class="plan-des">
                             <div class="plan-box"
-                                style="background-image:url({{asset('front_end/images/planimg2.png')}});">
+                                style="background-image:url({{asset('front_end/images/planimg1_1.png')}});">
                                 <h3><i class="fas fa-rupee-sign"></i> 1,300</h3>
                                 <p>6 Months (Subscription)</p>
                             </div>
@@ -251,13 +255,14 @@
                             <form action="{{ route('expert.fourth.step.post') }}" method="POST">
                                 @csrf
                                 <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                    data-key="{{ env('RAZORPAY_KEY') }}" data-amount="130000"
-                                    data-buttontext="Pay 1300 INR" data-name="i4consulting.org"
+                                    data-key="rzp_test_tazXyaYClLVzyb" data-amount="130000"
+                                    data-buttontext="Pay 1,300 INR" data-name="i4consulting.org"
                                     data-description="Rozerpay"
                                     data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png"
                                     data-prefill.name="{{$expert->full_name}}"
                                     data-prefill.email="{{$expert->email_address}}" data-theme.color="#ff7529">
                                 </script>
+                                <input type="hidden" value="6_subscription" id="month" name="month">
                             </form>
                         </div>
                     </div>
@@ -266,9 +271,9 @@
                     <div class="col-md-4">
                         <div class="plan-des">
                             <div class="plan-box"
-                                style="background-image:url({{asset('front_end/images/planimg1.png')}});">
+                                style="background-image:url({{asset('front_end/images/planimg1_1.png')}});">
                                 <h3><i class="fas fa-rupee-sign"></i> 1,100</h3>
-                                <p>6 Months (Basic plan)</p>
+                                <p>1 Year (Basic plan)</p>
                             </div>
                             <div class="plan-body">
                                 <ul>
@@ -281,22 +286,23 @@
                             <form action="{{ route('expert.fourth.step.post') }}" method="POST">
                                 @csrf
                                 <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                    data-key="{{ env('RAZORPAY_KEY') }}" data-amount="110000"
-                                    data-buttontext="Pay 1100 INR" data-name="i4consulting.org"
+                                    data-key="rzp_test_tazXyaYClLVzyb" data-amount="110000"
+                                    data-buttontext="Pay 1,100 INR" data-name="i4consulting.org"
                                     data-description="Rozerpay"
                                     data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png"
                                     data-prefill.name="{{$expert->full_name}}"
                                     data-prefill.email="{{$expert->email_address}}" data-theme.color="#ff7529">
                                 </script>
+                                <input type="hidden" value="12_basic" id="month" name="month">
                             </form>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="plan-des">
                             <div class="plan-box"
-                                style="background-image:url({{asset('front_end/images/planimg2.png')}});">
+                                style="background-image:url({{asset('front_end/images/planimg1_1.png')}});">
                                 <h3><i class="fas fa-rupee-sign"></i> 4,800</h3>
-                                <p>6 Months (Advance Plan)</p>
+                                <p>1 Year (Advance Plan)</p>
                             </div>
                             <div class="plan-body">
                                 <ul>
@@ -309,22 +315,23 @@
                             <form action="{{ route('expert.fourth.step.post') }}" method="POST">
                                 @csrf
                                 <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                    data-key="{{ env('RAZORPAY_KEY') }}" data-amount="480000"
-                                    data-buttontext="Pay 4800 INR" data-name="i4consulting.org"
+                                    data-key="rzp_test_tazXyaYClLVzyb" data-amount="480000"
+                                    data-buttontext="Pay 4,800 INR" data-name="i4consulting.org"
                                     data-description="Rozerpay"
                                     data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png"
                                     data-prefill.name="{{$expert->full_name}}"
                                     data-prefill.email="{{$expert->email_address}}" data-theme.color="#ff7529">
                                 </script>
+                                <input type="hidden" value="12_advance" id="month" name="month">
                             </form>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="plan-des">
                             <div class="plan-box"
-                                style="background-image:url({{asset('front_end/images/planimg2.png')}});">
+                                style="background-image:url({{asset('front_end/images/planimg1_1.png')}});">
                                 <h3><i class="fas fa-rupee-sign"></i>  1,250</h3>
-                                <p>6 Months (Subscription)</p>
+                                <p>1 Year (Subscription)</p>
                             </div>
                             <div class="plan-body">
                                 <ul>
@@ -337,13 +344,14 @@
                             <form action="{{ route('expert.fourth.step.post') }}" method="POST">
                                 @csrf
                                 <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                    data-key="{{ env('RAZORPAY_KEY') }}" data-amount="125000"
-                                    data-buttontext="Pay 1250 INR" data-name="i4consulting.org"
+                                    data-key="rzp_test_tazXyaYClLVzyb" data-amount="125000"
+                                    data-buttontext="Pay 1,250 INR" data-name="i4consulting.org"
                                     data-description="Rozerpay"
                                     data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png"
                                     data-prefill.name="{{$expert->full_name}}"
                                     data-prefill.email="{{$expert->email_address}}" data-theme.color="#ff7529">
                                 </script>
+                                <input type="hidden" value="12_subscription" id="month" name="month">
                             </form>
                         </div>
                     </div>

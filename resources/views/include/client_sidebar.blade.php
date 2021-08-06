@@ -1,4 +1,4 @@
-<div class="col-md-3 appoint-dash">
+<div class="col-md-2 appoint-dash">
     <div class="appoint-box">
         <h3>Customer Panel</h3>
     </div>
@@ -7,9 +7,15 @@
         <h4>{{Session::get('full_name')}}</h4>
     </div>
     <ul class="data-name">
+
+    <li class="data-sheet {{ Request::is('dashboard*') ? 'active' : '' }}">
+            <span class="icons"><img src="{{asset('front_end/images/lock.png')}}" alt=""></span><a
+                href="{{route('customer.dashboard')}}">Dashboard</a>
+        </li>
+
         <li class="sidebar-dropdown data-sheet {{ Request::is('profile/*/edit') ? 'active' : '' }}">
-            <span class="icons"><img src="{{asset('front_end/images/profile.png')}}" alt=""></span><a
-                href="{{url('profile')}}/{{Session::get('user_id')}}/edit">My Profile
+            <span class="icons"><img src="{{asset('front_end/images/profile.png')}}" alt=""></span>
+            <a href="{{url('profile')}}/{{Session::get('user_id')}}/edit">My Profile
             </a>
             <div class="sidebar-submenu">
                 <ul>
@@ -26,11 +32,28 @@
             </div>
 
         </li>
+        </li>
+        <li class="nav-item sidebar-dropdown data-sheet {{ Request::is('custransaction*') ? 'active' : '' }}" >
+            <span class="icons"><img src="{{asset('front_end/images/profile.png')}}" alt=""></span>
+           <a href="{{route('customer.transactions')}}"> Transactions</a>
+            <a  href="#submenu1" data-toggle="collapse" data-target="#submenu1"> <i class="fas fa-chevron-down"></i> </a>
+            
+            <ul class="list-unstyled flex-column pl-3 collapse" id="submenu1" aria-expanded="false">
+              <li class="nav-item" style="padding: 5px 0px;border: none;">
+              <a class="nav-link" href="{{route('custransaction.index',['type'=>'order'])}}" >Orders</a>
+            </li>
+              <li class="nav-item" style="padding: 0px 0px;border: none;">
+              <a class="nav-link"  href="{{route('custransaction.index',['type'=>'appointment'])}}">Appoinments</a>
+            </li>
+            <li class="nav-item" style="padding: 0px 0px;border: none;">
+              <a class="nav-link" href="{{route('custransaction.index',['type'=>'booking'])}}">Bookings</a>
+            </li>
+            </ul>
         
-
-        <li class="sidebar-dropdown data-sheet {{ Request::is('customer/custransaction*') ? 'active' : '' }}">
+<!-- 
+        <li class="sidebar-dropdown data-sheet {{ Request::is('custransaction*') ? 'active' : '' }}">
             <span class="icons"><img src="{{asset('front_end/images/profile.png')}}" alt=""></span><a
-                href="{{url('customer/custransaction*')}}">Transactions
+                href="#">Transactions
             </a>
             <div class="sidebar-submenu">
               <ul>
@@ -48,26 +71,26 @@
         </li>
 
         <li>
-                    <a href="{{route('custransaction.index',['type'=>'order'])}}">Orders</a>
-                </li>
-                <li>
-                    <a href="{{route('custransaction.index',['type'=>'appointment'])}}">Appoinments</a>
-                </li>
-                <li>
-                    <a href="{{route('custransaction.index',['type'=>'booking'])}}">Bookings</a>
-                </li>
+            <a href="{{route('custransaction.index',['type'=>'order'])}}">Orders</a>
+        </li>
+        <li>
+            <a href="{{route('custransaction.index',['type'=>'appointment'])}}">Appoinments</a>
+        </li>
+        <li>
+            <a href="{{route('custransaction.index',['type'=>'booking'])}}">Bookings</a>
+        </li> -->
                 
         <li class="data-sheet {{ Request::is('appointment*') ? 'active' : '' }}">
             <span class="icons"><img src="{{asset('front_end/images/calender.png')}}" alt=""></span><a
                 href="{{route('appointment.index')}}">My Appointments</a>
         </li>
         <li class="data-sheet {{ Request::is('orders*') ? 'active' : '' }}">
-            <span class="icons"><img src="{{asset('front_end/images/orderimg.png')}}" alt=""></span><a
-                href="{{route('customer.order')}}">My Orders</a>
+            <span class="icons"><img src="{{asset('front_end/images/orderimg.png')}}" alt=""></span>
+            <a href="{{route('customer.order')}}">My Orders</a>
         </li>
         <li class="data-sheet {{ Request::is('bookings*') ? 'active' : '' }}">
-            <span class="icons"><img src="{{asset('front_end/images/booking.png')}}" alt=""></span><a
-                href="{{route('bookings.index')}}">My Bookings</a>
+            <span class="icons"><img src="{{asset('front_end/images/booking.png')}}" alt=""></span>
+            <a href="{{route('bookings.index')}}">My Bookings</a>
         </li>
         <li class="data-sheet {{ Request::is('feedbacks*') ? 'active' : '' }}">
             <span class="icons"><img src="{{asset('front_end/images/feedback.png')}}" alt=""></span><a
@@ -77,13 +100,13 @@
             <span class="icons"><img src="{{asset('front_end/images/feedback.png')}}" alt=""></span><a
                 href="{{route('customer.myWishlist')}}">My Wishlist</a>
         </li>
-        <li class="data-sheet {{ Request::is('change-password*') ? 'active' : '' }}">
+        <!-- <li class="data-sheet {{ Request::is('change-password*') ? 'active' : '' }}">
             <span class="icons"><img src="{{asset('front_end/images/lock.png')}}" alt=""></span><a
                 href="{{route('customer.change-password')}}">Change Password</a>
-        </li>
+        </li> -->
         <li>
-            <span class="icons"><img src="{{asset('front_end/images/logout.png')}}" alt=""></span><a
-                onclick="openLogout()">LogOut</a>
+            <span class="icons"><img src="{{asset('front_end/images/logout.png')}}" alt=""></span>
+            <a onclick="openLogout()">LogOut</a>
         </li>
     </ul>
 

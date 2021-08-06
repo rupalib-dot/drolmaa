@@ -25,6 +25,13 @@ class CustomerTransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function transactionIndex(Request $request){
+        $title = "transactions";
+        $data   = compact('title','request');
+        return view('customer_panel.transactions', $data);
+    }
+
     public function index(Request $request,$type)
     { 
         $title  = $type." transactions";  

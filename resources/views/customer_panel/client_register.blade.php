@@ -29,9 +29,9 @@
                         <h4>Welcome to</h4>
                         <h3>DrolMaa Constellation Club</h3>
                         <div class="d-flex justify-content-between">
-                            <p class="clientP">Client Register</p>
+                            <p class="clientP">User Register</p>
                             <p class="right">
-                                Are you a Expert? <span class=regi-link><a href="{{url('expert_personal_details')}}" class="forgotPasswrd">Register Here</a></span>
+                                Are you a Expert? <span style="background: var(--red);" class="regi-link login1 btn"><a href="{{url('expert_personal_details')}}" class="text-white forgotPasswrd">Register Here</a></span>
                             </p>
                         </div>
                     </div>
@@ -63,10 +63,11 @@
                             <div class="col-md-6">
                                 <div class="input-group mb-4">
                                     <select class="form-control" class="form-control country_id" id="exampleFormControlSelect1" name="country_id" onchange="state_list(this.value)">
-                                        <option value="">Select Country</option>
-                                        @foreach($country_list as $con_list)
-                                            <option {{ old('country_id') == $con_list->country_id ? 'selected' : ''}} value="{{$con_list->country_id}}">{{$con_list->country_name}}</option>
-                                        @endforeach
+                                        <!-- <option value="">Select Country</option> -->
+                                        <!-- @foreach($country_list as $con_list)
+                                            <option {{ old('country_id',101) == $con_list->country_id ? 'selected' : ''}} value="{{$con_list->country_id}}">{{$con_list->country_name}}</option>
+                                        @endforeach -->
+                                        <option {{ old('country_id',101) == 101 ? 'selected' : ''}} value="101">India</option>
                                     </select>
                                 </div>
                             </div>
@@ -130,15 +131,15 @@
                         <div class="d-flex justify-content-between">
                             <div class="form-check list-regular">
                                 <input class="form-check-input" type="checkbox" value="1" id="flexCheckChecked4" name="nTerms">
-                                <label class="form-check-label" for="flexCheckChecked4">
-                                    I Accept terms and conditions &
-                                    privacy policy
+                                <label style="padding-top:3px;" class="form-check-label" for="flexCheckChecked4">
+                                    I Accept <a target="_blank" href="{{route('terms')}}" class="text-dark"> Terms</a> & 
+                                    <a target="_blank"  href="{{route('privacy')}}" class="text-dark">Privacy Policy</a>
                                 </label>
                             </div>
-                            <p class="right">
-                                By signing up, I agree to <span class=regi-link><a href="#" class="terms">terms
-                                    </a></span>
-                            </p>
+                            <!--<p class="right">-->
+                            <!--    By signing up, I agree to <span class=regi-link><a href="#" class="terms">terms-->
+                            <!--        </a></span>-->
+                            <!--</p>-->
                         </div>
                         <button class="login1 btn">Send OTP
                         </button>

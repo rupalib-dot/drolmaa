@@ -1,16 +1,16 @@
 @include('include.header')
 @include('include.nav')
-    
+ 
     <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container">
-        <div class="row">
+    <div class="container-fluid">
+        <div class="">
             <div class="col-sm-12">
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.expert_sidebar')
-                        <div class="col-md-9">
+                        <div class="col-md-10">
                             <div class="dashboard-panel">
-                                <h3 class="order-content">{{ucwords($type)}} Transaction Listing</h3>
+                                <h3 class="order-content">{{ucwords($type)}} Transaction Listings</h3>
                                 <table class="table table-bordered appoint-table">
                                     <thead>  
                                         <tr>
@@ -38,13 +38,22 @@
                                 <table class="table table-bordered appoint-table">
                                     <thead>  
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Date</th>
-                                            <th>Payment Id</th>
-                                            <th>Amount</th> 
+                                            <th>ID</th>  
                                             <?php if($type == 'appointment'){ ?> 
-                                                    <th>Refund Id</th>
-                                                    <th>Refund Amount</th>    
+                                                <th>Date</th>
+                                                <th>Appointment No</th>
+                                                <th>Appoinment Date</th>
+                                                <th>Payment Id</th>
+                                                <th>Amount</th> 
+                                                <th>Refund Id</th>
+                                                <th>Refund Amount</th>    
+                                            <?php } if($type == 'registration'){ ?>
+                                                <th>Payment Id</th>
+                                                <th style="width: 15%;">Amount</th> 
+                                                <th>Start Date</th> 
+                                                <th>End Date</th> 
+                                                <th>Month</th>  
+                                                <th>Plan Detail</th>  
                                             <?php } ?>
                                         </tr>
                                     </thead>
@@ -53,12 +62,16 @@
                                             @php $i=1; @endphp 
                                             @foreach($transactions as $aGetData)  
                                                 <tr> 
-                                                    <?php if($type == 'registration'){ ?>
-                                                        <td>{{$i}}</td>
-                                                        <td>{{date('d M, Y',strtotime($aGetData->created_at))}}</td>
+                                                    <td>{{$i}}</td>
+                                                    <?php if($type == 'registration'){ ?> 
                                                         <td>{{$aGetData->payment_id}}</td>
                                                         <td><i class="fas fa-rupee-sign"></i> {{number_format($aGetData->register_amount,2,'.',',')}}</td>
+                                                        <td>{{date('d M, Y',strtotime($aGetData->start_date))}}</td>
+                                                        <td>{{date('d M, Y',strtotime($aGetData->end_date))}}</td>
+                                                        <td>{{$aGetData->month}} Month</td>
+                                                        <td>{{ucwords($aGetData->plan_detail)}}</td>
                                                     <?php }else if($type == 'appointment'){  ?>
+                                                        <td>{{date('d M, Y',strtotime($aGetData->created_at))}}</td>
                                                         <td>{{$aGetData->appoinment_no}}</td>
                                                         <td>{{date('d M, Y',strtotime($aGetData->date))}}</td>
                                                         <td>{{$aGetData->payment_id}}</td> 

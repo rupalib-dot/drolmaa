@@ -1,17 +1,76 @@
 @include('include.header')
 @include('include.nav')
+<style> 
+.razorpay-payment-button{
+    color: #fff;
+    background-color: #d87611;
+    border-color: #d87611;  
+    font-weight: 400; 
+    text-align: center;
+    vertical-align: middle; 
+    user-select: none; 
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem; 
+}
+</style>
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
+    <div class="container-fluid">
+        <div class="">
+            <div class="col-md-12">
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.expert_sidebar')
-                        <div class="col-md-9">
+                        <div class="col-md-10">
                             <div class="profile-form">
                                 @include('include.validation_message')
                                 @include('include.auth_message')
                                 <h3 class="order-content">My Profile</h3>
+                                <div style="border: 1px #952a16 solid; padding: 15px 15px 15px 15px; color: white; background: #952a16;">
+                                    <?php if(!empty($subscription_data)){?>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <p> Subscriptions Plan Details </p>
+                                            </div>
+                                            <?php $olddate=strtotime($subscription_data->end_date); $curdate=strtotime(date('Y-m-d'));
+                                                if($olddate < $curdate) {?>
+                                                    <div class="col-lg-6" style="display: flex;">
+                                                        <form action="{{ route('expert.subscribe.post') }}" method="POST">
+                                                            @csrf
+                                                            <script src="https://checkout.razorpay.com/v1/checkout.js"
+                                                                data-key="rzp_test_tazXyaYClLVzyb" data-amount="{{$subscription_data->register_amount}}00"
+                                                                data-buttontext="Subscribe Plan" data-name="i4consulting.org"
+                                                                data-description="Rozerpay"
+                                                                data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png"
+                                                                data-prefill.name="{{$record_data->full_name}}"
+                                                                data-prefill.email="{{$record_data->email_address}}" data-theme.color="#ff7529">
+                                                            </script>
+                                                            <input type="hidden" value="{{$subscription_data->month .'_'.$subscription_data->plan_detail}}" id="month" name="month">
+                                                            <input type="hidden" value="{{$record_data->user_id}}" id="user_id" name="user_id">
+                                                        </form> 
+                                                        <a style="margin-left: 10px;" href="{{route('page.pricing',['update_plan'=>'update'])}}"><button style="background-color: #e80808;border-color: #e80808;" class="btn btn-info" type="button">Upgrade Plan</button></a>
+                                                    </div>
+                                                <?php } ?>  
+                                        </div>
+                                        <div class="row" <?php $olddate=strtotime($subscription_data->end_date); $curdate=strtotime(date('Y-m-d'));
+                                            if($olddate < $curdate) {?> style="margin-top: 20px;" <?php } ?>>
+                                            <div class="col-lg-6">
+                                                <p> Plan Status:- 
+                                                    <?php $olddate=strtotime($subscription_data->end_date); $curdate=strtotime(date('Y-m-d'));  if($olddate < $curdate) { echo 'Expired Plan'; }else if($olddate >= $curdate) { echo 'Active Plan'; } ?>
+                                                </p>
+                                                <p>Amount:- <i class="fas fa-rupee-sign"></i> {{$subscription_data->register_amount}}</p>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <p>Time:- {{$subscription_data->month}} Month {{$subscription_data->plan_detail}}</p>
+                                                <p>Date:- From  {{date('d M,Y', strtotime($subscription_data->start_date))}}  To  {{date('d M,Y', strtotime($subscription_data->end_date))}}</p> 
+                                            </div>
+                                        </div> 
+                                    <?php } else{?>
+                                        <a style="margin-left: 10px; margin-bottom:10px;" href="{{route('page.pricing',['update_plan'=>'update'])}}"><button style="background-color: #e80808;border-color: #e80808;" class="btn btn-info" type="button">Upgrade Plan</button></a>
+                                    <?php } ?>
+                                </div>
                             <form action="{{url('expert/profile')}}/{{$record_data->user_id}}" class="formLogIn" method="POST">
                                 @csrf
                                 @method('PUT')
@@ -64,10 +123,11 @@
                                     <div class="col-md-6">
                                         <div class="input-group mb-4">
                                             <select class="form-control" class="form-control country_id" id="exampleFormControlSelect1" name="country_id" onchange="state_list(this.value)">
-                                                <option value="">Select Country</option>
+                                                <!-- <option value="">Select Country</option>
                                                 @foreach($country_list as $con_list)
                                                     <option {{ old('country_id', $record_data->country_id) == $con_list->country_id ? 'selected' : ''}} value="{{$con_list->country_id}}">{{$con_list->country_name}}</option>
-                                                @endforeach
+                                                @endforeach -->
+                                                <option {{ old('country_id', $record_data->country_id) == 101 ? 'selected' : ''}} value="101">India</option> 
                                             </select>
                                         </div>
                                     </div>
@@ -95,7 +155,75 @@
                                     </div>
                             </form>
                         </div>
+                        
+
+
+
                     </div>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+  Change Password
+</button>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title order-content" id="exampleModalLabel">{{$title}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <div class="">
+                              
+                             
+                              <p class="fnt">Your new password must be different from previous used password.</p>
+                              <form action="{{route('change-password-submit')}}" method="POST" class="formLogIn">
+                                  @csrf 
+                                      
+                                  <div class="row">
+                                      <div class="col-md-11 mb-5">
+                                          <div class="input-group mb-4">
+                                              <input type="password" maxlength="16" value="{{old('CurrentPass')}}" name="CurrentPass"  id="login_password"  required class="form-control"
+                                                  placeholder="Old Password" aria-label="Name"
+                                                  aria-describedby="basic-addon1"> 
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="ShowPass('login_password')" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                          </div>
+                                          <!-- <div class="col-md-4"></div> -->
+                                      </div>
+                                      <div class="col-md-11 mb-5">
+                                          <div class="input-group mb-4">
+                                              <input type="password" maxlength="16" name="NewPass" id="new_password" value="{{old('NewPass')}}"  required class="form-control"
+                                                  placeholder="New Password" aria-label="Name"
+                                                  aria-describedby="basic-addon1">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="ShowPass('new_password')" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                          </div>
+                                          <!-- <div class="col-md-4"></div> -->
+                                      </div>
+                                      <div class="col-md-11">
+                                          <div class="input-group mb-4">
+                                              <input type="password" maxlength="16" name="ConfirmPass" id="confirm_password" value="{{old('ConfirmPass')}}" required class="form-control"
+                                                  placeholder="Confirm Password" aria-label="Name"
+                                                  aria-describedby="basic-addon1">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="ShowPass('confirm_password')" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                          </div>
+                                          <!-- <div class="col-md-4"></div> -->
+                                      </div>
+                                      <div class="col-md-12">
+                                          <div class="input-group mb-4">
+                                              <button class="login1 btn" type="submit" name="submit">Submit</button>
+                                          </div>
+                                      </div>
+                                      </form>
+                          </div> 
+      </div>
+      
+    </div>
+  </div>
+</div>
                 </div>
             </div>
         </div>

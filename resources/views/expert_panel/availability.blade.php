@@ -1,13 +1,13 @@
 @include('include.header')
 @include('include.nav')
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container">
-        <div class="row">
+    <div class="container-fluid">
+        <div class="">
             <div class="col-sm-12">
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.expert_sidebar')
-                        <div class="col-md-9">
+                        <div class="col-md-10">
                             <div class="dashboard-panel">
                                 <h3>Set your availability</h3>
                                 <p class="schedule-choose">Choose a schedule below to edit or create a new one that you

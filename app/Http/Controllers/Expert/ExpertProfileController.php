@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Country;
+use App\Models\Subscription;
+use Razorpay\Api\Api;
 use Session;
 
 class ExpertProfileController extends Controller
@@ -18,6 +20,13 @@ class ExpertProfileController extends Controller
     public function index()
     {
         //
+    }
+
+    public function dashboard()
+    {
+        $title          = "Dashboard";
+        $data           = compact('title');
+        return view('expert_panel.dashboard', $data);
     }
 
     /**
@@ -61,9 +70,10 @@ class ExpertProfileController extends Controller
     public function edit($user_id)
     {
         $record_data    = User::findOrfail($user_id);
-        $country_list   = Country::OrderBy('country_name')->get();
-        $title          = "Profile";
-        $data           = compact('title','record_data','country_list');
+        $subscription_data    = Subscription::where('user_id',$user_id)->orderBy('subscription_id','desc')->first();
+        $country_list         = Country::OrderBy('country_name')->get();
+        $title                = "Profile";
+        $data                 = compact('title','record_data','country_list','subscription_data');
         return view('expert_panel.profile', $data);
     }
 
@@ -134,4 +144,54 @@ class ExpertProfileController extends Controller
         return view('expert_panel.change-password', $data);
     }
 
+    public function subscribe(Request $request)
+    { 
+        $input = $request->all();
+        $month      =   explode('_',$input['month']);
+        $subPeriod  =   $month[0];
+        $subType    =   $month[1];
+        $today = date("Y-m-d");
+        $date = date('Y-m-d', strtotime('+'.$subPeriod.' month', strtotime($today)));
+
+
+        $api = new Api("rzp_test_tazXyaYClLVzyb", "QcFkC78PT0dkVGsPO8FWVMNB");
+  
+        $payment = $api->payment->fetch($input['razorpay_payment_id']);
+  
+        if(count($input)  && !empty($request['razorpay_payment_id'])) 
+        {
+            try{
+                $response   = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount'])); 
+                  
+                //expert subscription entry
+                $detail_update = array(
+                    'payment_id' =>$request['razorpay_payment_id'], 
+                    'register_amount' =>substr(round($payment['amount'], 2) , 0, -2),
+                    'updated_at'=>  date("Y-m-d H:i:s"),
+                ); 
+                User::where('user_id',$input['user_id'])->update($detail_update);
+
+                //expert subscription entry
+                $detail = array(
+                    'payment_id' =>$request['razorpay_payment_id'],
+                    'month' => $subPeriod,
+                    'plan_detail' =>  $subType,
+                    'register_amount' =>substr(round($payment['amount'], 2) , 0, -2),
+                    'user_id' => $input['user_id'],
+                    'start_date'=>$today,
+                    'end_date' => $date,
+                    'payment_mode'=>config('constant.PAYMENT_MODE.ONLINE'),
+                    'created_at'=>  date("Y-m-d H:i:s"),
+                    'updated_at'=>  date("Y-m-d H:i:s"),
+                );
+                Subscription::create($detail);
+ 
+                return redirect()->back()->with('Success', 'Your '.$month,' month subscription plan has renewed successfully');
+            } 
+            catch (\Throwable $e) 
+            {
+                return redirect()->back()->with('Failed',$e->getMessage());
+            }
+        }
+    }
 }

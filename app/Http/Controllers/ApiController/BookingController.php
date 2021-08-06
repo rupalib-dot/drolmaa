@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers\ApiController;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-
-use Validator;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController\BaseController as BaseController;
+use Illuminate\Http\Request; 
+use Validator;
 use App\Models\Bookings;
-use App\Http\Resources\Booking as BookingArtical;
-use Hash;
-use DB;
+use App\Http\Resources\Booking;
+use App\Models\User;
+use DateTime;
+use CommonFunction;
 
 class BookingController extends BaseController
 {
-	public function __construct() 
+    public function __construct() 
 	{
-		//header("Content-Type: application/json");
+        $this->User = new User;
+
+        //header("Content-Type: application/json");
 		$valid_passwords = array ("drolmaa" => "026866326a9d1d2b23226e4e5317569f");
 		$valid_users = array_keys($valid_passwords);
 
@@ -35,89 +37,140 @@ class BookingController extends BaseController
 		  echo json_encode($re, JSON_PRETTY_PRINT);
 		  die;
 		}
+		
 	}
-	
-	public function index(Request $request)
-	{
-        $error_message = 	[
-			'user_id.required'       => 'User id should be required',
-		];
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request,$user_id)
+    { 
+        $updata = array();
+        $predata = array();
+        $todaydate = date('Y-m-d');
 
-        $validatedData = [
-			'user_id' 	        => 'required',
-		];
+        $upcomingdata    = Bookings::select('bookings.*','workshop.date','workshop.start_date')
+        ->join('workshop','workshop.workshop_id','=','bookings.module_id') 
+        ->where('user_id',$user_id) 
+        ->Where(function($query) use($todaydate) {
+            $query->where('start_date','>',$todaydate);
+            $query->orWhere('date','>',$todaydate);       
+        })
+        ->orderBy('booking_id','desc')
+        ->get(); 
+        $previousdata    = Bookings::select('bookings.*','workshop.date','workshop.start_date')
+        ->join('workshop','workshop.workshop_id','=','bookings.module_id') 
+        ->where('user_id',$user_id) 
+        ->where('date','<', $todaydate) 
+        ->orderBy('booking_id','desc')
+        ->get();  
 
-		$validator = Validator::make($request->all(), $validatedData, $error_message);
-   
-        if($validator->fails()){
-            return $this->sendFailed($validator->errors()->all(), 200);       
-        }
-		try
-		{
-			$booking_data = Bookings::where('user_id',$request->user_id)->OrderBy('created_at','DESC')->get();
-			if(count($booking_data) > 0)
-			{
-				$workshop_data = BookingArtical::collection($booking_data);
-				return $this->sendSuccess($workshop_data, 'Bookings listed successfully');
-			}
-			else
-			{
-				return $this->sendFailed('Workshop not found',200);  
-			}
-		}
-		catch (\Throwable $e)
-    	{
-    		return $this->sendFailed($e->getMessage().' on line '.$e->getLine(), 400);  
-    	}
+        if(count($upcomingdata) > 0 || count($previousdata) > 0){
+            $bookingData['upcomming'] = Booking::collection($upcomingdata);
+            $bookingData['previous'] = Booking::collection($previousdata); 
+            return $this->sendSuccess($bookingData, 'bookings listed successfully'); 
+        }else{
+            return $this->sendFailed('No record found', 200); 
+        } 
+    }
 
-	}
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
-        $error_message = 	[
-			'user_id.required'       => 'User id should be required',
-			'booking_no.required'    => 'Booking number should be required',
-			'module_id.required'     => 'Workshop should be required',
-			'payment_id.required'    => 'Payment id should be required',
-		];
+        $validator = Validator::make($request->all(),[ 
+            'workshop_id' 	        => 'required', 
+            'user_id' 	        => 'required', 		 
+        ],[
+            'workshop_id.required'         => 'Workshop Id should be required', 
+            'user_id.required'         => 'User Id should be required', 
+		]); 
 
-        $validatedData = [
-			'user_id' 	        => 'required',
-			'booking_no' 	    => 'required',
-			'module_id' 	    => 'required',
-			'payment_id' 	    => 'required',
-		];
-
-		$validator = Validator::make($request->all(), $validatedData, $error_message);
-   
         if($validator->fails()){
             return $this->sendFailed($validator->errors()->all(), 200);       
         }
-
-        try
-        {
-            $count_record = Bookings::where('user_id',$request->user_id)->where('module_id',$request->module_id)->count();
-            if($count_record > 0)
-            {
-                return $this->sendFailed('Already booked', 200); 
-            }
-            else
-            {
-                \DB::beginTransaction();
-                    $booking = new Bookings;
-                    $booking->fill($request->all());
-                    $booking->module_type   = config('constant.BOOKING.WORKSHOP');
-                    $booking->payment_mode  = config('constant.PAYMENT_MODE.ONLINE');
-                    $booking->save();
-                \DB::commit();
-                $booking_data = BookingArtical::collection(Bookings::where('user_id',$request->user_id)->get());
-                return $this->sendSuccess($booking_data, 'Profile updated successfully');
-            }
+  
+        try 
+        { 
+            $bookingExist = Bookings::where('user_id',$request['user_id'])->where('module_id',$request->workshop_id)->first();
+            if(empty($bookingExist)){  
+                \DB::beginTransaction(); 
+                    $bookings = new Bookings();
+                    $bookings->fill($request->all()); 
+                    $bookings->booking_no = "BOO-".rand(11111,99999);
+                    $bookings->module_id = $request['workshop_id'];
+                    $bookings->status = config('constant.STATUS.ACCEPTED');
+                    $bookings->module_type = config('constant.BOOKING.WORKSHOP');
+                    $bookings->save();  
+                \DB::commit();  
+                return $this->sendSuccess(['booking_id'=>$bookings->booking_id], 'Booking created successfully'); 
+            }else{
+                return $this->sendFailed('You have alerady booked this workshop', 200);  
+            } 
         }
         catch (\Throwable $e) 
         {
-            \DB::rollback();
-            return $this->sendFailed($e->getMessage().' on line '.$e->getLine(), 400);  
-        }
+            return $this->sendFailed($e->getMessage().' on line '.$e->getLine(), 400); 
+        }  
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 }

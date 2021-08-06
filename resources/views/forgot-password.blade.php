@@ -18,7 +18,7 @@
                     <div class="clientTextF">
                         <h4>Welcome to</h4>
                         <h3>DrolMaa Constellation Club</h3>
-                        <p class="clientP">Forgotpassword</p>
+                        <p class="clientP">Forgot Password</p>
                     </div>
                     <form action="{{route('forgot_password.submit')}}" class="formLogIn" method="POST">
                         @csrf
@@ -31,7 +31,7 @@
                             </div> 
                             <div class="col-md-12">
                                 <div class="input-group mb-4">
-                                    <button type="submit" name="submit" class="login1 btn">Forgot Password</button>
+                                    <button type="submit" name="submit" class="login1 btn">Reset Password</button>
                                 </div> 
                             </div> 
                             

@@ -35,6 +35,7 @@
     @include('admin.inc.scripts')
     <script>
 function payExpert(name,userid,amountLeft){ 
+    $("#payexpertModal #amount").val(amountLeft);
     $("#payexpertModal #amount").attr('max',amountLeft);
     $("#payexpertModal #userid").val(userid);
     $("#payexpertModal .name").text(name);

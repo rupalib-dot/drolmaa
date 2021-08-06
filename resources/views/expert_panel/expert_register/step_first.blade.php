@@ -54,23 +54,45 @@
                     <form action="{{route('expert.first.step.post')}}" method="POST" enctype='multipart/form-data'
                         class="formLogIn">
                         @csrf
+                        
                         <div class="custom-file-container" data-upload-id="myUploader">
                             <label><a href="javascript:void(0)" class="custom-file-container__image-clear"
                                     title="Clear Image"></a></label>
 
                             <label class="custom-file-container__custom-file">
+                            <span class="upload_label">Updalod a file</span>
                                 <input type="file" class="custom-file-container__custom-file__custom-file-input"
                                     accept="*" name="user_image">
+                                    
                                 <span class="custom-file-container__custom-file__custom-file-control pp"></span>
+                                
                             </label>
                             <div class="custom-file-container__image-preview"></div>
                         </div>
-                        <div class="row">
+                        <div class="row" style="margin-top:170px;">
                             <div class="col-md-4">
                                 <div class="input-group mb-4">
                                     <input type="text" class="form-control" placeholder="Full Name" aria-label="Name"
                                         aria-describedby="basic-addon1" name="full_name"
                                         value="{{old('full_name', !empty($expert) ? $expert->full_name : '')}}">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group mb-4">
+                                    <select class="form-control" id="exampleFormControlSelect1" name="user_gender">
+                                        <option value="">Select Gender</option>
+                                        @foreach(config('constant.GENDER') as $value => $key)
+                                        <option
+                                            {{ old('user_gender', !empty($expert) ? $expert->user_gender : '') == $key ? 'selected' : ''}}
+                                            value="{{$key}}">{{ucfirst(strtolower($value))}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group mb-4">
+                                    <input type="number" placeholder="Age" class="form-control" name="user_age"
+                                        value="{{old('user_age', !empty($expert) ? $expert->user_age : '')}}">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -96,35 +118,20 @@
                                         value="{{old('email_address', !empty($expert) ? $expert->email_address : '')}}">
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="input-group mb-4">
-                                    <input type="number" placeholder="Age" class="form-control" name="user_age"
-                                        value="{{old('user_age', !empty($expert) ? $expert->user_age : '')}}">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="input-group mb-4">
-                                    <select class="form-control" id="exampleFormControlSelect1" name="user_gender">
-                                        <option value="">Select Gender</option>
-                                        @foreach(config('constant.GENDER') as $value => $key)
-                                        <option
-                                            {{ old('user_gender', !empty($expert) ? $expert->user_gender : '') == $key ? 'selected' : ''}}
-                                            value="{{$key}}">{{ucfirst(strtolower($value))}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
+                            
+                            
                             <div class="col-md-4">
                                 <div class="input-group mb-4">
                                     <select class="form-control" id="exampleFormControlSelect1"
                                         class="form-control country_id" name="country_id"
                                         onchange="state_list(this.value)">
                                         <option value="">Select Country</option>
-                                        @foreach($country_list as $con_list)
+                                        <!-- @foreach($country_list as $con_list)
                                         <option
                                             {{ old('country_id', !empty($expert) ? $expert->country_id : '') == $con_list->country_id ? 'selected' : ''}}
                                             value="{{$con_list->country_id}}">{{$con_list->country_name}}</option>
-                                        @endforeach
+                                        @endforeach -->
+                                        <option {{ old('country_id','101', !empty($expert) ? $expert->country_id : '') == 101 ? 'selected' : ''}} value="101">India</option>
                                     </select>
                                 </div>
                             </div>

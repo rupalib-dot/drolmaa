@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ContactEnquiery;
 use Session; 
 use App\Models\Products;
+use App\Models\User;
 use App\Models\Category; 
 use App\Models\ProductImages;
 
@@ -23,10 +24,25 @@ class PagesController extends Controller
         return view('pages.aboutus', $data);
     }
 
+    public function psychological_care(Request $request)
+    { 
+        $title          = "Psychological Care";
+        $data           = compact('title');
+        return view('pages.psychological_care', $data);
+    }
+
     public function pricing_plan(Request $request)
     {
+        $plan = "";
+        $record_data = '';
+        if(isset($request['update_plan']) && $request['update_plan'] == 'update'){
+            $plan = $request['update_plan'];
+        } 
+        if(Session::get('role_id') == 2){
+            $record_data    = User::findOrfail(Session::get('user_id'));
+        }
        $title          = "Pricing";
-        $data           = compact('title');
+        $data           = compact('title','record_data','plan');
         return view('pages.pricing', $data);
     }
 
@@ -44,14 +60,17 @@ class PagesController extends Controller
         ->Where(function($query) use ($request) {
             if (isset($request['keyword']) && !empty($request['keyword'])) { 
                 $query->where('category_name','LIKE', "%".$request["keyword"]."%");
-            }  
+            } 
         })->get();
         $products = Products::where('status',config('constant.BLK_UNBLK.UNBLOCK'))
         ->Where(function($query) use ($request) {
             if (isset($request['keyword']) && !empty($request['keyword'])) { 
                 $query->where('product_name','LIKE', "%".$request["keyword"]."%");
             }  
-        })->get();
+            if (isset($request['category_id']) && !empty($request['category_id'])) { 
+                $query->where('category_id',$request["category_id"]);
+            }  
+        })->paginate(15);
         $data           = compact('title','category','products','request');
         return view('pages.shop', $data);
     }

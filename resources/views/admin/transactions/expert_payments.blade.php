@@ -11,7 +11,7 @@
                     <div class="widget-header">
                         <div class="row"> 
                             <div class="col-xl-6 col-md-6 col-sm-6 col-6">
-                                <h4>{{$title}} </h4>
+                                <h4>Experts Payments Listing</h4>
                             </div>
                             <div class="col-xl-6 col-md-6 col-sm-6 col-6" style="text-align:right">
                                 <a href="{{url('admin/transactions/appointment')}}"><button class="btn btn-primary" type="button">Back</button></a>
@@ -77,7 +77,7 @@
                                                 <td>{{date('d M, Y',strtotime($aGetData->transaction_date))}}</td>
                                                 <td>{{$aGetData->transaction_id}}</td> 
                                                 <td>{{array_search($aGetData->payment_mode,config('constant.PAYMENT_MODE'))}}</td>
-                                                <td>{{number_format($aGetData->amount,2,'.',','}}</td> 
+                                                <td>{{number_format($aGetData->amount,2,'.',',')}}</td> 
                                                 <td><a style="color:blue" href="{{route('adminexpert.show',$aGetData->user_id)}}">{{CommonFunction::GetSingleField('users','full_name','user_id',$aGetData->user_id)}}</a></td>
                                             </tr>
                                         @php $i++; @endphp

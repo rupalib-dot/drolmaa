@@ -10,7 +10,7 @@
         left: 225px;
     }
 </style>
-<section id="clientLogIn" class="clientLogIn padding-top" role="Login" style="padding-top:120px;">
+<section id="clientLogIn" class="clientLogIn padding-top my-5" role="Login" style="padding-top:120px;">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -28,7 +28,7 @@
                     <div class="clientTextF">
                         <h4>Welcome to</h4>
                         <h3>DrolMaa Constellation Club</h3>
-                        <p class="clientP">Client Login</p>
+                        <p class="clientP">Login</p>
                     </div>
                     <form action="{{route('login.account')}}" class="formLogIn" method="POST">
                         @csrf
@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="form-check list-regular">
                                     <input class="form-check-input" name="remember_me" type="checkbox" value="1" @if(isset($_COOKIE['remember_me'])) @if($_COOKIE['remember_me']==1) checked @endif @endif id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault" style="padding-top:3px;">
                                         Remember me
                                     </label>
                                 </div>
@@ -56,8 +56,9 @@
                             </div>
                             <button class="login1 btn">Log In</button>
                         </div>
-                        <div class="sign-up mt-4">
-                            Don't have an account ? <a href="{{route('customer.create')}}">Client Account</a><span> | <a href="{{route('expert.first.step')}}">Expert Account</span></a>
+                        <div class="sign-up ajay mt-4">
+                            Don't have an Account ?<br> 
+                            <a href="{{route('customer.create')}}">Register as USER </a><span> | <a href="{{route('expert.first.step')}}">Register as EXPERT</span></a>
                         </div>
                     </form>
                 </div>

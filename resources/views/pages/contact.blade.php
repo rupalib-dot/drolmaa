@@ -1,7 +1,7 @@
 @include('include.header')
 @include('include.nav')
 <section id="contact-page-inner" id="contact-page-inner" role="contact"
-    style="background-image:url({{asset('front_end/images/contactimg.png')}})">
+    style="background-image:url({{asset('front_end/images/contactimg.jpg')}})">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">

@@ -45,16 +45,16 @@
                 </a>
                 <ul class="collapse submenu list-unstyled {{ Request::is('admin/transactions*') ? 'collapse show' : '' }}" id="transactions" data-parent="#accordionExample">
                     <li class="{{ Request::is('admin/transactions*') ? 'active' : '' }}">
-                        <a href="{{route('transaction.index',['type'=>'order'])}}"> Order  </a>
+                        <a href="{{route('transaction.index',['type'=>'order'])}}"> Orders  </a>
                     </li> 
                     <li class="{{ Request::is('admin/transactions*') ? 'active' : '' }}">
-                        <a href="{{route('transaction.index',['type'=>'registration'])}}"> Registration  </a>
+                        <a href="{{route('transaction.index',['type'=>'registration'])}}"> Subscription  </a>
                     </li>    
                     <li class="{{ Request::is('admin/transactions*') ? 'active' : '' }}">
-                        <a href="{{route('transaction.index',['type'=>'booking'])}}"> Booking  </a>
+                        <a href="{{route('transaction.index',['type'=>'booking'])}}"> Bookings  </a>
                     </li>    
                     <li class="{{ Request::is('admin/transactions*') ? 'active' : '' }}">
-                        <a href="{{route('transaction.index',['type'=>'appointment'])}}"> Appointment </a>
+                        <a href="{{route('transaction.index',['type'=>'appointment'])}}"> Appointments </a>
                     </li>                           
                 </ul>
             </li>
@@ -109,7 +109,7 @@
                         <a href="{{route('category.create')}}"> Create category </a>
                     </li>
                     <li class="{{ Request::is('admin/category') ? 'active' : '' }}">
-                        <a href="{{route('category.index')}}"> Category Listing  </a>
+                        <a href="{{route('category.index')}}"> Categorys Listing  </a>
                     </li>                           
                 </ul>
             </li> 

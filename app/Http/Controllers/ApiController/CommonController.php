@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\ApiController;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Storage; 
 use Validator;
 use App\Http\Controllers\ApiController\BaseController as BaseController;
 use App\Models\User;
@@ -12,7 +11,8 @@ use App\Models\Designation;
 use App\Models\Feedback;
 use App\Http\Resources\Designation as DesignationArtical;
 use App\Http\Resources\CustomerProfile;
-use App\Http\Resources\Feedback as FeedbackArtical;
+use App\Http\Resources\Expert; 
+use App\Http\Resources\Feedback as FeedbackArtical; 
 use Hash;
 use DB;
 
@@ -41,11 +41,11 @@ class CommonController extends BaseController
 		  die;
 		}
 	}
-
+ 
 	public function login_account(Request $request)
 	{
 		$error_message = 	[
-			'email_address.required' 	=> 'Email address / Mobile number should be required',
+			'user_name.required' 	=> 'Email address / Mobile number should be required',
 			'user_password.required' 	=> 'Password should be required',
             'user_password.min'         => 'Password minimun lenght :min characters',
             'user_password.max'         => 'Password maximum lenght :max characters',
@@ -53,7 +53,7 @@ class CommonController extends BaseController
 		];
 
 		$rules = [
-			'email_address' 	=> 'required',
+			'user_name' 	=> 'required',
 			'user_password' 	=> 'required|min:8|max:16|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
 		];
 		
@@ -65,11 +65,16 @@ class CommonController extends BaseController
 
 		try
 		{
-			$user_exist = $this->User->login_account($request->email_address, md5($request->user_password), $user_data);
+			$user_exist = $this->User->login_account($request->user_name, md5($request->user_password), $user_data);
 			if($user_exist)
 			{
-				$user_data = new CustomerProfile($user_data);
-				return $this->sendSuccess($user_data, 'Logged in successfully');
+				if($user_data->user_role->role_id == 3){
+					$user_data = new CustomerProfile($user_data); 
+				}else if($user_data->user_role->role_id == 2){
+					$user_data = new Expert($user_data);
+				}  
+				$data = ['user_data'=>$user_data,'role'=>$user_data->user_role->role_id];
+				return $this->sendSuccess($data, 'Logged in successfully');
 			}
 			else
 			{
@@ -102,7 +107,7 @@ class CommonController extends BaseController
 
 		try
 		{
-			return $this->sendSuccess(['mobile_otp' => rand(1111,9999)], 'OTP sent successfully');
+			return $this->sendSuccess(['mobile_number'=>$request->mobile_number,'mobile_otp' => rand(1111,9999)], 'OTP sent successfully');
 		}
 		catch (\Throwable $e)
     	{
@@ -164,11 +169,11 @@ class CommonController extends BaseController
 	public function forgot_password(Request $request)
 	{
 		$error_message = 	[
-			'mobile_number.required' 	=> 'Email address / Mobile number should be required',
+			'user_name.required' 	=> 'Email address / Mobile number should be required',
 		];
 
 		$rules = [
-			'mobile_number' 	=> 'required',
+			'user_name' 	=> 'required',
 		];
 		
         $validator = Validator::make($request->all(), $rules, $error_message);
@@ -179,10 +184,24 @@ class CommonController extends BaseController
 
 		try
 		{
-			$user_data = User::Select('user_id','mobile_number')->where('mobile_number',$request->mobile_number)->first();
+			$user_name = $request['user_name'];
+			$user_data = User::Select('*')->Where(function ($query) use ($user_name) {
+				$query->where('email_address',$user_name)
+					  ->orWhere('mobile_number',$user_name);
+			})->first();
 			if(isset($user_data))
 			{
-				return $this->sendSuccess(['user_data' => $user_data, 'mobile_otp' => rand(1111,9999)], 'OTP send on your registered mobile number');
+				$otp = rand(1111,9999);
+				$details = array(
+					'name'         	=> $user_data->full_name,
+					'mobile' 		=> $user_data->mobile_number,
+					'email' 		=> $user_data->email_address,    
+					'user_id'       => $user_data->user_id,
+					'otp'			=> $otp,
+				);   
+				\Mail::to($user_data->email_address)->send(new \App\Mail\ForgotPasswordMail($details));
+
+				return $this->sendSuccess(['user_id' => $user_data->user_id, 'mobile_otp' => $otp], 'OTP send on your registered mobile number');
 			}
 			else
 			{
@@ -221,8 +240,7 @@ class CommonController extends BaseController
         }
 
 		try
-		{
-			\DB::beginTransaction();
+		{ 
 				$user_data = User::find($request->user_id);
 				if(isset($user_data))
 				{
@@ -233,8 +251,7 @@ class CommonController extends BaseController
 				else
 				{
 					return $this->sendFailed('Invalid access', 200);       
-				}
-			\DB::commit();
+				} 
 		}
 		catch (\Throwable $e)
     	{
@@ -264,24 +281,94 @@ class CommonController extends BaseController
     	}
 	}
 
-	public function store(Request $request)
+	public function commonFunction()
+	{
+		try
+		{
+		    $record_data = Designation::OrderBy('designation_title')->get();
+		    if(count($record_data)>0)
+			{
+				$data['designation'] =  DesignationArtical::collection($record_data); 
+			}else{
+			    $data['designation'] = array();
+			}
+			// 	$data['specializationPlan'] = array(
+			// 	'Crisis intervention- immediate appointment and no diagnosis',
+			//  'Deeper therapy route - consultation, screening and diagnosis and treatment ( a long term treatment).',
+			//  'Expression therapy route. Self enhancing & experiential mode.',
+			//  'For general expertise guidance for issues like loneliness, relationships and so on where no diagnosis needed but yet professional help would make its difference.');
+			
+			$data['pricingPlan'] = [
+			        '3month_plan'=>[[
+    			            'month'=>'3 Months',
+        			        'plan_detail'=>'Basic plan',
+                            'plan_info'=>['Self hosted store','Self hosted store','Self hosted store','Self hosted store'],
+                            'plan_amount'=>"2100"
+                        ],
+                        [
+                             'month'=>'3 Months',
+        			        'plan_detail'=>'Advance plan',
+                            'plan_info'=>['Self hosted store','Self hosted store','Self hosted store','Self hosted store'],
+                            'plan_amount'=>"5300"
+                        ],[
+                             'month'=>'3 Months',
+        			        'plan_detail'=>'Subscription plan',
+                            'plan_info'=>['Self hosted store','Self hosted store','Self hosted store','Self hosted store'],
+                            'plan_amount'=>"1500"
+                        ]],
+                    '6month_plan'=>[[
+    			            'month'=>'6 Months',
+        			        'plan_detail'=>'Basic plan',
+                            'plan_info'=>['Self hosted store','Self hosted store','Self hosted store','Self hosted store'],
+                            'plan_amount'=>"1900"
+                        ],
+                        [
+                             'month'=>'6 Months',
+        			        'plan_detail'=>'Advance plan',
+                            'plan_info'=>['Self hosted store','Self hosted store','Self hosted store','Self hosted store'],
+                            'plan_amount'=>"5000"
+                        ],[
+                             'month'=>'6 Months',
+        			        'plan_detail'=>'Subscription plan',
+                            'plan_info'=>['Self hosted store','Self hosted store','Self hosted store','Self hosted store'],
+                            'plan_amount'=>"1300"
+                        ]] ,
+			     '12month_plan'=>[[
+    			            'month'=>'12 Months',
+        			        'plan_detail'=>'Basic plan',
+                           'plan_info'=>['Self hosted store','Self hosted store','Self hosted store','Self hosted store'],
+                            'plan_amount'=>"1100"
+                        ],
+                        [
+                             'month'=>'12 Months',
+        			        'plan_detail'=>'Advance plan',
+                            'plan_info'=>['Self hosted store','Self hosted store','Self hosted store','Self hosted store'],
+                            'plan_amount'=>"4800"
+                        ],[
+                             'month'=>'12 Months',
+        			        'plan_detail'=>'Subscription plan',
+                            'plan_info'=>['Self hosted store','Self hosted store','Self hosted store','Self hosted store'],
+                            'plan_amount'=>"1250"
+                        ],
+                    ]
+			    ];
+			 
+			return $this->sendSuccess($data, 'Data listed successfully'); 
+		}
+		catch (\Throwable $e)
+    	{
+    		return $this->sendFailed($e->getMessage().' on line '.$e->getLine(), 400);  
+    	}
+	} 
+	
+	public function update_profile_pic(Request $request, $user_id)
 	{
 		$error_message = 	[
-			'feedback_by.required' 			=> 'User Id should be required',
-			'feedback_to.required' 			=> 'Expert Id should be required',
-			'rating.required' 				=> 'Ratting should be required',
-            'message.required'      		=> 'Message should be required',
-            'module_type.required'      	=> 'Module should be required',
-            'module_id.required'      		=> 'Module Id be required',
+			'user_image.required'       => 'Profile image should be required', 
 		];
 
-		$rules = [
-			'feedback_by'			=> 'required',
-			'feedback_to'			=> 'required|max:32',
-            'rating'				=> 'required',
-            'message'		        => 'required',
-            'module_type'			=> 'required',
-			'module_id'				=> 'required'
+		$rules = [ 
+            'user_image' 	    => 'required|mimes:jpeg,jpg,png', 
 		];
 
 		$validator = Validator::make($request->all(), $rules, $error_message);
@@ -293,15 +380,16 @@ class CommonController extends BaseController
 		try
 		{
 			\DB::beginTransaction();
-				$feedback = new Feedback;
-				$feedback->fill($request->all())->save();
+			    $fileName = time() . '.' . $request->file('user_image')->getClientOriginalExtension();
+                $request->file('user_image')->move(public_path('user_images'), $fileName);
+
+				User::findOrfail($user_id)->update(['user_image' => $fileName]); 
 			\DB::commit();
-			$record_data = new FeedbackArtical(Feedback::find($feedback->feedback_id));
-			return $this->sendSuccess($record_data, 'Feedback sent successfully');
+			return $this->sendSuccess('', 'Profile Image updated successfully');
 		}
 		catch (\Throwable $e)
     	{
-			\DB::rollback();
+            \DB::rollback();
     		return $this->sendFailed($e->getMessage().' on line '.$e->getLine(), 400);  
     	}
 	}

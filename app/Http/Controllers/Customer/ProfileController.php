@@ -17,6 +17,14 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function dashboard()
+    {
+        $title          = "Dashboard";
+        $data           = compact('title');
+        return view('customer_panel.dashboard', $data);
+    }
+
     public function index()
     {
         //
@@ -31,6 +39,15 @@ class ProfileController extends Controller
     {
         //
     }
+
+    // public function d($user_id)
+    // {
+    //     $record_data    = User::findOrfail($user_id);
+    //     $country_list   = Country::OrderBy('country_name')->get();
+    //     $title          = "Profile";
+    //     $data           = compact('title','record_data','country_list');
+    //     return view('customer_panel.profile', $data);
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -137,47 +154,5 @@ class ProfileController extends Controller
         return view('customer_panel.change-password', $data);
     }     
     
-    public function myWishlist(Request $request)
-    { 
-        $title  = "My Wishlist";
-        $favourate = Favourate::where('user_id',Session::get('user_id'))->orderBy('favourate_id','desc')->paginate(15);
-        $data   = compact('title','request','favourate');
-        return view('customer_panel.myWishlist', $data);
-    }
- 
-    public function deleteWishlist(Request $request)
-    {  
-        $favourate = DB::table('favourate')->where('favourate_id',$request['favourate_id'])->delete();
-        if(!empty($favourate)){
-            return redirect()->back()->with('Success', 'Wishlist updated successfully');
-        }else{
-            return redirect()->back()->with('Failed', 'Wishlist not updated successfully');
-        }
-    }
- 
-    public function del_multi_wishlist(Request $request)
-    {  
-        $ids = explode(',',$request['areaofinterest']);
-        if(count($ids)>0){
-            foreach($ids as $id){
-                $delete=DB::table('favourate')->where('favourate_id',$id)->delete(); 
-            }
-    		if($delete){ 
-    			return Response()->json([
-                    "success" => true,
-                    "message" =>'Wishlist updated successfully',
-                ]); 
-    		}else{
-    			return Response()->json([
-                    "success" => false,
-                    "message" => 'Wishlist not updated successfully',
-                ]);
-    		} 
-        }else{
-			return Response()->json([
-                "success" => false,
-                "message" => 'Wishlist not updated successfully',
-            ]);
-		}
-    }
+    
 }

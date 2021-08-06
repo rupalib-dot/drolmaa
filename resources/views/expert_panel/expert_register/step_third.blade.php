@@ -49,14 +49,17 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
+                            <div>Aadhar card</div>  
                                 <div class="input-group mb-4">
-                                    <input type='file' name="aadhar_card_pic" placeholder="Browse computer" id="adharinput"
+                                 
+                                <input type='file' name="aadhar_card_pic" placeholder="Browse computer" id="adharinput"
                                         class="form-control"> <span id='val'></span>
                                     <span id='adharbtn'><i class="flaticon-upload"></i></span>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
+                            <div>PAN Card</div>
                                 <div class="input-group mb-4">
                                     <input type='file' name="pan_card_pic" placeholder="Browse computer" id="paninput"
                                         class="form-control"> <span id='val1'></span>
@@ -64,6 +67,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                            <div>Professional License</div>
                             <div class="input-group mb-4">
                                     <input type='file' name="licance_pic" placeholder="Browse computer" id="licenceinput"
                                         class="form-control"> <span id='val2'></span>
@@ -72,6 +76,7 @@
                             </div>
 
                             <div class="col-md-6">
+                            <div>Professional Certificate</div>
                             <div class="input-group mb-4">
                                     <input type='file' name="professional_certificate_pic" placeholder="Browse computer" id="voterinput"
                                         class="form-control"> <span id='val3'></span>

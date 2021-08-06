@@ -1,13 +1,13 @@
 @include('include.header')
 @include('include.nav')
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container">
-        <div class="row">
+    <div class="container-fluid">
+        <div class="">
             <div class="col-sm-12">
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.expert_sidebar')
-                        <div class="col-md-9">
+                        <div class="col-md-10">
                             <div class="dashboard-panel">
                             @include('include.validation_message')
                                 @include('include.auth_message')
@@ -41,7 +41,7 @@
                                                             for($i = $begin; $i <= $end; $i->modify('+1 day')){
                                                                 $date = $i->format("Y-m-d"); ?>
                                                                 <li>
-                                                                    <input type="checkbox" class="checkbox caldate" name="available_date[]" value="{{date('Y-m-d',strtotime($date))}}" id="{{date('d',strtotime($date))}}">
+                                                                    <input <?php if(old('available_date') == date('Y-m-d',strtotime($date))) { echo 'checked';} ?> type="checkbox" class="checkbox caldate" name="available_date[]" value="{{date('Y-m-d',strtotime($date))}}" id="{{date('d',strtotime($date))}}">
                                                                     <label class="option-item" for="{{date('d',strtotime($date))}}">
                                                                         <div class="option-inner-date">{{date('d',strtotime($date))}}</div>
                                                                         <div class="name">{{date('D',strtotime($date))}}</div>
@@ -71,7 +71,9 @@
                                                     </table>
                                                 </div>
                                             </div>
+                                            <div class="mb-3">
                                             <button class="login1 btn" type="submit" name="submit">Submit</button>
+                                            </div>
                                         </form>
                                     </div> 
                                 </div>

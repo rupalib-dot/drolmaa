@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Expert;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Subscription;
 use App\Models\User;
 use App\Models\Bookings;
 use App\Models\Appointment;
@@ -26,12 +27,19 @@ class ExpertTransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function transactionIndex(Request $request){
+        $title = "transactions";
+        $data   = compact('title','request');
+        return view('expert_panel.transactions', $data);
+    }
+
     public function index(Request $request,$type)
     { 
         $title  = $type." transactions";  
         if($type == 'registration'){
-            $transactions = $this->User->users_trans(2,'user');
-            $amountearned = User::where('user_id',Session::get('user_id'))->sum('register_amount'); 
+            $transactions    = Subscription::where('user_id',Session::get('user_id'))->orderBy('subscription_id','desc')->paginate(15);
+            $amountearned = Subscription::where('user_id',Session::get('user_id'))->sum('register_amount'); 
             $amountrefund = 0; 
             $totalPaidamount = 0;
             $TotalColection = $amountearned;

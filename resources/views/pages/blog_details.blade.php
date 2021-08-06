@@ -16,7 +16,7 @@
             <div class="col-md-8">
                 <div class="single-contact">
                     <img src="{{asset('front_end/images/group1.png')}}" alt="" class="img-fluid">
-                    <ul class="comment-date">
+                    <ul class="comment-date" style="padding-left: 0px;margin-bottom: 20px;margin-top: 20px;">
                         <li> <span><i class="fa fa-calendar-o" aria-hidden="true"></i></span>May 30, 2020</li>
                         <li> <span><i class="fa fa-comment-o" aria-hidden="true"></i></span>No Comments</li>
                     </ul>
@@ -62,7 +62,7 @@
                                     <textarea class="form-control" rows="5" id="comment"></textarea>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <div class="input-group mb-4">
                                     <input type="text" class="form-control" placeholder="Name" aria-label="Name"
                                         aria-describedby="basic-addon1">
@@ -73,7 +73,7 @@
                                     <input type="text" class="form-control" placeholder="Email" aria-label="Email"
                                         aria-describedby="basic-addon1">
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <button class="submit-contact">Post Comment</button>
                     </form>
@@ -81,40 +81,49 @@
             </div>
             <div class="col-md-4">
                 <div class="resend-post">
-                    <h4>Resend Post</h4>
-                    <div class="d-flex post-one">
-                        <img src="{{asset('front_end/images/group3.png')}}" alt="" class="img-fluid one">
-                        <div class="post-right">
-                            <h5>From Failure To Success</h5>
-                            <p>Enim malesuada ipsum nec in ornare sodales ipsum</p>
-                        </div>
-                    </div>
-                    <div class="d-flex post-one">
-                        <img src="{{asset('front_end/images/group3.png')}}" alt="" class="img-fluid one">
-                        <div class="post-right">
-                            <h5>From Failure To Success</h5>
-                            <p>Enim malesuada ipsum nec in ornare sodales ipsum</p>
-                        </div>
-                    </div>
-                    <div class="d-flex post-one">
-                        <img src="{{asset('front_end/images/group3.png')}}" alt="" class="img-fluid one">
-                        <div class="post-right">
-                            <h5>From Failure To Success</h5>
-                            <p>Enim malesuada ipsum nec in ornare sodales ipsum</p>
-                        </div>
-                    </div>
-                    <div class="d-flex post-one">
-                        <img src="{{asset('front_end/images/group3.png')}}" alt="" class="img-fluid one">
-                        <div class="post-right">
-                            <h5>From Failure To Success</h5>
-                            <p>Enim malesuada ipsum nec in ornare sodales ipsum</p>
-                        </div>
-                    </div>
+                    <h4 class="mb-3">Recent Post</h4>
+                    <div class="card p-1 mb-3" style="max-width: 540px;">
+                                    <div class="d-flex">
+                                        <img src="{{asset('front_end/images/group3.png')}}" alt="" class="img-fluid one">
+                                        <div class="post-right">
+                                           <a href="http://" target="_blank" rel="noopener noreferrer"><h5>From Failure To Success</h5></a>
+                                            <p>Enim malesuada ipsum nec in ornare sodales ipsum</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card p-1 mb-3" style="max-width: 540px;">
+                                    <div class="d-flex">
+                                        <img src="{{asset('front_end/images/group3.png')}}" alt="" class="img-fluid one">
+                                        <div class="post-right">
+                                           <a href="http://" target="_blank" rel="noopener noreferrer"><h5>From Failure To Success</h5></a>
+                                            <p>Enim malesuada ipsum nec in ornare sodales ipsum</p>
+                                        </div>
+                                    </div>
+                                </div><div class="card p-1 mb-3" style="max-width: 540px;">
+                                    <div class="d-flex">
+                                        <img src="{{asset('front_end/images/group3.png')}}" alt="" class="img-fluid one">
+                                        <div class="post-right">
+                                           <a href="http://" target="_blank" rel="noopener noreferrer"><h5>From Failure To Success</h5></a>
+                                            <p>Enim malesuada ipsum nec in ornare sodales ipsum</p>
+                                        </div>
+                                    </div>
+                                </div><div class="card p-1 mb-3" style="max-width: 540px;">
+                                    <div class="d-flex">
+                                        <img src="{{asset('front_end/images/group3.png')}}" alt="" class="img-fluid one">
+                                        <div class="post-right">
+                                           <a href="http://" target="_blank" rel="noopener noreferrer"><h5>From Failure To Success</h5></a>
+                                            <p>Enim malesuada ipsum nec in ornare sodales ipsum</p>
+                                        </div>
+                                    </div>
+                                </div>
+                               <div class="text-center">
+                               <a href="" class="btn btn-danger text-center">Browse More</a>
+                               </div>
                 </div>
                 <div class="offer-class">
                     <img src="{{asset('front_end/images/group4.png')}}" alt="" class="img-fluid cutoff">
                     <div class="question-fill">
-                        <h4 class="any-ques">Any Question ?</h4>
+                        <h4 class="any-ques">Talk to our Expert</h4>
                         <form action="/action_page.php" class="form-single">
                             <div class="col-sm-12">
                                 <div class="input-group mb-4">
@@ -124,10 +133,16 @@
                             </div>
                             <div class="col-sm-12">
                                 <div class="input-group mb-4">
-                                    <input type="text" class="form-control" placeholder="Email" aria-label="Email"
+                                    <input type="number" class="form-control" placeholder="Phone" aria-label="number"
                                         aria-describedby="basic-addon1">
                                 </div>
                             </div>
+                            <!-- <div class="col-sm-12">
+                                <div class="input-group mb-4">
+                                    <input type="text" class="form-control" placeholder="Email" aria-label="Email"
+                                        aria-describedby="basic-addon1">
+                                </div>
+                            </div> -->
                             <div class="col-sm-12">
                                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
                                     placeholder="Message"></textarea>
@@ -138,6 +153,25 @@
                         </form>
                     </div>
                 </div>
+                <div class="mt-5 card">
+                    <div class="card-header"> Comment</div>
+                        <div class="card-body">
+                            <blockquote class="blockquote mb-0">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                            <footer class="blockquote-footer">Someone famous in </footer>
+                                <cite class="blockquote-footer" title="Source Title">Source Title</cite>
+                            </blockquote>
+                            
+                        </div>
+                        <div class="card-body">
+                            <blockquote class="blockquote mb-0">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                            <footer class="blockquote-footer">Someone famous in </footer>
+                                <cite class="blockquote-footer" title="Source Title">Source Title</cite>
+                            </blockquote>
+                            
+                        </div>
+                    </div>
             </div>
         </div>
     </div>

@@ -106,6 +106,7 @@ function workshop_details(module_id)
                 $('#expert').text(response.message.expert);
                 $('#price').text(response.message.price);
                 $('#date').text(response.message.date);
+                $('#start_date').text(response.message.start_date);
                 $('#time').text(response.message.time);
                 $('#module_id').val(response.message.module_id);
                 $('#module_type').val(response.message.module_type); 
@@ -113,7 +114,7 @@ function workshop_details(module_id)
                 $('.paymentWidget').attr('src',"https://checkout.razorpay.com/v1/checkout.js");
                 $('.paymentWidget').attr('data-amount',response.message.amount);
                 $('.paymentWidget').attr('data-buttontext',response.message.buttonText);  
-                $('.paymentWidget').attr('data-key',"{{env('RAZORPAY_KEY')}}");
+                $('.paymentWidget').attr('data-key',"rzp_test_tazXyaYClLVzyb");
                 $('.paymentWidget').attr('data-name',"i4consulting.org");
                 $('.paymentWidget').attr('data-description',"Rozerpay" ); 
                 $('.paymentWidget').attr('data-image',"https://www.itsolutionstuff.com/frontTheme/images/logo.png"); 
@@ -128,6 +129,7 @@ function workshop_details(module_id)
                 $('#expert').text("");
                 $('#price').text("");
                 $('#date').text("");
+                $("#start_date").text("");
                 $('#time').text("");
                 $('#module_id').val("");
                 $('#module_type').val(""); 
@@ -135,7 +137,7 @@ function workshop_details(module_id)
                 $('.paymentWidget').attr('src',"https://checkout.razorpay.com/v1/checkout.js");
                 $('.paymentWidget').attr('data-amount',"");
                 $('.paymentWidget').attr('data-buttontext',"");  
-                $('.paymentWidget').attr('data-key',"{{env('RAZORPAY_KEY')}}");
+                $('.paymentWidget').attr('data-key',"rzp_test_tazXyaYClLVzyb");
                 $('.paymentWidget').attr('data-name',"i4consulting.org");
                 $('.paymentWidget').attr('data-description',"Rozerpay" ); 
                 $('.paymentWidget').attr('data-image',"https://www.itsolutionstuff.com/frontTheme/images/logo.png"); 

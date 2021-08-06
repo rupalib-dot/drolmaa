@@ -1,8 +1,8 @@
 @include('include.header')
 @include('include.nav')
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container">
-        <div class="row">
+    <div class="container-fluid">
+        <div class="">
             <div class="col-sm-12">
                 <div class="back-appoint">
                     <div class="row">
@@ -17,17 +17,17 @@
                                 <form action="{{route('appointment.index')}}" class="form-appoint">
                                     <input type="hidden" name="type" value="{{$request['type']}}" class="">
 
-                                    <input type="date" name="from_date" value="{{old('from_date',$request['from_date'])}}" class="mr-2">
+                                    <input style="margin-right: 5px !important;" type="date" name="from_date" value="{{old('from_date',$request['from_date'])}}" class="mr-2">
 
-                                    <input type="date" name="to_date" value="{{old('to_date',$request['to_date'])}}" class="mr-2">
-                                    <select  name="payment_type" style="border: 1px solid var(--black1);padding: 10px;">
+                                    <input style="margin-right: 5px !important;" type="date" name="to_date" value="{{old('to_date',$request['to_date'])}}" class="mr-2">
+                                    <select name="payment_type" style="border: 1px solid var(--black1);padding: 9px;margin-right: 5px !important;">
                                         <option value="">Select Payment</option>
                                         @foreach(config('constant.PAYMENT_MODE') as $value => $key)
                                             <option {{ old('payment_type',$request['payment_type']) == $key ? 'selected' : ''}} value="{{$key}}">{{ucfirst(strtolower($value))}}</option>
                                         @endforeach
                                     </select>
-                                    <button type="submit" class="filter" style="margin-left:0px">Filter</button> 
-                                    <a href="{{url('appointment')}}"> <button type="button" class="filter" style="margin-right:10px">Clear </button></a>
+                                    <button type="submit" class="filter" style="margin-left:0px;margin-right: 5px !important;">Filter</button> 
+                                    <a href="{{url('appointment')}}"> <button type="button" class="filter" style="">Clear </button></a>
                                 </form>
                                 <table class="table table-bordered appoint-table" style="width:100%">
                                     <thead>

@@ -29,12 +29,10 @@
                                         <th>S.No</th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Mobile Number</th>
-                                        <th>Date Of Birth</th> 
+                                        <th>Mobile Number</th> 
                                         <th>Status</th>
                                         <th>Payment Id</th> 
-                                        <th>Amount</th>
-                                        <th>Gender</th>  
+                                        <th>Amount</th> 
                                     </tr>
                                 </thead>
                                 <tbody>  
@@ -45,12 +43,10 @@
                                                 <td>{{$aGetData->booking_no}}</td> 
                                                 <td>{{$aGetData->Users->full_name}} </td>
                                                 <td>{{$aGetData->Users->email_address}}</td>
-                                                <td>+91 {{$aGetData->Users->mobile_number}}</td> 
-                                                <td>{{date('Y-m-d',strtotime($aGetData->Users->user_dob))}}</td> 
+                                                <td>+91 {{$aGetData->Users->mobile_number}}</td>  
                                                 <td>{{ucwords(strtolower(array_search($aGetData->status,config('constant.STATUS'))))}}</td>
                                                 <td>{{$aGetData->payment_id}}</td> 
-                                                <td><i class="fas fa-rupee-sign"></i> {{number_format(CommonFunction::GetSingleField('workshop','price','workshop_id ',$aGetData->module_id),2,'.',',')}}</td> 
-                                                <td>{{array_search($aGetData->Users->user_gender,config('constant.GENDER'))}}</td>
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format(CommonFunction::GetSingleField('workshop','price','workshop_id',$aGetData->module_id),2,'.',',')}}</td>  
                                             </tr> 
                                         @php $i++; @endphp
                                         @endforeach 
@@ -70,17 +66,17 @@
                 <div class="statbox widget box box-shadow mb-1"> 
                     <div class="widget-content widget-content-area">
                         <div class="row">
-                        <h3>Feedback</h3>
+                        <h3 style="    margin-bottom: 20px; margin-left: 16px;">Feedback</h3>
                             <div class="col-sm-12">
                                 @if(count($feedback_list)>0)
                                     @foreach($feedback_list as $feedback)
                                     <?php $image_name = CommonFunction::GetSingleField('users','user_image','user_id',$feedback->feedback_by); ?>
-                                        <div class="feedback-profile">
+                                        <div class="feedback-profile" style="border: 1px solid #00000040;padding: 20px;">
                                             <div class="feedback-rating">
                                                 <div class="feedback-box"
                                                     style="background-image:<?php if(!empty($image_name)){?>{{asset('user_images/'.$image_name)}}<?php }else{?>{{asset('front_end/images/blogimg.jpg')}}<?php }?> ">
                                                 </div>
-                                                <h2>{{CommonFunction::GetSingleField('users','full_name','user_id',$feedback->feedback_by)}}</h2>
+                                                <h4>{{CommonFunction::GetSingleField('users','full_name','user_id',$feedback->feedback_by)}}</h4>
                                                 <p class="java-tech">Feedback On:- {{ucwords(strtolower(array_search($feedback->module_type,config('constant.FEEDBACK'))))}}</p>
 
                                             </div>
@@ -121,7 +117,7 @@
                                             <p class="quote-feedback">
                                                 {{$feedback->message}}
                                             </p>
-                                            <p style="padding-top: 15px;text-align: right;color: var(--black1);">
+                                            <p style="padding-top:0px;text-align: right;color: var(--black1);">
                                                 {{$feedback->created_at}}
                                             </p>
                                         </div>

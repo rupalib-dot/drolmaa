@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use URL;
 use App\Models\UserRole;
+use App\Models\Settings;
+use App\Models\Services;
+use App\Models\Category;
 use Session;
 
 class HomeController extends Controller
@@ -19,7 +22,9 @@ class HomeController extends Controller
     public function index_page()
     { 
         $title  = "Welcome";
-        $data   = compact('title');
+        $services = Services::where('services_for',3)->get();
+        $category = Category::paginate(6); 
+        $data   = compact('title','services','category');
         return view('welcome', $data);
     }
 
@@ -48,7 +53,7 @@ class HomeController extends Controller
                         'userId'       => $emailExist->user_id,
                     ]; 
                     \Mail::to($request['email_address'])->send(new \App\Mail\ForgotPasswordMail($details));  
-                    return redirect('user_login')->with('Success','Your password reset link has been sent to your email successfully. Please check your email and reset your password'); 
+                    return redirect('user_login')->with('Success','Please check your email for password reset link & reset your password'); 
                 
                 }else{
                     return redirect()->back()->with('Failed', 'Invalid Credentials')->withInput($request->all());  
@@ -153,37 +158,42 @@ class HomeController extends Controller
 
         try
         {
-            $user_exist = $this->User->login_account($request->email_address, md5($request->user_password), $user_data);
-
+            $user_exist = $this->User->login_account($request->email_address, md5($request->user_password), $user_data); 
             if($user_exist)
             { 
-                if(isset($request["remember_me"]) && $request['remember_me'] == 1) {
-                    setcookie ("email_address",$request->email_address,time()+ 3600);
-                    setcookie ("user_password",$request->user_password,time()+ 3600); 
-                    setcookie ("remember_me",$request->remember_me,time()+ 3600);
-                } else {
-                    setcookie("email_address","");
-                    setcookie("user_password",""); 
-                    setcookie ("remember_me","");
-                }
-                
-                if($request['loginFor'] == 'admin' && $user_data->user_role->role_id == 1){
-                    Session::put('user_id',$user_data->user_id);
-                    Session::put('role_id',$user_data->user_role->role_id);
-                    Session::put('full_name',$user_data->full_name); 
-                    return redirect('admin/dashboard/');
-                }else if($request['loginFor'] == 'admin' && $user_data->user_role->role_id != 1){
-                    return redirect()->back()->with('Failed', 'You are not allowded to access admin panel');
+                if($user_data->email_status != config('constant.MAIL_STATUS.VERIFIED')){
+                    return redirect()->back()->with('Failed', 'Your email has not been verified yet');
+                }else if($user_data->phone_status != config('constant.MAIL_STATUS.VERIFIED')){
+                    return redirect()->back()->with('Failed', 'Your phone number has not been verified yet');
                 }else{
-                    Session::put('user_id',$user_data->user_id);
-                    Session::put('role_id',$user_data->user_role->role_id);
-                    Session::put('full_name',$user_data->full_name); 
-                    if($user_data->user_role->role_id == 1){
+                    if(isset($request["remember_me"]) && $request['remember_me'] == 1) {
+                        setcookie ("email_address",$request->email_address,time()+ 3600);
+                        setcookie ("user_password",$request->user_password,time()+ 3600); 
+                        setcookie ("remember_me",$request->remember_me,time()+ 3600);
+                    } else {
+                        setcookie("email_address","");
+                        setcookie("user_password",""); 
+                        setcookie ("remember_me","");
+                    }
+                    
+                    if($request['loginFor'] == 'admin' && $user_data->user_role->role_id == 1){
+                        Session::put('user_id',$user_data->user_id);
+                        Session::put('role_id',$user_data->user_role->role_id);
+                        Session::put('full_name',$user_data->full_name); 
                         return redirect('admin/dashboard/');
-                    }else if($user_data->user_role->role_id == 2){
-                        return redirect('expert/profile/'.Session::get('user_id').'/edit');
+                    }else if($request['loginFor'] == 'admin' && $user_data->user_role->role_id != 1){
+                        return redirect()->back()->with('Failed', 'You are not allowded to access admin panel');
                     }else{
-                        return redirect('profile/'.Session::get('user_id').'/edit');
+                        Session::put('user_id',$user_data->user_id);
+                        Session::put('role_id',$user_data->user_role->role_id);
+                        Session::put('full_name',$user_data->full_name); 
+                        if($user_data->user_role->role_id == 1){
+                            return redirect('admin/dashboard/');
+                        }else if($user_data->user_role->role_id == 2){
+                            return redirect('expert/profile/'.Session::get('user_id').'/edit');
+                        }else{
+                            return redirect('profile/'.Session::get('user_id').'/edit');
+                        }
                     }
                 }
             }
@@ -258,5 +268,19 @@ class HomeController extends Controller
         }  
     }
     
+     public function terms()
+    { 
+        $title  = "Terms & Condition";
+        $record = Settings::first();
+        $data   = compact('title','record');
+        return view('terms', $data);
+    }
+     public function privacy()
+    { 
+        $title  = "Privacy & Policy";
+        $record = Settings::first();
+        $data   = compact('title','record');
+        return view('privacy', $data);
+    } 
     
 }

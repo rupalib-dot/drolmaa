@@ -1,8 +1,8 @@
 @include('include.header')
 @include('include.nav')
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container">
-        <div class="row">
+    <div class="container-fluid">
+        <div class="">
             <div class="col-sm-12">
                 <div class="back-appoint">
                     <div class="row">
@@ -15,46 +15,48 @@
                                         @if(count($feedback_list['feedbackBy'])>0)
                                             @foreach($feedback_list['feedbackBy'] as $feedbackBy)
                                                 <div class="feedback-profile">
-                                                    <div class="feedback-rating">
-                                                        <div class="feedback-box"
-                                                            style="background-image:<?php if(!empty($feedbackBy->feedbackTo_users->user_image)){?>url({{asset('user_images/'.$feedbackBy->feedbackTo_users->user_image)}});<?php }else{?>url({{asset('front_end/images/blogimg.jpg')}});<?php }?> ">
+                                                    <div class="feedback-rating" style="width: 100%;">
+                                                        <div class="data">
+                                                            <div class="feedback-box"
+                                                                style="background-image:url({{asset('front_end/images/blogimg.jpg')}});">
+                                                            </div>
+                                                            <h3>{{$feedbackBy->feedbackTo_users->full_name}}</h3>
+                                                            <p class="java-tech">Feedback On:- {{ucwords(strtolower(array_search($feedbackBy->module_type,config('constant.FEEDBACK'))))}}</p>
                                                         </div>
-                                                        <h3>{{$feedbackBy->feedbackTo_users->full_name}}</h3>
-                                                        <p class="java-tech">Feedback On:- {{ucwords(strtolower(array_search($feedbackBy->module_type,config('constant.FEEDBACK'))))}}</p>
-                                                    </div>
-                                                    <div class="star">
-                                                        <span class="review-star">{{$feedbackBy->rating}}</span>
-                                                        @if($feedbackBy->rating == 1)
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                        @elseif($feedbackBy->rating == 2)
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                        @elseif($feedbackBy->rating == 3)
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                        @elseif($feedbackBy->rating == 4)
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                        @else 
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                        @endif
+                                                        <div class="star" style="top: -70px;">
+                                                            <!-- <span class="review-star">{{$feedbackBy->rating}}</span> -->
+                                                            @if($feedbackBy->rating == 1)
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                            @elseif($feedbackBy->rating == 2)
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                            @elseif($feedbackBy->rating == 3)
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                            @elseif($feedbackBy->rating == 4)
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                            @else 
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                     <p class="quote-feedback"
                                                         style="background-image:url({{asset('front_end/images/quoteimg.png')}});">
@@ -69,47 +71,48 @@
                                         @if(count($feedback_list['feedbackTo'])>0)
                                             @foreach($feedback_list['feedbackTo'] as $feedbackTo) 
                                                 <div class="feedback-profile">
-                                                    <div class="feedback-rating">
-                                                        <div class="feedback-box"
-                                                            style="background-image:<?php if(!empty($feedbackTo->feedbackBy_users->user_image)){?>url({{asset('user_images/'.$feedbackTo->feedbackBy_users->user_image)}})<?php }else{?>url({{asset('front_end/images/blogimg.jpg')}})<?php }?> ">
+                                                    <div class="feedback-rating" style="width: 100%;">
+                                                        <div class="data">
+                                                            <div class="feedback-box"
+                                                                style="background-image:url({{asset('front_end/images/blogimg.jpg')}})">
+                                                            </div>
+                                                            <h3>{{$feedbackTo->feedbackBy_users->full_name}}</h3>
+                                                            <p class="java-tech">Feedback On:- {{ucwords(strtolower(array_search($feedbackTo->module_type,config('constant.FEEDBACK'))))}}</p>
                                                         </div>
-                                                        <h3>{{$feedbackTo->feedbackBy_users->full_name}}</h3>
-                                                        <p class="java-tech">Feedback On:- {{ucwords(strtolower(array_search($feedbackTo->module_type,config('constant.FEEDBACK'))))}}</p>
-
-                                                    </div>
-                                                    <div class="star">
-                                                        <span class="review-star">{{$feedbackTo->rating}}</span>
-                                                        @if($feedbackTo->rating == 1)
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                        @elseif($feedbackTo->rating == 2)
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                        @elseif($feedbackTo->rating == 3)
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                        @elseif($feedbackTo->rating == 4)
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star-o"></span>
-                                                        @else 
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                            <span class="fa fa-star checked"></span>
-                                                        @endif
+                                                        <div class="star" style="top: -70px;">
+                                                            <!-- <span class="review-star">{{$feedbackTo->rating}}</span> -->
+                                                            @if($feedbackTo->rating == 1)
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                            @elseif($feedbackTo->rating == 2)
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                            @elseif($feedbackTo->rating == 3)
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                            @elseif($feedbackTo->rating == 4)
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star-o"></span>
+                                                            @else 
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                                <span class="fa fa-star checked"></span>
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                     <p class="quote-feedback"
                                                         style="background-image:url({{asset('front_end/images/quoteimg.png')}});">
@@ -133,7 +136,7 @@
                            <div class="paginationPara">
                                 @if(count($feedback_list['feedbackBy'])>0)
                                     {{$feedback_list['feedbackBy']->appends($request->all())->render('vendor.pagination.custom')}}
-                                @else if(count($feedback_list['feedbackTo'])>0)
+                                @elseif(count($feedback_list['feedbackTo'])>0)
                                     {{$feedback_list['feedbackTo']->appends($request->all())->render('vendor.pagination.custom')}}
                                 @endif
                            

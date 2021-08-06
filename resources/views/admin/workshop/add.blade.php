@@ -49,21 +49,30 @@
                                                 <option>Select Designation First</option> 
                                             </select>
                                     </div>  
-                                </div>
-                                <div class="col-xl-6 col-md-12 col-sm-12 col-12">
-                                    <div class="form-group mb-4">
-                                        <label for="dob">Workshop Date</label>
-                                        <input type="date" min="{{date('Y-m-d')}}" class="form-control" value="{{old('date')}}" name="date" placeholder="Workshop Date" aria-label="Date of Birth" aria-describedby="basic-addon1">
-                                    </div> 
-                                </div>
-                            </div> 
-                            <div class="row">
+                                </div> 
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
                                         <label for="name"> Workshop Time</label>
                                         <input type="time" name="time" id="time" value="{{old('time')}}" placeholder="Time" class="form-control">
                                     </div>
                                 </div> 
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6 col-md-12 col-sm-12 col-12">
+                                    <div class="form-group mb-4">
+                                        <label for="dob">Workshop Start Date</label>
+                                        <input type="date" min="{{date('Y-m-d')}}" class="form-control" value="{{old('start_date')}}" name="start_date" placeholder="Workshop Start Date" aria-label="Date of Birth" aria-describedby="basic-addon1">
+                                    </div> 
+                                </div>
+                                
+                                <div class="col-xl-6 col-md-12 col-sm-12 col-12">
+                                    <div class="form-group mb-4">
+                                        <label for="dob">Workshop End Date</label>
+                                        <input type="date" min="{{date('Y-m-d')}}" class="form-control" value="{{old('date')}}" name="date" placeholder="Workshop End Date" aria-label="Date of Birth" aria-describedby="basic-addon1">
+                                    </div> 
+                                </div> 
+                            </div>
+                            <div class="row">
                                 <div class="col-xl-6 col-md-12 col-sm-12 col-12">
                                     <div class="form-group mb-4">
                                     <label for="name"> Price (<i class="fas fa-rupee-sign"></i>)</label>

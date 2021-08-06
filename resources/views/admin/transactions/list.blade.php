@@ -11,7 +11,7 @@
                     <div class="widget-header">
                         <div class="row"> 
                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                <h4>{{ucwords($type)}} Transaction Listing </h4>
+                                <h4>{{ucwords($type)}}s Transaction Listings </h4>
                             </div> 
                         </div>
                     </div>
@@ -98,18 +98,36 @@
                         <div class="table-responsive"> 
                             <table class="table table-bordered mb-4 table-hover">
                                 <thead>  
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Date</th>
-                                        <th>Payment Id</th>
-                                        <th>Amount</th> 
-                                        <?php if($type == 'order'){ ?>   
-                                                <th>Refund Id</th>
-                                                <th>Refund Amount</th>  
+                                    <tr> 
+                                        <?php if($type == 'order'){ ?> 
+                                            <th>ID</th>
+                                            <th>Date</th>
+                                            <th>Payment Id</th>
+                                            <th>Amount</th>   
+                                            <th>Refund Id</th>
+                                            <th>Refund Amount</th>  
+                                        <?php }else if($type == 'registration'){ ?>
+                                            <th>ID</th>
+                                            <th>Expert</th>
+                                            <th>Payment Id</th>
+                                            <th>Amount</th>   
+                                            <th>Start Date</th>   
+                                            <th>End Date</th>   
+                                            <th>Month</th>   
+                                            <th>Plan Details</th>   
+                                        <?php }else if($type == 'booking'){ ?>
+                                            <td>ID</td>
+                                            <td>Date</td>
+                                            <th>Payment Id</th>
+                                            <th>Amount</th>   
                                         <?php }else if($type == 'appointment'){ ?> 
-                                                <th>Expert</th>
-                                                <th>Refund Id</th>
-                                                <th>Refund Amount</th>    
+                                            <th>ID</th>
+                                            <th>Date</th>
+                                            <th>Payment Id</th>
+                                            <th>Amount</th> 
+                                            <th>Expert</th>
+                                            <th>Refund Id</th>
+                                            <th>Refund Amount</th>    
                                         <?php } ?>
                                     </tr>
                                 </thead>
@@ -124,12 +142,16 @@
                                                     <td>{{$aGetData->payment_id}}</td> 
                                                     <td><i class="fas fa-rupee-sign"></i> {{number_format($aGetData->grand_total,2,'.',',')}}</td> 
                                                     <td>@if(!empty($aGetData->refund_id)) {{$aGetData->refund_id}} @else N/A @endif</td>
-                                                    <td>@if(!empty($aGetData->amount_refund)) <i class="fas fa-rupee-sign"></i> {{$aGetData->refund_amount}} @else N/A @endif</td>   
+                                                    <td>@if(!empty($aGetData->refund_amount)) <i class="fas fa-rupee-sign"></i> {{number_format($aGetData->refund_amount,2,'.',',')}} @else N/A @endif</td>   
                                                 <?php }else if($type == 'registration'){ ?>
                                                     <td><a style="color:blue" href="{{route('adminexpert.show',$aGetData->user_id)}}">{{$i}}</a></td>
-                                                    <td>{{date('d M, Y',strtotime($aGetData->created_at))}}</td>
+                                                    <td><a style="color:blue" href="{{route('adminexpert.show',$aGetData->user_id)}}">{{CommonFunction::GetSingleField('users','full_name','user_id',$aGetData->user_id)}}</a></td> 
                                                     <td>{{$aGetData->payment_id}}</td>
                                                     <td><i class="fas fa-rupee-sign"></i> {{number_format($aGetData->register_amount,2,'.',',')}}</td>
+                                                    <td>{{date('d M, Y',strtotime($aGetData->start_date))}}</td>
+                                                    <td>{{date('d M, Y',strtotime($aGetData->end_date))}}</td>
+                                                    <td>{{$aGetData->month}} Month</td>
+                                                    <td>{{ucwords($aGetData->plan_detail)}}</td> 
                                                 <?php }else if($type == 'booking'){ ?>
                                                     <td><a style="color:blue" href="{{route('workshop.show',$aGetData->workshop_id)}}">{{$aGetData->booking_no}}</a></td>
                                                     <td>{{date('d M, Y',strtotime($aGetData->date))}}</td>

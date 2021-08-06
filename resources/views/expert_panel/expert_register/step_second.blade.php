@@ -59,12 +59,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="input-group mb-4">
-                                    <input type="text" class="form-control" placeholder="Phone" aria-label="Phone"
-                                        aria-describedby="basic-addon1" name="office_phone_number" value="{{ old('office_phone_number', !empty($expert) ? $expert->office_phone_number : '') }}">
-                                </div>
-                            </div>
+                           
                             <div class="col-md-4">
                                 <div class="input-group mb-4">
                                     <select class="form-control" id="exampleFormControlSelect1"
@@ -78,6 +73,12 @@
                                             <option {{ old('user_experience', !empty($expert) ? $expert->user_experience : '') == $i ? 'selected' : ''}} value="{{$i}}">{{$i}} Year</option>
                                         @endfor
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group mb-4">
+                                    <input type="text" class="form-control" placeholder="Phone" aria-label="Phone"
+                                        aria-describedby="basic-addon1" name="office_phone_number" value="{{ old('office_phone_number', !empty($expert) ? $expert->office_phone_number : '') }}">
                                 </div>
                             </div>
                         </div> 

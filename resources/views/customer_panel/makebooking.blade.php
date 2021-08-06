@@ -44,6 +44,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <p id="date"></p>
+                                            <p id="start_date"></p>
                                             <p id="time"></p>
                                         </div> 
                                         <form action="" id="payment" method="POST">

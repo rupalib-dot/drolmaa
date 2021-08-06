@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\ProductImages;
+use CommonFunction;
 class OrderDetail extends JsonResource
 {
     /**
@@ -14,13 +15,16 @@ class OrderDetail extends JsonResource
      */
     public function toArray($request)
     {
-        $pro_image = ProductImages::where('product_id',$this->product_id)->first();
+        $product = CommonFunction::GetSingleRow('products','product_id',$this->product_id);
+        $product_image = CommonFunction::GetSingleField('product_images','image_name','product_id',$this->product_id);
+ 
         return [
+            'product_id'    => $this->product_id,
             'product_name'  => $this->product_name,
             'quantity'      => $this->quantity,
-            'price'         => $this->price,
+            'price'         => round($this->price,2),
             'total_price'   => $this->total_price,
-            'pro_image'     => !empty($this->pro_image) ? asset('products/'.$this->pro_image) : asset('front_end/images/blogimg.jpg'),
+            'product_image'     => !empty($product_image->image_name) ? asset('public/products/'.$image->image_name) : asset('front_end/images/blogimg.jpg'), 
         ];
     }
 }

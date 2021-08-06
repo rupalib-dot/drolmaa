@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\ApiController;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Storage; 
 use Validator;
 use App\Http\Controllers\ApiController\BaseController as BaseController;
 use App\Models\User;
@@ -96,17 +95,19 @@ class CustomerController extends BaseController
                 $user_role->user_id = $user->user_id;
                 $user_role->save();
 
+				$otp = rand(1111,9999);
 				$details = array(
 					'name'         	=> $request->full_name,
 					'mobile' 		=> $request->mobile_number,
 					'email' 		=> $request->email_address,   
 					'password'      => $request->user_password,
 					'user_id'       => $user->user_id,
+					'otp'			=> $otp,
 				);   
-				\Mail::to($request->email_address)->send(new \App\Mail\NewUserMail($details));
+				// \Mail::to($request->email_address)->send(new \App\Mail\NewUserMail($details));
 
 			\DB::commit();
-			return $this->sendSuccess(['mobile_number' => $request->mobile_number, 'mobile_otp' => rand(1111,9999)], 'OTP sent on your mobile number');
+			return $this->sendSuccess(['user_id' => $user->user_id, 'mobile_otp' =>$otp], 'OTP sent on your mobile number');
 		}
 		catch (\Throwable $e)
     	{

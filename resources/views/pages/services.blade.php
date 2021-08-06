@@ -16,48 +16,60 @@
                 <div class="care-text text-center">
                     <h3 class="glo-heading">Psychological Services</h3>
                     <span class="gimg"><img src="{{asset('front_end/images/cimg.png')}}" alt=""></span>
-                    <p class="g-text">Commodo tempus sapien sit bibendum sit morbi auctor molestie rutrum pellentesque
+                    <p class="g-text text-center">Commodo tempus sapien sit bibendum sit morbi auctor molestie rutrum pellentesque
                         eget vitae<br> justo
                         congue amet malesuada
                     </p>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="cycle-box" style="background-image:url({{asset('front_end/images/i-1.png')}})">
+                    <a href="">
+                    <div class="cycle-box" style="background-image:url({{asset('front_end/images/i-1.png')}})">
                         </div>
-                        <h5 class="cyle-des">Consulting Counselling</h5>
-                        <p class="g-text">"Lorem ipsum dolor sit ame</p>
+                        <h5 class="cyle-des text-center text-center">Consulting Counselling</h5>
+                        <p class="g-text text-center">"Lorem ipsum dolor sit ame</p>
                     </div>
+                    </a>
                     <div class="col-md-4">
+                    <a href="">
                         <div class="cycle-box" style="background-image:url({{asset('front_end/images/i-2.png')}})">
                         </div>
-                        <h5 class="cyle-des">Workshops Webinar</h5>
-                        <p class="g-text">"Lorem ipsum dolor sit ame</p>
+                        <h5 class="cyle-des text-center">Workshops Webinar</h5>
+                        <p class="g-text text-center">"Lorem ipsum dolor sit ame</p>
                     </div>
+                    </a>
                     <div class="col-md-4">
+                    <a href="">
                         <div class="cycle-box" style="background-image:url({{asset('front_end/images/i-3.png')}})">
                         </div>
-                        <h5 class="cyle-des">Training</h5>
-                        <p class="g-text">"Lorem ipsum dolor sit ame</p>
+                        <h5 class="cyle-des text-center">Training</h5>
+                        <p class="g-text text-center">"Lorem ipsum dolor sit ame</p>
                     </div>
+                    </a>
                     <div class="col-md-4">
+                    <a href="">
                         <div class="cycle-box" style="background-image:url({{asset('front_end/images/i-4.png')}})">
                         </div>
-                        <h5 class="cyle-des">Courses</h5>
-                        <p class="g-text">"Lorem ipsum dolor sit ame</p>
+                        <h5 class="cyle-des text-center">Courses</h5>
+                        <p class="g-text text-center">"Lorem ipsum dolor sit ame</p>
                     </div>
+                    </a>
                     <div class="col-md-4">
+                    <a href="">
                         <div class="cycle-box" style="background-image:url({{asset('front_end/images/i-5.png')}})">
                         </div>
-                        <h5 class="cyle-des">Internship</h5>
-                        <p class="g-text">"Lorem ipsum dolor sit ame</p>
+                        <h5 class="cyle-des text-center">Internship</h5>
+                        <p class="g-text text-center">"Lorem ipsum dolor sit ame</p>
                     </div>
+                    </a>
                     <div class="col-md-4">
+                    <a href="">
                         <div class="cycle-box" style="background-image:url({{asset('front_end/images/i-6.png')}})">
                         </div>
-                        <h5 class="cyle-des">Other activities</h5>
-                        <p class="g-text">"Lorem ipsum dolor sit ame</p>
+                        <h5 class="cyle-des text-center">Other activities</h5>
+                        <p class="g-text text-center">"Lorem ipsum dolor sit ame</p>
                     </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -66,11 +78,11 @@
 <section id="about-query" class="about-query">
     <div class="container">
         <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+            <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
                 <div class="ask-ques">
                     <h3 class="glo-heading">Frequently Asked Questions</h3>
                     <span class="gimg"><img src="{{asset('front_end/images/cimg.png')}}" alt=""></span>
-                    <p class="g-text">Commodo tempus sapien sit bibendum sit morbi auctor molestie rutrum pellentesque
+                    <p class="g-text text-left">Commodo tempus sapien sit bibendum sit morbi auctor molestie rutrum pellentesque
                         eget vitae justo
                         congue amet malesuada
                     </p>
@@ -121,9 +133,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+            <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
                 <div class="ques-image">
-                    <img src="{{asset('front_end/images/img-0.png')}}" alt="" class="">
+                    <img src="{{asset('front_end/images/img-0.png')}}" alt="" class="img-fluid">
                 </div>
             </div>
 

@@ -1,13 +1,13 @@
 @include('include.header')
 @include('include.nav')
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container">
-        <div class="row">
+    <div class="container-fluid">
+        <div class="">
             <div class="col-sm-12">
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.expert_sidebar')
-                        <div class="col-md-9">
+                        <div class="col-md-10">
                             <div class="dashboard-panel">
                                 @include('include.validation_message')
                                 @include('include.auth_message')
@@ -16,16 +16,16 @@
                                 <a href="{{route('expappointment.index',['type'=>'previous'])}}"> <button class="@if($request['type'] == 'previous') curent-appoint @else previous-appoint @endif">Previous Appointment</button></a>
                                 <form action="{{route('expappointment.index')}}" class="form-appoint">
 
-                                    <input type="date" name="from_date" value="{{old('from_date',$request['from_date'])}}" class="mr-3">
+                                    <input style="margin-right: 5px !important;" type="date" name="from_date" value="{{old('from_date',$request['from_date'])}}" class="mr-3">
 
-                                    <input type="date" name="to_date" value="{{old('to_date',$request['to_date'])}}">
-                                    <select  name="payment_type" style="border: 1px solid var(--black1);padding: 8px;">
+                                    <input style="margin-right: 5px !important;" type="date" name="to_date" value="{{old('to_date',$request['to_date'])}}">
+                                    <select  name="payment_type" style="border: 1px solid var(--black1);padding: 9px;margin-right: 5px !important;">
                                     <option value="">Select Payment</option>
                                         @foreach(config('constant.PAYMENT_MODE') as $value => $key)
                                             <option {{ old('payment_type',$request['payment_type']) == $key ? 'selected' : ''}} value="{{$key}}">{{ucfirst(strtolower($value))}}</option>
                                         @endforeach
                                     </select>
-                                    <button type="submit" class="filter" style="margin-left:0px">Filter</button> 
+                                    <button type="submit" class="filter" style="margin-left:0px;margin-right: 5px !important;">Filter</button> 
                                     <a href="{{url('expert/expappointment')}}"> <button type="button" class="filter"  style="margin-left:0px">Clear</button></a>
                                 </form>
                                 <table class="table table-bordered appoint-table" style="width:100%">
