@@ -8,6 +8,7 @@ use App\Models\Designation;
 use App\Models\User;
 use App\Models\Feedback;
 use App\Http\Resources\Feedback as Feedbacks; 
+use App\Models\Workshop;
 use DB; 
 use CommonFunction;
 use App\Models\Availability;
@@ -19,7 +20,7 @@ class CommonTaskController extends Controller
        
     }
 
-    public function live_webinar(Request $request)
+    public function live_workshops(Request $request)
     { 
         $title  = "Live Webinar";
         $workshop_detail  = Workshop::OrderBy('title')
@@ -116,12 +117,7 @@ class CommonTaskController extends Controller
     public function our_training(Request $request)
     { 
          
-    }
-    
-    public function live_workshops(Request $request)
-    { 
-         
-    }
+    } 
 
     public function other_activities(Request $request)
     { 

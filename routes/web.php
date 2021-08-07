@@ -274,7 +274,7 @@ Route::namespace('CommonController')->group(function () {
     Route::get('experts', [CommonTaskController::class, 'our_experts'])->name('our_experts');
     Route::get('expert/details/{id}', [CommonTaskController::class, 'expert_details'])->name('expert.details'); 
     Route::get('trainings', [CommonTaskController::class, 'our_training'])->name('our_training');
-    Route::get('live/workshops', [CommonTaskController::class, 'live_webinar'])->name('live_webinar'); 
+    Route::get('live/workshops', [CommonTaskController::class, 'live_workshops'])->name('live_webinar'); 
     Route::get('other_services', [CommonTaskController::class, 'other_activities'])->name('other_activities'); 
 
 });
