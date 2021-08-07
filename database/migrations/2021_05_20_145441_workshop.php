@@ -21,6 +21,7 @@ class Workshop extends Migration
             $table->string('price',5)->nullable();
             $table->string('date',20)->nullable();
             $table->string('time',20)->nullable();
+            $table->integer('created_by')->nullable(); 
             $table->softDeletes();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));

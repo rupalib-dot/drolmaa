@@ -1,6 +1,6 @@
 @include('include.header')
 @include('include.nav')
-<section id="appointment" class="appointment padding-top" role="appointments">
+<section id="appointment" class="appointment padding-top" role="appointments"> 
    <div class="container-fluid">
     <div class="row">
         <div class="header_expert">
@@ -276,6 +276,7 @@
                 
        </div>
    </div>
+ 
 </section>
 @include('include.footer')
 @include('include.script')

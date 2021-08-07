@@ -100,8 +100,9 @@
                                             @elseif($service->services_title == 'Our Training')
                                                 <a href="{{route('our_training')}}">
                                             @elseif($service->services_title == 'Live Workshops')
+                                            
                                                 <a href="{{route('live_webinar')}}">
-                                            @elseif($service->services_title == 'Shops')
+                                                 @elseif($service->services_title == 'Shops')
                                                 <a href="{{route('page.shop')}}">
                                             @elseif($service->services_title == 'Other Activities')
                                                 <a href="{{route('other_activities')}}">
