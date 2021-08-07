@@ -1555,7 +1555,7 @@ p.quote-feedback {
 }
 .star {
     position: relative;
-    display: inline-block;
+    /* display: inline-block; */
     float: right;
     margin-top: 10px;
 }

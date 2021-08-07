@@ -11,6 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
 <script src="{{asset('front_end/js/file-upload-with-preview.min.js')}}"></script>
 <script src="{{asset('front_end/js/common-script.js')}}"></script>
+<script src="{{asset('front_end/js/magicscroll.js')}}"></script>
 <script>
 setTimeout(function(){
     $('.error-bg').hide();

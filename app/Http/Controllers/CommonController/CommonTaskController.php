@@ -54,8 +54,7 @@ class CommonTaskController extends Controller
 
     //expert detail page
 	public function expert_details(Request $request,$id){ 
-        try
-		{     
+      
             $title  = "Expert Details";
 			$availSlots = array();
 			$reviews = array();
@@ -70,7 +69,7 @@ class CommonTaskController extends Controller
 				$feedback    = Feedback::where('feedback_to',$id)->where('module_type','!=',config('constant.FEEDBACK.ORDER'))->get();
 				$feedback_data    = Feedback::where('feedback_to',$id)->where('module_type',config('constant.FEEDBACK.ORDER'))->sum('rating');
 				$rating = 0;
-				if($feedback_data >0){
+				if($feedback_data > 0 && count($feedback) >0){
 					$feedback_count = count($feedback);
 					$rating = round($feedback_data/$feedback_count);       
 				} 
@@ -97,11 +96,6 @@ class CommonTaskController extends Controller
 			}else{
 				return redirect()->back()->with('Failed','No record found'); 
 			}
-		}
-		catch (\Throwable $e)
-    	{
-    		return redirect()->back()->with('Failed',$e->getMessage().' on line '.$e->getLine());  
-    	}
     }
 
 
