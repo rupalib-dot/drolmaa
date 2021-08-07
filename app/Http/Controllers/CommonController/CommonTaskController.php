@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CommonController;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request; 
+use App\Models\Designation;
 use App\Models\User;
 use App\Models\Feedback;
 use App\Http\Resources\Feedback as Feedbacks; 
@@ -36,6 +37,8 @@ class CommonTaskController extends Controller
     public function our_experts(Request $request)
     { 
         $title  = "Expert List";
+        $designation_list = Designation::get();
+        $specialPlans = config('constant.SPECIAL_PLANS');
         $experts = User::select('users.*')
         ->Where(function($query) use ($request) {  
             if (isset($request['keyword']) && !empty($request['keyword'])) { 
@@ -43,12 +46,16 @@ class CommonTaskController extends Controller
                 $query->orWhere('mobile_number',$request['keyword']);
                 $query->orWhere('email_address','LIKE', "%".$request['keyword']."%");
                 $query->orWhere('address_details','LIKE', "%".$request['keyword']."%");
-            }  
+            }if(isset($request['designation'])&& !empty($request['designation'])){
+                $query->where('designation_id',$request['designation']);
+            }if(isset($request['specialization'])&& !empty($request['specialization'])){ 
+                $query->whereRaw('FIND_IN_SET('.$request['specialization'].',special_plan)');
+            } 
         }) 
         ->join('user_role','user_role.user_id','=','users.user_id')
         ->Where('user_role.role_id',2)
-        ->orderBy('users.user_id','desc')->paginate(15); 
-        $data   = compact('title','experts','request');
+        ->orderBy('users.user_id','desc')->paginate(5); 
+        $data   = compact('title','experts','request','designation_list','specialPlans');
         return view('pages.experts', $data);
     }
 
