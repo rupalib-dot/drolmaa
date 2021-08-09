@@ -683,6 +683,57 @@ a.offer {
     border-color: #870e1c;
 }
 
+.about_expert p {
+    line-height: 24px;
+    font-size: 18px;
+}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: #ffffff;
+    background-color: #996515;
+    border-color: #dee2e6 #dee2e6 #fff;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    font-weight: 300;
+}
+.nav-tabs .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    font-size: 16px;
+    color: rgb(73, 70, 70);
+    line-height: 24px;
+    text-align: center;
+    font-weight: 300;
+    min-width: 134px;
+}
+.accordion>.card>.card-header{
+    background: #952a16 !important;
+}
+.card-header .btn-link{
+    color: #fff;
+}
+.card-header .btn-link:hover{
+    text-decoration: none;
+}
+.card-header .btn-link:focus{
+    outline: 0;
+    box-shadow: none;
+    text-decoration: none !important;
+}
+.faq_answer.card-body{
+    text-align: justify;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 26px;
+}
+.faq_heading h3 {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 40px;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
 
 /*--------------------------Footer----------------------*/
 

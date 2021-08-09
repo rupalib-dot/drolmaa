@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{asset('front_end/css/file-upload-with-preview.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('front_end/font/flaticon.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('front_end/css/styledemo.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('front_end/css/magicscroll.css')}}">
 </head>
 
 <body>
