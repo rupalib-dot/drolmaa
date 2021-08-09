@@ -34,6 +34,20 @@ class CommonTaskController extends Controller
         $data   = compact('title','workshop_detail','request');
         return view('pages.live_webinar', $data);
     }
+    public function live_workshops_details(Request $request)
+    { 
+        $title  = "Workshop Details";
+        $workshop_detail_live  = Workshop::OrderBy('title')
+        ->Where(function($query) use ($request) {  
+            if (isset($request['keyword']) && !empty($request['keyword'])) { 
+                $query->where('title','LIKE', "%".$request['keyword']."%");
+                $query->orWhere('price',$request['keyword']);
+            }  
+        })
+        ->where('date','>',date('Y-m-d'))->paginate(15); 
+        $data   = compact('title','workshop_detail_live','request');
+        return view('pages.live_webinar_details', $data);
+    }
 
     public function our_experts(Request $request)
     { 

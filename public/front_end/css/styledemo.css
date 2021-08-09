@@ -618,6 +618,20 @@ a.offer {
     justify-content: center;
     background-size: cover;
 }
+.header_workshop{
+    background-image: url(../images/workshop_list_back.svg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 100%;
+    min-height: 200px;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    background-size: cover;
+
+}
 
 .filter_exper_list {
     background-color: #F8F8F8;
@@ -643,7 +657,23 @@ a.offer {
     text-align: center;
     margin-bottom: 5px;
 }
-
+.book_work_button a{
+  
+    border-radius: 4px;
+    padding: 7px 32px;
+    border: 1px solid #a41919;
+    display: inline-block;
+    margin: 20px 0px;
+    
+    vertical-align: -webkit-baseline-middle;
+}
+.enquire_btn{
+    padding: 7px 32px;
+}
+.enquire_btn:hover{
+    background-color: transparent;
+    color: #dc3545;
+}
 .expert_button a:nth-child(1) {
     background: #996515;
     border-radius: 4px;
@@ -733,6 +763,12 @@ a.offer {
     line-height: 40px;
     margin-top: 10px;
     text-transform: uppercase;
+}
+.workshop_default_profile img{
+    border: 13px solid  #996515;
+    border-top: 0px;
+    border-left: 0px;
+    margin: 22px 0px;
 }
 
 /*--------------------------Footer----------------------*/
