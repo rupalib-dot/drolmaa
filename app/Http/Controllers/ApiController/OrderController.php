@@ -111,8 +111,8 @@ class OrderController extends  BaseController
 					$order_dt->product_id 		= $product_list['product_id'];
 					$order_dt->product_name 	= $product_list['product_name'];
 					$order_dt->quantity 		= $product_list['quantity'];
-					$order_dt->price 		    = round($product_list['price'],2);
-					$order_dt->total_price 		= round(($product_list['price'] * $product_list['quantity']),2); 
+					$order_dt->price 		    = round($product_list['selling_price'],2);
+					$order_dt->total_price 		= round(($product_list['selling_price'] * $product_list['quantity']),2); 
 					$order_dt->save();
 				}
 			\DB::commit();

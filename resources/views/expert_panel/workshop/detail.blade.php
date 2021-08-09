@@ -1,87 +1,83 @@
-@extends('admin.layouts.app')
-
-@section('content')
+@include('include.header')
+@include('include.nav')
 <style> 
 .checked{
    color: #ffc800;
 }
-</style>
+</style> 
+<section id="appointment" class="appointment padding-top" role="appointments">
     <div class="container-fluid">
-        <div class="row layout-top-spacing">
-            <div id="tableSimple" class="col-lg-12 col-12 layout-spacing">
-                @include('admin.inc.validation_message')
-                @include('admin.inc.auth_message')
-                <div class="statbox widget box box-shadow mb-1">
-                    <div class="widget-header">
-                        <div class="row">
-                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                            <h4>Workshop Details</h4>
-                            </div>
-                        </div>
-                    </div> 
-                </div>
-                <div class="statbox widget box box-shadow">
-                    <div class="widget-content widget-content-area">
-                        <div class="table-responsive">
-                            <table class="table table-bordered mb-4 table-hover">
-                                <thead>  
-                                    <tr> 
-                                        <th>S.No</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Mobile Number</th> 
-                                        <th>Status</th>
-                                        <th>Payment Id</th> 
-                                        <th>Amount</th> 
-                                    </tr>
-                                </thead>
-                                <tbody>  
-                                @if(count($users_list)>0) 
-                                        @php $i=1; @endphp 
-                                        @foreach($users_list as $aGetData) 
-                                            <tr> 
-                                                <td>{{$aGetData->booking_no}}</td> 
-                                                <td>{{$aGetData->Users->full_name}} </td>
-                                                <td>{{$aGetData->Users->email_address}}</td>
-                                                <td>+91 {{$aGetData->Users->mobile_number}}</td>  
-                                                <td>{{ucwords(strtolower(array_search($aGetData->status,config('constant.STATUS'))))}}</td>
-                                                <td>{{$aGetData->payment_id}}</td> 
-                                                <td><i class="fas fa-rupee-sign"></i> {{number_format(CommonFunction::GetSingleField('workshop','price','workshop_id',$aGetData->module_id),2,'.',',')}}</td>  
-                                            </tr> 
-                                        @php $i++; @endphp
-                                        @endforeach 
-                                    @else
+        <div class="">
+            <div class="col-sm-12">
+                <div class="back-appoint">
+                    <div class="row">
+                        @include('include.expert_sidebar')
+                        <div class="col-md-10" style="padding-top: 40px;">
+                            <div class="dashboard-panel">
+                                @include('include.validation_message')
+                                @include('include.auth_message')
+                                <h4>Workshop Details</h4> 
+                                <table class="table table-bordered appoint-table" style="width:100%">
+                                    <thead> 
                                         <tr> 
-                                            <td colspan="9">No Record Found</td>
+                                            <th>S.No</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Mobile Number</th> 
+                                            <th>Status</th>
+                                            <th>Payment Id</th> 
+                                            <th>Amount</th> 
                                         </tr> 
-                                    @endif  
-                                </tbody>
-                            </table>
-                        </div> 
-                        <div class="paginating-container pagination-solid justify-content-end">
+                                    </thead>
+                                    <tbody>
+                                        @if(count($users_list)>0) 
+                                            @php $i=1; @endphp 
+                                            @foreach($users_list as $aGetData) 
+                                                <tr> 
+                                                    <td>{{$aGetData->booking_no}}</td> 
+                                                    <td>{{$aGetData->Users->full_name}} </td>
+                                                    <td>{{$aGetData->Users->email_address}}</td>
+                                                    <td>+91 {{$aGetData->Users->mobile_number}}</td>  
+                                                    <td>{{ucwords(strtolower(array_search($aGetData->status,config('constant.STATUS'))))}}</td>
+                                                    <td>{{$aGetData->payment_id}}</td> 
+                                                    <td><i class="fas fa-rupee-sign"></i> {{number_format(CommonFunction::GetSingleField('workshop','price','workshop_id',$aGetData->module_id),2,'.',',')}}</td>  
+                                                </tr> 
+                                            @php $i++; @endphp
+                                            @endforeach 
+                                        @else
+                                            <tr> 
+                                                <td colspan="9">No Record Found</td>
+                                            </tr> 
+                                        @endif  
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="paginationPara">  
                             {{$users_list->appends($request->all())->render('vendor.pagination.custom')}}
-                        </div>
-                    </div>
-                </div>
-                <div class="statbox widget box box-shadow mb-1"> 
-                    <div class="widget-content widget-content-area">
-                        <div class="row">
-                        <h3 style="    margin-bottom: 20px; margin-left: 16px;">Feedback</h3>
-                            <div class="col-sm-12">
-                                @if(count($feedback_list)>0)
+                                <!-- <ul class="pagination justify-content-center">
+                                    <li class="page-serial"><a class="page-start" href="#"><button
+                                                class="page-next">Previouss</button>
+                                        </a></li>
+                                    <li class="page-serial"><a class="page-start" href="#">01</a></li>
+                                    <li class="page-serial"><a class="page-start" href="#">02</a></li>
+                                    <li class="page-serial"><a class="page-start" href="#">03</a></li>
+                                    <li class="page-serial"><a class="page-start" href="#">04</a></li>
+                                    <li class="page-serial"><a class="page-start" href="#">05</a></li>
+                                    <li class="page-serial"><a class="page-start" href="#">06</a></li>
+                                    <li class="page-serial"><a class="page-start" href="#">07</a></li>
+                                    <li class="page-serial"><a class="page-start" href="#"><button
+                                                class="page-next">Next</button>
+                                        </a></li>
+                                </ul> -->
+                            </div> 
+                            @if(count($feedback_list)>0)
+                                <div class="dashboard-panel">
+                                    <h4>Feedback Details</h4>  
                                     @foreach($feedback_list as $feedback)
-                                    <?php $image_name = CommonFunction::GetSingleField('users','user_image','user_id',$feedback->feedback_by); ?>
+                                        <?php $image_name = CommonFunction::GetSingleField('users','user_image','user_id',$feedback->feedback_by); ?>
                                         <div class="feedback-profile" style="border: 1px solid #00000040;padding: 20px;">
-                                            <div class="feedback-rating">
-                                                <div class="feedback-box"
-                                                    style="background-image:<?php if(!empty($image_name)){?>{{asset('user_images/'.$image_name)}}<?php }else{?>{{asset('front_end/images/blogimg.jpg')}}<?php }?> ">
-                                                </div>
+                                            <div class="feedback-rating"> 
                                                 <h4>{{CommonFunction::GetSingleField('users','full_name','user_id',$feedback->feedback_by)}}</h4>
-                                                <p class="java-tech">Feedback On:- {{ucwords(strtolower(array_search($feedback->module_type,config('constant.FEEDBACK'))))}}</p>
-
-                                            </div>
-                                            <div class="star">
-                                                <span class="review-star">{{$feedback->rating}}</span>
                                                 @if($feedback->rating == 1)
                                                     <span class="fa fa-star checked"></span>
                                                     <span class="fa fa-star-o"></span>
@@ -114,22 +110,27 @@
                                                     <span class="fa fa-star checked"></span>
                                                 @endif
                                             </div>
-                                            <p class="quote-feedback">
+                                            <div class="star">
+                                            {{$feedback->created_at}} 
+                                            </div>
+                                            <p class="quote-feedback" style="padding-top: 10px;padding-left: 0px; margin-bottom: 0px;">
                                                 {{$feedback->message}}
                                             </p>
-                                            <p style="padding-top:0px;text-align: right;color: var(--black1);">
-                                                {{$feedback->created_at}}
-                                            </p>
+                                             
                                         </div>
-                                    @endforeach
-                                    @else
-                                    No record found 
-                                @endif 
-                            </div>
-                        </div>            
+                                    @endforeach 
+                                </div>  
+                            @endif 
+                        </div>
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
     </div>
-@endsection  
+</section>
+@include('include.footer')
+@include('include.script')
+
+
+ 
+

@@ -66,6 +66,7 @@ class WorkshopController extends Controller
             'start_date.required'   => 'Start Date should be required',
             'start_date.before'         => 'Start Date must be greater than end date',
             'time.required'         => 'Time should be required',
+            'description.required'  =>'Description should be required'
 		];
 
 		$validatedData = $request->validate([
@@ -75,20 +76,31 @@ class WorkshopController extends Controller
             'expert' 	    => 'required',
             'date' 	        => 'required',
             'start_date' 	        => 'required|before:date',
-            'time' 	        => 'required',			 
+            'time' 	        => 'required',			
+            'description' 	    => 'required' 
         ], $error_message);
 
         
         try 
         { 
+            $workshop_image = NULL;
+            if($request->hasFile('image'))
+            {
+                $workshop_image = time() . '.' . $request->file('image')->getClientOriginalExtension();
+                $request->file('image')->move(public_path('workshop'), $workshop_image); 
+            } 
+ 
             $workshop_data = Workshop::create([
                 'title'          => $request->title,
-                'price'          => $request->price, 
+                'price'          => $request->price,  
                 'designation'   => $request->designation, 
                 'expert'        => $request->expert,
                 'date'          => date('Y-m-d',strtotime($request->date)),
                 'start_date'    => date('Y-m-d',strtotime($request->start_date)),
-                'time'          => $request->time,
+                'description'   => $request->description, 
+                'image'         => $workshop_image,
+                'time'          => $request->time,  
+                'created_by'    => 1,
                 'created_at'    => date('Y-m-d H:i:s'),
                 'updated_at'    => date('Y-m-d H:i:s'),
             ]); 
@@ -155,6 +167,7 @@ class WorkshopController extends Controller
             'start_date.required'         => 'Start Date should be required',
             'start_date.before'         => 'Start Date must be greater than end date',
             'time.required'         => 'Time should be required',
+            'description.required'  =>'Description should be required'
 		];
 
 		$validatedData = $request->validate([
@@ -165,21 +178,32 @@ class WorkshopController extends Controller
             'date' 	            => 'required',
             'start_date' 	        => 'required|before:date',
             'time' 	            => 'required',			 
+            'description' 	    => 'required'
         ], $error_message);
 
         
         try 
         { 
+            $workshop_image = CommonFunction::GetSingleField('workshop','image','workshop_id',$id);
+            if($request->hasFile('image'))
+            {
+                $workshop_image = time() . '.' . $request->file('image')->getClientOriginalExtension();
+                $request->file('image')->move(public_path('workshop'), $workshop_image); 
+            } 
+
             $workshop_data = Workshop::where('workshop_id',$id)->update([
                 'title'          => $request->title,
                 'price'          => $request->price, 
+                'description'   => $request->description, 
                 'designation'   => $request->designation, 
                 'expert'        => $request->expert,
                 'date'          => date('Y-m-d',strtotime($request->date)),
                 'start_date'    => date('Y-m-d',strtotime($request->start_date)),
+                'image'         => $workshop_image,
                 'time'          => $request->time, 
-                'updated_at'    => date('Y-m-d H:i:s'),
+                'updated_at'    => date('Y-m-d H:i:s'), 
             ]); 
+
             if(!empty($workshop_data)){
                 return redirect()->route('workshop.index')->with('Success', 'Workshop updated successfully');
             }else{

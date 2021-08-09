@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Designation;
 use App\Models\Feedback;
+use Session;
+use CommonFunction;
 use DB;
 use App\Models\Workshop;
+use App\Models\Availability;
 use App\Models\Bookings;
 
 class ExpertWorkshopController extends Controller
@@ -28,9 +31,25 @@ class ExpertWorkshopController extends Controller
     public function index(Request $request)
     { 
         $title  = "Workshop";
-        $workshop = $this->Workshop->workshop_list();  
-        $data   = compact('title','workshop','request');
-        return view('admin.workshop.list', $data);
+        $todaydate = date('Y-m-d');
+        $Workshops  = Workshop::OrderBy('workshop_id','desc')->where('expert',Session::get('user_id'))
+        ->Where(function($query) use($todaydate,$request) { 
+            if($request['user'] == 'expert'){
+                $query->where('created_by',2);
+            }else {
+                $query->where('created_by',1); 
+            }
+            if($request['status'] == 'previous'){
+                $query->where('date','<', $todaydate);
+            }else{
+                $query->where('start_date','>',$todaydate);
+                $query->Where('date','>',$todaydate); 
+            }
+           
+        })
+        ->paginate(10);           
+        $data   = compact('title','Workshops','request');
+        return view('expert_panel.workshop.list', $data);
     }
 
     /**
@@ -40,10 +59,9 @@ class ExpertWorkshopController extends Controller
      */
     public function create()
     {
-        $title  = "Add Workshop";
-        $designation_list   = Designation::OrderBy('designation_title')->get(); 
-        $data   = compact('title','designation_list');
-        return view('admin.workshop.add', $data);
+        $title  = "Add Workshop";  
+        $data   = compact('title');
+        return view('expert_panel.workshop.add', $data);
     }
 
     /**
@@ -59,9 +77,7 @@ class ExpertWorkshopController extends Controller
             'title.min'              => 'Title should be minimum of 3 characters',
             'title.max'              => 'Title should be maximum of 30 characters',
             'title.unique' 		    => 'Title already exist', 
-			'price.required' 	    => 'Price should be required',
-            'designation.required'  => 'Designation should be required', 
-            'expert.required'       => 'Expert should be required',
+			'price.required' 	    => 'Price should be required', 
             'date.required'         => 'Date should be required',
             'start_date.required'   => 'Start Date should be required',
             'start_date.before'         => 'Start Date must be greater than end date',
@@ -71,9 +87,7 @@ class ExpertWorkshopController extends Controller
 
 		$validatedData = $request->validate([
 			'title' 	        => 'required|min:3|max:30|unique:workshop,title',
-			'price' 	        => 'required|numeric',
-            'designation' 	    => 'required',
-            'expert' 	        => 'required',
+			'price' 	        => 'required|numeric', 
             'date' 	            => 'required',
             'start_date' 	    => 'required|before:date',
             'time' 	            => 'required',		
@@ -83,24 +97,29 @@ class ExpertWorkshopController extends Controller
         
         try 
         { 
-            $professional_certificate_pic = 'professional_certificate_pic_' . time() . '.' . $request->file('professional_certificate_pic')->getClientOriginalExtension();
-            $request->file('professional_certificate_pic')->move(public_path('expert_documents'), $professional_certificate_pic);
-
+            $workshop_image = "";
+            if($request->hasFile('image'))
+            {
+                $workshop_image = time() . '.' . $request->file('image')->getClientOriginalExtension();
+                $request->file('image')->move(public_path('workshop'), $workshop_image); 
+            } 
 
             $workshop_data = Workshop::create([
                 'title'          => $request->title,
-                'price'          => $request->price, 
-                'designation'   => $request->designation, 
-                'expert'        => $request->expert,
+                'price'          => $request->price,  
+                'designation'   => CommonFunction::GetSingleField('users','designation_id','user_id',Session::get('user_id')),
+                'expert'        => Session::get('user_id'),
                 'date'          => date('Y-m-d',strtotime($request->date)),
                 'start_date'    => date('Y-m-d',strtotime($request->start_date)),
-                'time'          => $request->time,
-                'description'   =>$request->description,
+                'image'         => $workshop_image,
+                'description'   => $request->description, 
+                'time'          => $request->time,  
+                'created_by'    => 2,
                 'created_at'    => date('Y-m-d H:i:s'),
                 'updated_at'    => date('Y-m-d H:i:s'),
             ]); 
             if(!empty($workshop_data)){
-                return redirect()->route('workshop.index')->with('Success', 'Workshop created successfully');
+                return redirect()->route('expworkshop.index',['status'=>$request['status'],'user'=>$request['user']])->with('Success', 'Workshop created successfully');
             }else{
                 return redirect()->back()->withInput($request->all())->with('Failed', 'Something went wrong');
             } 
@@ -123,7 +142,7 @@ class ExpertWorkshopController extends Controller
         $users_list = $this->Bookings->UsersBookedWorkshop($id); 
         $feedback_list   = Feedback::where(['module_id'=>$id,'module_type'=>config('constant.FEEDBACK.BOOKING')])->orderBy('feedback_id','desc')->get();
         $data   = compact('title','users_list','request','feedback_list');
-        return view('admin.workshop.detail', $data);
+        return view('expert_panel.workshop.detail', $data);
     }
 
     /**
@@ -135,10 +154,9 @@ class ExpertWorkshopController extends Controller
     public function edit($id)
     {
         $title  = "Edit Workshop";
-        $workshop   = Workshop::find($id);
-        $designation_list   = Designation::OrderBy('designation_title')->get(); 
-        $data   = compact('title','designation_list','workshop');
-        return view('admin.workshop.edit', $data);
+        $workshop   = Workshop::find($id); 
+        $data   = compact('title','workshop');
+        return view('expert_panel.workshop.edit', $data);
     }
 
     /**
@@ -155,44 +173,47 @@ class ExpertWorkshopController extends Controller
             'title.min'              => 'Title should be minimum of 3 characters',
             'title.max'              => 'Title should be maximum of 30 characters',
             'title.unique' 		    => 'Title already exist', 
-			'price.required' 	    => 'Price should be required',
-            'designation.required'  => 'Designation should be required', 
-            'expert.required'       => 'Expert should be required',
+			'price.required' 	    => 'Price should be required', 
             'date.required'         => 'Date should be required',
             'start_date.required'         => 'Start Date should be required',
             'start_date.before'         => 'Start Date must be greater than end date',
             'time.required'         => 'Time should be required',
+            'description.required'  =>'Description should be required'
 		];
 
 		$validatedData = $request->validate([
 			'title' 	        => 'required|min:3|max:30|unique:workshop,title,'.$id.',workshop_id',
-			'price' 	        => 'required|numeric',
-            'designation' 	    => 'required',
-            'expert' 	        => 'required',
+			'price' 	        => 'required|numeric', 
             'date' 	            => 'required',
             'start_date' 	        => 'required|before:date',
             'time' 	            => 'required',			 
+            'description' 	    => 'required'
         ], $error_message);
 
         
         try 
         { 
-            $professional_certificate_pic = 'professional_certificate_pic_' . time() . '.' . $request->file('professional_certificate_pic')->getClientOriginalExtension();
-            $request->file('professional_certificate_pic')->move(public_path('expert_documents'), $professional_certificate_pic);
+            $workshop_image = CommonFunction::GetSingleField('workshop','image','workshop_id',$id);
+            if($request->hasFile('image'))
+            {
+                $workshop_image = time() . '.' . $request->file('image')->getClientOriginalExtension();
+                $request->file('image')->move(public_path('workshop'), $workshop_image); 
+            } 
 
             $workshop_data = Workshop::where('workshop_id',$id)->update([
                 'title'          => $request->title,
                 'price'          => $request->price, 
-                'designation'   => $request->designation, 
-                'description'   =>$request->description,
-                'expert'        => $request->expert,
+                'description'   => $request->description, 
+                'designation'   => CommonFunction::GetSingleField('users','designation_id','user_id',Session::get('user_id')),
+                'expert'        => Session::get('user_id'),
                 'date'          => date('Y-m-d',strtotime($request->date)),
                 'start_date'    => date('Y-m-d',strtotime($request->start_date)),
+                'image'         => $workshop_image,
                 'time'          => $request->time, 
                 'updated_at'    => date('Y-m-d H:i:s'),
             ]); 
             if(!empty($workshop_data)){
-                return redirect()->route('workshop.index')->with('Success', 'Workshop updated successfully');
+                return redirect()->route('expworkshop.index',['status'=>$request['status'],'user'=>$request['user']])->with('Success', 'Workshop updated successfully');
             }else{
                 return redirect()->back()->withInput($request->all())->with('Failed', 'Something went wrong');
             } 
@@ -216,7 +237,7 @@ class ExpertWorkshopController extends Controller
             'updated_at'    => date('Y-m-d H:i:s'),
         ]); 
         if(!empty($workshop_data)){
-            return redirect()->route('workshop.index')->with('Success', 'Workshop deleted successfully');
+            return redirect()->route('expworkshop.index',['status'=>$request['status'],'user'=>$request['user']])->with('Success', 'Workshop deleted successfully');
         }else{
             return redirect()->back()->withInput($request->all())->with('Failed', 'Something went wrong');
         } 
