@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Expert;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ use DB;
 use App\Models\Workshop;
 use App\Models\Bookings;
 
-class WorkshopController extends Controller
+class ExpertWorkshopController extends Controller
 {
     public function __construct()
     { 
@@ -66,21 +66,27 @@ class WorkshopController extends Controller
             'start_date.required'   => 'Start Date should be required',
             'start_date.before'         => 'Start Date must be greater than end date',
             'time.required'         => 'Time should be required',
+            'description.required'  =>'Description should be required'
 		];
 
 		$validatedData = $request->validate([
 			'title' 	        => 'required|min:3|max:30|unique:workshop,title',
 			'price' 	        => 'required|numeric',
-            'designation' 	=> 'required',
-            'expert' 	    => 'required',
-            'date' 	        => 'required',
-            'start_date' 	        => 'required|before:date',
-            'time' 	        => 'required',			 
+            'designation' 	    => 'required',
+            'expert' 	        => 'required',
+            'date' 	            => 'required',
+            'start_date' 	    => 'required|before:date',
+            'time' 	            => 'required',		
+            'description' 	    => 'required'	 
         ], $error_message);
 
         
         try 
         { 
+            $professional_certificate_pic = 'professional_certificate_pic_' . time() . '.' . $request->file('professional_certificate_pic')->getClientOriginalExtension();
+            $request->file('professional_certificate_pic')->move(public_path('expert_documents'), $professional_certificate_pic);
+
+
             $workshop_data = Workshop::create([
                 'title'          => $request->title,
                 'price'          => $request->price, 
@@ -89,6 +95,7 @@ class WorkshopController extends Controller
                 'date'          => date('Y-m-d',strtotime($request->date)),
                 'start_date'    => date('Y-m-d',strtotime($request->start_date)),
                 'time'          => $request->time,
+                'description'   =>$request->description,
                 'created_at'    => date('Y-m-d H:i:s'),
                 'updated_at'    => date('Y-m-d H:i:s'),
             ]); 
@@ -170,10 +177,14 @@ class WorkshopController extends Controller
         
         try 
         { 
+            $professional_certificate_pic = 'professional_certificate_pic_' . time() . '.' . $request->file('professional_certificate_pic')->getClientOriginalExtension();
+            $request->file('professional_certificate_pic')->move(public_path('expert_documents'), $professional_certificate_pic);
+
             $workshop_data = Workshop::where('workshop_id',$id)->update([
                 'title'          => $request->title,
                 'price'          => $request->price, 
                 'designation'   => $request->designation, 
+                'description'   =>$request->description,
                 'expert'        => $request->expert,
                 'date'          => date('Y-m-d',strtotime($request->date)),
                 'start_date'    => date('Y-m-d',strtotime($request->start_date)),

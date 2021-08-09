@@ -190,9 +190,9 @@ class HomeController extends Controller
                         if($user_data->user_role->role_id == 1){
                             return redirect('admin/dashboard/');
                         }else if($user_data->user_role->role_id == 2){
-                            return redirect('expert/profile/'.Session::get('user_id').'/edit');
+                            return redirect('expert/dashboard/');
                         }else{
-                            return redirect('profile/'.Session::get('user_id').'/edit');
+                            return redirect('dashboard/');
                         }
                     }
                 }

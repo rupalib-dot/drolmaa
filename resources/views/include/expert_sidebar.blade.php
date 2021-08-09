@@ -46,17 +46,7 @@
             <ul class="list-unstyled flex-column pl-3 collapse" id="submenu1" aria-expanded="false">
               <li class="nav-item" style="padding: 5px 0px;border: none;"><a class="nav-link" href="{{route('exptransaction.index',['type'=>'registration'])}}" >Subscriptions</a></li>
               <li class="nav-item" style="padding: 0px 0px;border: none;"><a class="nav-link" href="{{route('exptransaction.index',['type'=>'appointment'])}}">Appoinments</a></li>
-            </ul>
-            <!-- <div class="sidebar-submenu">
-                <ul> 
-                    <li>
-                        <a href="{{route('exptransaction.index',['type'=>'registration'])}}">   </a>
-                    </li>   
-                    <li>
-                        <a href="{{route('exptransaction.index',['type'=>'appointment'])}}">Appoinments</a>
-                    </li> 
-                </ul>
-            </div>  -->
+            </ul> 
         </li>
 
         <!-- <li>
@@ -70,6 +60,16 @@
             <span class="icons"><img src="{{asset('front_end/images/orderimg.png')}}" alt=""></span>
             <a href="{{route('customer.order')}}">My Orders</a>
         </li>
+        <li class="nav-item sidebar-dropdown data-sheet {{ Request::is('expert/expworkshop*') ? 'active' : '' }}" >
+            <span class="icons"><img src="{{asset('front_end/images/profile.png')}}" alt=""></span>
+            <a href="#">Workshop</a>
+            <a  href="#submenu2" data-toggle="collapse" data-target="#submenu2"> <i class="ml-2 fas fa-chevron-down"></i> </a>
+            <ul class="list-unstyled flex-column pl-3 collapse" id="submenu2" aria-expanded="false">
+              <li class="nav-item" style="padding: 5px 0px;border: none;"><a class="nav-link" href="{{route('expworkshop.create')}}" >Create Workshop</a></li>
+              <li class="nav-item" style="padding: 0px 0px;border: none;"><a class="nav-link" href="{{route('expworkshop.index')}}">Workshop List</a></li>
+            </ul> 
+        </li>
+ 
         <li class="data-sheet {{ Request::is('wishlist*') ? 'active' : '' }}">
             <span class="icons"><img src="{{asset('front_end/images/feedback.png')}}" alt=""></span><a
                 href="{{route('customer.myWishlist')}}">My Wishlist</a>

@@ -17,6 +17,7 @@ use App\Http\Controllers\Customer\BookingController;
 use App\Http\Controllers\Customer\FeedbackController;
 use App\Http\Controllers\Customer\CustomerTransactionController; 
 use App\Http\Controllers\Expert\ExpertTransactionController;
+use App\Http\Controllers\Expert\ExpertWorkshopController; 
 use App\Http\Controllers\Admin\AdminController; 
 use App\Http\Controllers\Admin\AdminAppoinmentController;
 use App\Http\Controllers\Admin\TransactionController;
@@ -129,6 +130,11 @@ Route::group(['middleware' => ['administrator']], function(){
         Route::get('change-password',[ExpertProfileController::class, 'change_password'])->name('expert.change-password');
 
         Route::resource('availabilty', AvailabiltyController::class)->only([
+            'index','create', 'store','update', 'edit'
+        ]); 
+
+        //workshop
+        Route::resource('expworkshop', ExpertWorkshopController::class)->only([
             'index','create', 'store','update', 'edit'
         ]); 
 
