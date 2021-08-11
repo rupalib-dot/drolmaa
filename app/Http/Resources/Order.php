@@ -49,6 +49,7 @@ class Order extends JsonResource
             'order_image'           => asset('front_end/images/blogimg.jpg'),
             'created_at'            => date('d M, Y', strtotime($this->created_at)),
             'company_name'          => $this->company_name,
+            'status'          => $this->order_status,
             'order_status'          => ucwords(strtolower(array_search($this->order_status, config('constant.STATUS')))),
             'coupon_id'             => $this->coupon_id,
             'coupon_code'           => $this->coupon_code,

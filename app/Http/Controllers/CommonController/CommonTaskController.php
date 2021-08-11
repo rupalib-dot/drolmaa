@@ -23,29 +23,25 @@ class CommonTaskController extends Controller
     public function live_workshops(Request $request)
     { 
         $title  = "Live Webinar";
-        $workshop_detail  = Workshop::OrderBy('title')
-        ->Where(function($query) use ($request) {  
-            if (isset($request['keyword']) && !empty($request['keyword'])) { 
-                $query->where('title','LIKE', "%".$request['keyword']."%");
-                $query->orWhere('price',$request['keyword']);
-            }  
+        $todaydate = date('Y-m-d');
+        $Workshops  = Workshop::OrderBy('workshop_id','desc')
+        ->Where(function($query) use($todaydate,$request) {  
+            if($request['status'] == 'previous'){
+                $query->where('date','<', $todaydate);
+            }else{
+                $query->where('start_date','>',$todaydate);
+                $query->orWhere('date','>',$todaydate); 
+            }
         })
-        ->where('date','>',date('Y-m-d'))->paginate(15); 
-        $data   = compact('title','workshop_detail','request');
+        ->paginate(10);     
+        $data   = compact('title','Workshops','request');
         return view('pages.live_webinar', $data);
     }
-    public function live_workshops_details(Request $request)
+    public function live_workshops_details(Request $request,$id)
     { 
         $title  = "Workshop Details";
-        $workshop_detail_live  = Workshop::OrderBy('title')
-        ->Where(function($query) use ($request) {  
-            if (isset($request['keyword']) && !empty($request['keyword'])) { 
-                $query->where('title','LIKE', "%".$request['keyword']."%");
-                $query->orWhere('price',$request['keyword']);
-            }  
-        })
-        ->where('date','>',date('Y-m-d'))->paginate(15); 
-        $data   = compact('title','workshop_detail_live','request');
+        $workshop  = Workshop::where('workshop_id',$id)->first(); 
+        $data   = compact('title','workshop','request');
         return view('pages.live_webinar_details', $data);
     }
 
@@ -79,7 +75,7 @@ class CommonTaskController extends Controller
       
             $title  = "Expert Details";
 			$availSlots = array();
-			$reviews = array();
+			$feedback = array();
 			$availability = array();
 			$plansSpecial = array();
 			
@@ -95,7 +91,7 @@ class CommonTaskController extends Controller
 					$feedback_count = count($feedback);
 					$rating = round($feedback_data/$feedback_count);       
 				} 
-				$reviews = Feedbacks::collection($feedback);  
+				// $reviews = Feedbacks::collection($feedback);  
  
 				//personal data
 				$specialPlans = explode(',',$user_data->special_plan); 
@@ -104,7 +100,7 @@ class CommonTaskController extends Controller
 						$plansSpecial[] = array_search($plans,config('constant.SPECIAL_PLANS'));
 					} 
 				}
-				$infoPersonal = array( 'rating' => $rating , 'full_name' => $user_data->full_name, 'mobile_number' => $user_data->mobile_number,'email_address' => $user_data->email_address, 'user_age' => $user_data->user_age,'user_dob' => $user_data->user_dob, 'user_gender' => array_search($user_data->user_gender,config('constant.GENDER')),'country' => CommonFunction::GetSingleField('country','country_name','country_id',$user_data->country_id), 'state' => CommonFunction::GetSingleField('state','state_name','state_id',$user_data->state_id), 'city' => CommonFunction::GetSingleField('city','city_name','city_id',$user_data->city_id), 'address_details' => $user_data->address_details,'designation' => CommonFunction::GetSingleField('designation','designation_title','designation_id',$user_data->designation_id),'designation_id' => $user_data->designation_id, 'office_phone_number' => $user_data->office_phone_number,'user_experience' => $user_data->user_experience.' Years', 'licance_pic' => asset('public/expert_documents/'.$user_data->licance_pic), 'pan_card_pic' 	                => asset('public/expert_documents/'.$user_data->pan_card_pic), 'aadhar_card_pic' 	            => asset('public/expert_documents/'.$user_data->aadhar_card_pic), 'professional_certificate_pic' 	=> asset('public/expert_documents/'.$user_data->professional_certificate_pic), 'special_plan' => $plansSpecial, 'user_image' => asset('public/user_images/'.$user_data->user_image),);
+				$infoPersonal = array( 'rating' => $rating , 'description'=>$user_data->description,'full_name' => $user_data->full_name, 'mobile_number' => $user_data->mobile_number,'email_address' => $user_data->email_address, 'user_age' => $user_data->user_age,'user_dob' => $user_data->user_dob, 'user_gender' => array_search($user_data->user_gender,config('constant.GENDER')),'country' => CommonFunction::GetSingleField('country','country_name','country_id',$user_data->country_id), 'state' => CommonFunction::GetSingleField('state','state_name','state_id',$user_data->state_id), 'city' => CommonFunction::GetSingleField('city','city_name','city_id',$user_data->city_id), 'address_details' => $user_data->address_details,'designation' => CommonFunction::GetSingleField('designation','designation_title','designation_id',$user_data->designation_id),'designation_id' => $user_data->designation_id, 'office_phone_number' => $user_data->office_phone_number,'user_experience' => $user_data->user_experience.' Years', 'licance_pic' => asset('public/expert_documents/'.$user_data->licance_pic), 'pan_card_pic' => asset('public/expert_documents/'.$user_data->pan_card_pic), 'aadhar_card_pic' => asset('public/expert_documents/'.$user_data->aadhar_card_pic), 'professional_certificate_pic' 	=> asset('public/expert_documents/'.$user_data->professional_certificate_pic), 'special_plan' => $plansSpecial, 'user_image' => asset('public/user_images/'.$user_data->user_image),);
 				
 				//availability data
 				$avail_slots = Availability::where('user_id',$id)->get();
@@ -112,8 +108,11 @@ class CommonTaskController extends Controller
                     $availSlots =  CommonFunction::getslotsData($id);
 				} 
 				
+                $designation_list = Designation::get();
+                $specialPlans = config('constant.SPECIAL_PLANS');
+
 				//final data
-				$data = compact('title','request','infoPersonal','reviews','availSlots');
+				$data = compact('title','request','designation_list','specialPlans','infoPersonal','feedback','availSlots');
 				return view('pages.experts_details', $data); 
 			}else{
 				return redirect()->back()->with('Failed','No record found'); 

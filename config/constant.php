@@ -34,6 +34,7 @@ return [
     'ENQUIERY' => [
         "CONTACT"   => 110,
         "BLOG"      => 111,  
+        "WORKSHOP"  => 125,  
     ],
 
     'FEEDBACK' => [

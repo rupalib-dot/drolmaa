@@ -40,6 +40,7 @@ class User extends Model
         'payment_id',
         'register_amount',
         'designation_id',
+        'description',
         'office_phone_number',
         'user_experience',
         'special_plan',

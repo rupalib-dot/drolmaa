@@ -115,7 +115,7 @@ class PagesController extends Controller
      public function contact(Request $request)
     {
        $title          = "Contact";
-       if(isset($_POST['submit'])){
+       if(isset($_POST['submit'])){ 
            $error_message = 	[ 
                 'name.required' 	=> 'Name should be required', 
                 'name.min' 			=> 'Name minimum :min characters',
@@ -152,6 +152,7 @@ class PagesController extends Controller
                 'created_at' 	    => date('Y-m-d H:i:s'),
                 'updated_at' 	    => date('Y-m-d H:i:s'), 
             );
+            print_r($data);exit;
             $count_row = ContactEnquiery::create($data);  
             if(!empty($count_row)){
                 return redirect()->back()->with('Success', 'Contact inquiry submitted successfully');

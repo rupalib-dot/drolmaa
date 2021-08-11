@@ -101,228 +101,59 @@
                 <div class="pt-4 col-lg-8">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="w-50 nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Live Workshop</a>
-                            <a class="w-50 nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Previous Workshop</a>
+                            <a href="{{route('live_webinar',['status'=>'live'])}}"> <button class="@if(!isset($request['status']) || $request['status'] == 'live') curent-appoint @else previous-appoint @endif">Live Workshop</button></a>
+                            <a href="{{route('live_webinar',['status'=>'previous'])}}"> <button class="@if($request['status'] == 'previous') curent-appoint @else previous-appoint @endif">Previous Workshop</button></a>
                         </div>
                     </nav>
-                        <div class="tab-content" id="nav-tabContent">
-                            <div class="mt-4 tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                <div class="card border-0 mb-3" style="max-width:100%;" data-city="workshop_1">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('front_end/images/workshop_profile.svg')}}" class="card-img" alt="...">
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="card-body">
-                                                <h4 class="float-left card-title">Crisis intervention, Therapies</h4>
-                                                <p class="text-right">Webinar</p>
-                                                <p class="text-muted">Expert Name</p>
-                                                <div class="my-1 d-flex">
-                                                    <img src="{{asset('front_end/images/link_thumb.svg')}}" alt="">
-                                                    <span class="align-self-center"><span class="ml-2 text-success font-weight-bold">93%</span> (407 ratings)</span>
-                                                </div>
-                                                <div class="mt-3">
-                                                    <p class="text-muted font-weight-normal" style="display:block;white-space: nowrap; overflow: hidden;text-overflow: ellipsis;max-width: 400px;" id="oldtext">
-                                                        Dr. Urmil Bishnoi is an expert Physical Therapist with over 11 years experience
-                                                    </p>
-                                                    <p style="display:none" id="moretext">
-                                                        Dr. Urmil Bishnoi is an expert Physical Therapist with over 11 years experience providing direct patient care to individuals with physical disabilities and functional
-                                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae earum
-                                                    </p>
-                                                    <button class="btn btn-info btn-sm" onclick="myFunction('workshop_1')" id="myBtn">Read more</button>
-                                                </div>
-                                                <div class="mt-3 mb-3 float-right expert_button">
-                                                <a style="display:none" href="/" target="_blank">View Profile</a>
-                                                <a href="{{route('live_webinar_details')}}" target="_blank" class="px-4">Book Workshop</a>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="mt-4 tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                            @if(count($Workshops)>0)
+                                @foreach($Workshops as $workshop)
+                                    <div class="card border-0 mb-3" style="max-width:100%;" data-city="workshop_1">
+                                        <div class="row no-gutters">
+                                            <div class="col-md-3">
+                                                <img style="height: 270px;" src="{{asset('workshop/'.$workshop->image)}}" class="card-img" alt="...">
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="card-body">
+                                                    <h4 class="float-left card-title">{{$workshop->title}}</h4>
+                                                    <p class="text-right">Webinar</p>
+                                                    <p class="text-muted">{{CommonFunction::GetSingleField('users','full_name','user_id',$workshop->expert)}}</p>
+                                                    <div class="my-1 d-flex">
+                                                        <img src="{{asset('front_end/images/link_thumb.svg')}}" alt="">
+                                                        <span class="align-self-center"><span class="ml-2 text-success font-weight-bold">93%</span> (407 ratings)</span>
+                                                    </div>
+                                                    @if(!empty($workshop->description))
+                                                        <div class="mt-3">
+                                                            <p class="text-muted font-weight-normal" style="display:block;white-space: nowrap; overflow: hidden;text-overflow: ellipsis;max-width: 400px;" id="oldtext">{{$workshop->description}}
+                                                            </p>
+                                                            <p style="display:none" id="moretext">{{$workshop->description}}
+                                                            </p>
+                                                            <button class="btn btn-info btn-sm" onclick="myFunction('workshop_1')" id="myBtn">Read more</button>
+                                                        </div>
+                                                    @endif
+                                                    <div class="mt-3 mb-3 float-right expert_button">
+                                                    <a href="{{route('live_webinar_details',$workshop->workshop_id)}}">View Workshop</a>
+                                                    <a href="{{route('bookings.create')}}"class="px-4">Book Workshop</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="card border-0 mb-3" style="max-width:100%;" data-city="workshop_2">
+                                    </div> 
+                                @endforeach
+                            @else
+                                <div class="card border-0  mb-3" style="max-width:100%;">
                                     <div class="row no-gutters">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('front_end/images/workshop_profile.svg')}}" class="card-img" alt="...">
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="card-body">
-                                                <h4 class="float-left card-title">Crisis intervention, Therapies</h4>
-                                                <p class="text-right">Webinar</p>
-                                                <p class="text-muted">Expert Name</p>
-                                                <div class="my-1 d-flex">
-                                                    <img src="{{asset('front_end/images/link_thumb.svg')}}" alt="">
-                                                    <span class="align-self-center"><span class="ml-2 text-success font-weight-bold">93%</span> (407 ratings)</span>
-                                                </div>
-                                                <div class="mt-3">
-                                                    <p class="text-muted font-weight-normal" style="display:block;white-space: nowrap; overflow: hidden;text-overflow: ellipsis;max-width: 400px;" id="oldtext">
-                                                        Dr. Urmil Bishnoi is an expert Physical Therapist with over 11 years experience
-                                                    </p>
-                                                    <p style="display:none" id="moretext">
-                                                        Dr. Urmil Bishnoi is an expert Physical Therapist with over 11 years experience providing direct patient care to individuals with physical disabilities and functional
-                                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae earum
-                                                    </p>
-                                                    <button class="btn btn-info btn-sm" onclick="myFunction('workshop_2')" id="myBtn">Read more</button>
-                                                </div>
-                                                <div class="mt-3 mb-3 float-right expert_button">
-                                                <a style="display:none" href="/" target="_blank">View Profile</a>
-                                                <a href="{{route('live_webinar_details')}}" target="_blank" class="px-4">Book Workshop</a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <h3 style="margin: auto;"> No Record Found</h3>
                                     </div>
-                                </div>
-                                <div class="card border-0 mb-3" style="max-width:100%;" data-city="workshop_3">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('front_end/images/workshop_profile.svg')}}" class="card-img" alt="...">
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="card-body">
-                                                <h4 class="float-left card-title">Crisis intervention, Therapies</h4>
-                                                <p class="text-right">Webinar</p>
-                                                <p class="text-muted">Expert Name</p>
-                                                <div class="my-1 d-flex">
-                                                    <img src="{{asset('front_end/images/link_thumb.svg')}}" alt="">
-                                                    <span class="align-self-center"><span class="ml-2 text-success font-weight-bold">93%</span> (407 ratings)</span>
-                                                </div>
-                                                <div class="mt-3">
-                                                    <p class="text-muted font-weight-normal" style="display:block;white-space: nowrap; overflow: hidden;text-overflow: ellipsis;max-width: 400px;" id="oldtext">
-                                                        Dr. Urmil Bishnoi is an expert Physical Therapist with over 11 years experience
-                                                    </p>
-                                                    <p style="display:none" id="moretext">
-                                                        Dr. Urmil Bishnoi is an expert Physical Therapist with over 11 years experience providing direct patient care to individuals with physical disabilities and functional
-                                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae earum
-                                                    </p>
-                                                    <button class="btn btn-info btn-sm" onclick="myFunction('workshop_3')" id="myBtn">Read more</button>
-                                                </div>
-                                                <div class="mt-3 mb-3 float-right expert_button">
-                                                <a style="display:none" href="/" target="_blank">View Profile</a>
-                                                <a href="{{route('live_webinar_details')}}" target="_blank" class="px-4">Book Workshop</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card border-0 mb-3" style="max-width:100%;" data-city="workshop_4">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('front_end/images/workshop_profile.svg')}}" class="card-img" alt="...">
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="card-body">
-                                                <h4 class="float-left card-title">Crisis intervention, Therapies</h4>
-                                                <p class="text-right">Webinar</p>
-                                                <p class="text-muted">Expert Name</p>
-                                                <div class="my-1 d-flex">
-                                                    <img src="{{asset('front_end/images/link_thumb.svg')}}" alt="">
-                                                    <span class="align-self-center"><span class="ml-2 text-success font-weight-bold">93%</span> (407 ratings)</span>
-                                                </div>
-                                                <div class="mt-3">
-                                                    <p class="text-muted font-weight-normal" style="display:block;white-space: nowrap; overflow: hidden;text-overflow: ellipsis;max-width: 400px;" id="oldtext">
-                                                        Dr. Urmil Bishnoi is an expert Physical Therapist with over 11 years experience
-                                                    </p>
-                                                    <p style="display:none" id="moretext">
-                                                        Dr. Urmil Bishnoi is an expert Physical Therapist with over 11 years experience providing direct patient care to individuals with physical disabilities and functional
-                                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae earum
-                                                    </p>
-                                                    <button class="btn btn-info btn-sm" onclick="myFunction('workshop_4')" id="myBtn">Read more</button>
-                                                </div>
-                                                <div class="mt-3 mb-3 float-right expert_button">
-                                                <a style="display:none" href="/" target="_blank">View Profile</a>
-                                                <a href="{{route('live_webinar_details')}}" target="_blank" class="px-4">Book Workshop</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card border-0 mb-3" style="max-width:100%;" data-city="workshop_5">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('front_end/images/workshop_profile.svg')}}" class="card-img" alt="...">
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="card-body">
-                                                <h4 class="float-left card-title">Crisis intervention, Therapies</h4>
-                                                <p class="text-right">Webinar</p>
-                                                <p class="text-muted">Expert Name</p>
-                                                <div class="my-1 d-flex">
-                                                    <img src="{{asset('front_end/images/link_thumb.svg')}}" alt="">
-                                                    <span class="align-self-center"><span class="ml-2 text-success font-weight-bold">93%</span> (407 ratings)</span>
-                                                </div>
-                                                <div class="mt-3">
-                                                    <p class="text-muted font-weight-normal" style="display:block;white-space: nowrap; overflow: hidden;text-overflow: ellipsis;max-width: 400px;" id="oldtext">
-                                                        Dr. Urmil Bishnoi is an expert Physical Therapist with over 11 years experience
-                                                    </p>
-                                                    <p style="display:none" id="moretext">
-                                                        Dr. Urmil Bishnoi is an expert Physical Therapist with over 11 years experience providing direct patient care to individuals with physical disabilities and functional
-                                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae earum
-                                                    </p>
-                                                    <button class="btn btn-info btn-sm" onclick="myFunction('workshop_5')" id="myBtn">Read more</button>
-                                                </div>
-                                                <div class="mt-3 mb-3 float-right expert_button">
-                                                <a style="display:none" href="/" target="_blank">View Profile</a>
-                                                <a href="{{route('live_webinar_details')}}" target="_blank" class="px-4">Book Workshop</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                                  
-                        </div>
-                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                        <div class="mt-4 card border-0 mb-3" style="max-width:100%;" data-city="workshop_6">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-3">
-                                            <img src="{{asset('front_end/images/workshop_profile.svg')}}" class="card-img" alt="...">
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="card-body">
-                                                <h4 class="float-left card-title">Crisis intervention, Therapies</h4>
-                                                <p class="text-right">Webinar</p>
-                                                <p class="text-muted">Expert Name</p>
-                                                <div class="my-1 d-flex">
-                                                    <img src="{{asset('front_end/images/link_thumb.svg')}}" alt="">
-                                                    <span class="align-self-center"><span class="ml-2 text-success font-weight-bold">93%</span> (407 ratings)</span>
-                                                </div>
-                                                <div class="mt-3">
-                                                    <p class="text-muted font-weight-normal" style="display:block;white-space: nowrap; overflow: hidden;text-overflow: ellipsis;max-width: 400px;" id="oldtext">
-                                                        Dr. Urmil Bishnoi is an expert Physical Therapist with over 11 years experience
-                                                    </p>
-                                                    <p style="display:none" id="moretext">
-                                                        Dr. Urmil Bishnoi is an expert Physical Therapist with over 11 years experience providing direct patient care to individuals with physical disabilities and functional
-                                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae earum
-                                                    </p>
-                                                    <button class="btn btn-info btn-sm" onclick="myFunction('workshop_6')" id="myBtn">Read more</button>
-                                                </div>
-                                                <div class="mt-3 mb-3 float-right expert_button">
-                                                <a style="display:none" href="/" target="_blank">View Profile</a>
-                                                <a href="{{route('live_webinar_details')}}" target="_blank" class="px-4">Book Workshop</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-                    <nav class="mb-4 mt-4" aria-label="Page navigation example">
-                   
-                   <ul class="pagination justify-content-start">
-                            <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                            </li>
-                            <li class="active   page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul> 
+                                </div> 
+                            @endif
+                        </div>            
+                    </div> 
+                    <nav class="mb-4 mt-4" aria-label="Page navigation example"> 
+                    {{$Workshops->appends($request->all())->render('vendor.pagination.custom')}} 
                     </nav>
-                    <div class="card border-0  mb-3" style="max-width:100%;">
-                            <div class="row no-gutters">
-                                <h3 style="margin: auto;"> No Record Found</h3>
-                            </div>
-                        </div> 
+                    
                     
                 </div>
                 

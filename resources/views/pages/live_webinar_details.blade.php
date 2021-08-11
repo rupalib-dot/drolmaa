@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class=" mb-3 pt-4 col-lg-4 workshop_default_profile">
-                <img src="{{asset('front_end/images/workshop_profile.svg')}}" class="pb-5 pr-5 border-top-0  card-img" alt="...">
+                <img style="height: 300px;" src="{{asset('workshop/'.$workshop->image)}}" class="pb-5 pr-5 border-top-0  card-img" alt="...">
                 <!-- Button trigger modal -->
                 <button type="button" class="enquire_btn text-center btn btn-danger" data-toggle="modal" data-target="#exampleModal">Enquire Now</button>
                     <!-- Modal -->
@@ -17,53 +17,71 @@
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form autocomplete="off">
+                            <form action="{{route('contact-submit')}}" method="post" class="form-contact">
+                              @csrf 
                                 <div class="modal-body">
+                                    <input type="hidden" value="{{config('constant.ENQUIERY.WORKSHOP')}}" name="module_type">
+                                    <input type="hidden" value="{{$workshop->workshop_id}}" name="module_id">
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="name_user">Name</label>
-                                            <input type="text" class="form-control" id="name_user" placeholder="Your Name" required>
+                                            <input type="text" class="form-control" value="{{old('name')}}" placeholder="Name" name="name"  required>
                                         </div>
                                         <label for="email1">Email address</label>
-                                        <input type="email" class="form-control" id="email1" aria-describedby="emailHelp" placeholder="Enter email"required>
+                                        <input type="email" class="form-control" value="{{old('email')}}" name="email" placeholder="Email" aria-describedby="emailHelp" placeholder="Enter email"required>
                                         <small id="emailHelp" class="form-text text-muted">Your information is safe with us.</small>
                                     </div>
                                     <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="name_user">Phone</label>
+                                            <input type="text" class="form-control" value="{{old('phone')}}" placeholder="Phone" name="phone"  required>
+                                        </div>
                                         <label for="exampleFormControlTextarea1">Message</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
+                                        <textarea class="form-control" name="message" id="exampleFormControlTextarea1" rows="3" required>{{old('message')}}</textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer border-top-0 d-flex justify-content-center">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <button type="submit" name="submit" class="btn btn-success">Submit</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="pl-0 book_work_button">
-                    <a href="#" type="button" class="btn btn-outline-danger">Book Workshop</a>
+                    <a href="{{route('bookings.create')}}" type="button" class="btn btn-outline-danger">Book Workshop</a>
                 </div>
             </div>
             <div class="pt-4 col-lg-8">
                 <div class="card border-0 mb-3" style="max-width:100%;">
                     <div class="row no-gutters">
                         <div class="col-md-3">
-                        <img src="{{asset('front_end/images/workshop_expert_images.svg')}}" class="card-img" alt="...">
+                        <?php $byimage = CommonFunction::GetSingleField('users','user_image','user_id',$workshop->expert); 
+                          if(!empty($byimage)){
+                            $image = asset('public/user_images/'.$byimage);
+                          }else{
+                            $image = asset('front_end/images/blogimg.jpg');
+                          }
+                          $feedback_count   = DB::table('feedback')->where('feedback_to',$workshop->expert)->where('module_type',config('constant.FEEDBACK.APPOINMENT'))->count();
+                          $feedback_data    = DB::table('feedback')->where('feedback_to',$workshop->expert)->where('module_type',config('constant.FEEDBACK.APPOINMENT'))->sum('rating');
+                          $rating = 0;
+                          if($feedback_count >0 && $feedback_data >0){
+                              $rating = round(($feedback_data/$feedback_count));       
+                          }?>
+                        <img src="{{$image}}" class="card-img" alt="...">
                         </div>
                         <div class="col-md-9">
                             <div class="card-body">
-                                <h5 class="card-title">Expert Name</h5>
-                                <p class="text-muted mb-1">Designation</p>
-                                <p class="card-text text-muted mb-1">7 Years Experience Overall</p>
-                                <img src="{{asset('front_end/images/star.png')}}" alt="..."> 
+                                <h5 class="card-title">{{CommonFunction::GetSingleField('users','full_name','user_id',$workshop->expert)}}</h5>
+                                <p class="text-muted mb-1">{{CommonFunction::GetSingleField('designation','designation_title','designation_id',$workshop->designation)}}</p>
+                                <p class="card-text text-muted mb-1">{{CommonFunction::GetSingleField('users','user_experience','user_id',$workshop->expert)}} Years Experience Overall</p>
+                                <p> <span class="align-self-center"><span class="ml-2 text-success font-weight-bold">{{$workshop->$rating}}</span> @if($rating == 1) <i class="fas fa-star checked"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @elseif($rating == 2) <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @elseif($rating == 3) <i class="fas fa-star checked"></i>  <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="far fa-star"></i>  <i class="far fa-star"></i> @elseif($rating == 4) <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="far fa-star"></i> @elseif($rating == 5) <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i>  <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> @else <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @endif</span></p>
                                 <div class="mt-3  about_expert">
                                     <p  style="display:block;white-space: nowrap; overflow: hidden;text-overflow: ellipsis;max-width: 400px; " id="oldtext">
-                                        Dr. Urmil Bishnoi is an expert Physical Therapist with over 11 years experience
+                                        {{$workshop->description}}
                                     </p>
                                     <p style="display:none" id="moretext">
-                                        Dr. Urmil Bishnoi is an expert Physical Therapist with over 11 years experience providing direct patient care to individuals with physical disabilities and functional
-                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae earum
+                                    {{$workshop->description}}
                                     </p>
                                     <button class="btn btn-info" onclick="myFunction()" id="myBtn">Read more</button>
                                 </div>
@@ -81,8 +99,8 @@
                                 </div>
                                 <p class="card-text"><small class="text-muted">Workshop/Seminar Date</small></p>
                                 <div class="heading">
-                                    <p>To:-<span>12 june 2021</span></p>
-                                    <p>From:-<span>12 june 2021</span></p>
+                                    <p>To:-<span>{{date('d M Y',strtotime($workshop->date))}}</span></p>
+                                    <p>From:-<span>{{date('d M Y',strtotime($workshop->start_date))}}</span></p>
                                 </div>
                             </div>
                             <div class="col-lg-4">
@@ -92,7 +110,7 @@
                                     </div>
                                     <p class="card-text"><small class="text-muted">Workshop/Seminar Time</small></p>
                                     <div class="heading">
-                                        <p>10:30 AM</p>
+                                        <p>{{date('h:i A',strtotime($workshop->time))}}</p>
                                     </div>
                             </div>
                             <div class="col-lg-4">
@@ -120,7 +138,7 @@
                             </div>
                             <div  style="align-self: center;"class="col-lg-2">
                                 <div class="heading">
-                                    <p> $500.00</p>
+                                    <p> ${{$workshop->price}}</p>
                                 </div>
                             </div>
                         </div>

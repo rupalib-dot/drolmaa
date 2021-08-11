@@ -54,10 +54,11 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer> 
+
 <div class="copyright_content">
 <p>All rights Reserved. by <a href="#">DrolMaa Constellation Club</a> 
-|| <a href="#" class="text-danger"> Terms of Service and Privacy Policy</a> || 
+|| <a href="{{route('terms')}}" class="text-danger"> Terms of Service </a> and <a href="{{route('privacy')}}" class="text-danger">Privacy Policy</a> || 
 Design By <a href="#"> i4 Consulting Pvt. Ltd</a> </p>
 </div>
 

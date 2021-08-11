@@ -8,20 +8,32 @@
                <h3>Expert Profile</h3>
            </div>
            <div class="container mb-4">
-                <div class="input-group">
-                    <div class="my-2  col-md-3">
-                    <input type="text" class="form-control" placeholder="Enter City*" aria-label="Username" aria-describedby="basic-addon1">
-                    </div>
-                    <div class="my-2  col-md-3">
-                    <input type="text" class="form-control" placeholder="Designation" aria-label="Username" aria-describedby="basic-addon1">
-                    </div>
-                    <div class="my-2  col-md-3">
-                    <input type="text" class="form-control" placeholder="Speciality" aria-label="Username" aria-describedby="basic-addon1">
-                    </div>
-                    <div class="my-2 col-md-3">
-                    <button type="button" class="w-100 btn btn-outline-danger">Search</button>
-                     </div>
-                </div>
+              <form action="{{route('our_experts')}}"class="form-appoint">
+                  <div class="input-group">
+                      <div class="my-2  col-md-3">
+                          <input type="text" class="form-control" name="keyword" value="{{$request['keyword']}}" placeholder="Keyword" aria-label="Keyword" aria-describedby="basic-addon1">
+                      </div>
+                      <div class="my-2  col-md-3">
+                          <select class="form-control" id="exampleFormControlSelect1" placeholder="Designation" name="designation" aria-label="Designation" aria-describedby="basic-addon2">
+                              <option value="">Designation</option>
+                              @foreach($designation_list as $designation)
+                                  <option {{ old('designation',$request['designation']) == $designation->designation_id ? 'selected' : ''}} value="{{$designation->designation_id}}">{{ucfirst(strtolower($designation->designation_title))}}</option>
+                              @endforeach
+                          </select>
+                      </div>
+                      <div class="my-2  col-md-3">
+                          <select class="form-control" id="exampleFormControlSelect1" placeholder="Specialization" name="specialization" aria-label="Specialization" aria-describedby="basic-addon2">
+                              <option value="">Specialization</option>
+                              @foreach($specialPlans as $value => $key)
+                                  <option {{ old('specialization',$request['specialization']) == $key ? 'selected' : ''}} value="{{$key}}">{{$value}}</option>
+                              @endforeach
+                          </select>
+                      </div>
+                      <div class="my-2 col-md-3">
+                      <button type="submit" class="w-100 btn btn-outline-danger">Search</button>    
+                      </div>  
+                  </div>
+              </form>
            </div>
         </div>
     </div>
@@ -32,7 +44,7 @@
                     <div class="card border-0  mb-3" style="max-width:100%;">
                         <div class="row no-gutters">
                             <div class="col-md-3">
-                            <img src="{{asset('front_end/images/expert_profile.svg')}}" class="card-img" alt="...">
+                            <img src="{{$infoPersonal['user_image']}}" height = 260px; class="card-img" alt="...">
                                 <!-- <div class="pl-0 col-lg-7 expert_button">
                                     <a href="/" target="_blank">View Profile</a>
                                     <a href="/" target="_blank">Book Appointment</a>
@@ -40,37 +52,21 @@
                             </div>
                             <div class="col-md-9">
                                 <div class="card-body">
-                                    <h5 class="card-title">Dr. Urmil Bishnoi</h5>
-                                    <p class="text-muted">Ph.D Psychology, M.Phil - Psychology</p>
-                                    <p class="text-muted">7 Years Experience Overall</p>
+                                    <h5 class="card-title">{{$infoPersonal['full_name']}}</h5>
+                                    <p class="text-muted">{{$infoPersonal['designation']}}</p>
+                                    <p class="text-muted">{{$infoPersonal['user_experience']}} Years Experience Overall</p>
                                     <div class="my-1 d-flex">
                                         <img src="{{asset('front_end/images/link_thumb.svg')}}" alt="">
-                                        <span class="align-self-center"><span class="ml-2 text-success font-weight-bold">93%</span> (407 ratings)</span>
+                                        <span class="align-self-center"><span class="ml-2 text-success font-weight-bold">{{$infoPersonal['rating']}}</span> @if($infoPersonal['rating'] == 1) <i class="fas fa-star checked"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @elseif($infoPersonal['rating'] == 2) <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @elseif($infoPersonal['rating'] == 3) <i class="fas fa-star checked"></i>  <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="far fa-star"></i>  <i class="far fa-star"></i> @elseif($infoPersonal['rating'] == 4) <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="far fa-star"></i> @elseif($infoPersonal['rating'] == 5) <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i>  <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> @else <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @endif</span>
                                     </div>
                                     <div class="mt-3  about_expert">
-                                        <p  style="display:block;white-space: nowrap; overflow: hidden;text-overflow: ellipsis;max-width: 400px; " id="oldtext">
-                                            Dr. Urmil Bishnoi is an expert Physical Therapist with over 11 years experience
+                                        <p  style="display:block;white-space: nowrap; overflow: hidden;text-overflow: ellipsis;max-width: 400px; " id="oldtext">{{$infoPersonal['description']}}
                                         </p>
                                         <p style="display:none" id="moretext">
-                                            Dr. Urmil Bishnoi is an expert Physical Therapist with over 11 years experience providing direct patient care to individuals with physical disabilities and functional
-                                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae earum
+                                            {{$infoPersonal['description']}}
                                         </p>
                                         <button class="btn btn-info" onclick="myFunction()" id="myBtn">Read more</button>
                                     </div>
-                                            <!-- <div class="mt-5 pl-0 expert_button">
-                                            <a style="display:none;" href="/" target="_blank">View Profile</a>
-                                            <a href="/" target="_blank">Book Appointment</a>
-                                        </div> -->
-                                                <!-- <p class="text-muted mb-0">Availability ( Today)</p>
-                                                <div class="pl-3 row">
-                                                <div class="pl-0 col-lg-5 expert_time_slot">
-                                                    <p> 05:30 PM</p>
-                                                    <p> 05:30 PM</p>
-                                                    <p> 05:30 PM</p>
-                                                    <p> 05:30 PM</p>
-                                                </div>
-
-                                                </div> -->
                                 </div>
                             </div>
                         </div>
@@ -92,10 +88,82 @@
                 </nav>
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                    <h4>Marathahalli, Bangalore</h4>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <p>Address:- {{$infoPersonal['address_details']}}</p>
+                      <p> Mobile:-{{$infoPersonal['mobile_number']}}</p>
+                      <p>Email:- {{$infoPersonal['email_address']}}</p>
+                      <p>Age:- {{$infoPersonal['user_age']}}</p>
+                      <p>user DOB:- {{$infoPersonal['user_dob']}}</p>
+                      <p>Gender:- {{$infoPersonal['user_gender']}}</p>
+                    </div>
+                    <div class="col-lg-6">
+                      <p>Country:- {{$infoPersonal['country']}}</p>
+                      <p>State:- {{$infoPersonal['state']}}</p>
+                      <p>City:- {{$infoPersonal['city']}}</p>
+                      <p>Office Phone:- {{$infoPersonal['office_phone_number']}}</p>
+                      <p>Experience:- {{$infoPersonal['user_experience']}}</p>  
+                    </div>
+                  </div>
+                  <div class="row">
+                      <label> Licance Pic </label><img style="margin-right:20px;" width= 100px; height= 100px; src="{{$infoPersonal['licance_pic']}}" alt="">
+                      <label> Pan Card Pic </label><img style="margin-right:20px;" width= 100px; height= 100px; src="{{$infoPersonal['pan_card_pic']}}" alt="">
+                      <label> Aadhar Card Pic </label><img style="margin-right:20px;" width= 100px; height= 100px; src="{{$infoPersonal['aadhar_card_pic']}}" alt="">
+                      <label> Professional Certificate Pic </label><img style="margin-right:20px;" width= 100px; height= 100px; src="{{$infoPersonal['professional_certificate_pic']}}" alt="">
+                  </div>
                 </div>
-                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
-                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"> 
+                  @if(count($availSlots) >0)
+                  <div class="row">
+                    @foreach($availSlots as $slots)  
+                      <div class="col-lg-6"  style="border-bottom: 1px solid #0000001f; margin-bottom: 15px;padding-bottom:15px;">
+                        <p class="text-muted mb-0">@if($slots['availability_id'] == date('Y-m-d')) Today @elseif($slots['availability_id'] == date('Y-m-d', strtotime(date('Y-m-d'). ' +1 day'))) Tommorrow @else {{$slots['date']}}@endif</p>
+                        <p class="text-muted mb-0">Available Slots ({{$slots['available_slots']}})</p>
+                        <p class="text-muted mb-0">Booked Slots ({{$slots['booked_slots']}})</p>
+                        <div class="pl-3 row">
+                            <div class="pl-0 col-lg-12 expert_time_slot">
+                                @if(count($slots['time_slot'])>0)
+                                    @foreach($slots['time_slot'] as $time)
+                                        <p>{{$time}}</p> 
+                                    @endforeach
+                                @endif
+                            </div> 
+                        </div> 
+                      </div> 
+                      <hr>
+                    @endforeach
+                    </div>
+                     
+                  @endif
+                </div>
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">  
+                <?php if(count($feedback)){   
+                   foreach($feedback as $feedbacks)   {
+                    if($feedbacks->module_type == config('constant.FEEDBACK.APPOINMENT')){
+                        $module = CommonFunction::GetSingleField('appointment','appoinment_no','appointment_id',$feedbacks->module_id);
+                    }else if($feedbacks->module_type == config('constant.FEEDBACK.BOOKING')){
+                        $module = CommonFunction::GetSingleField('bookings','booking_no','booking_id',$feedbacks->module_id);
+                    }else if($feedbacks->module_type == config('constant.FEEDBACK.ORDER')){
+                        $module = CommonFunction::GetSingleField('order','order_no','order_id',$feedbacks->module_id) ;
+                    }else{
+                        $module = "";
+                    }
+                    $byimage = CommonFunction::GetSingleField('users','user_image','user_id',$feedbacks->feedback_by); 
+                    if(!empty($byimage)){
+                      $image = asset('public/user_images/'.$byimage);
+                    }else{
+                      $image = asset('front_end/images/blogimg.jpg');
+                    }?>
+                      <div class="row" style="display: block;margin:0px">
+                        <p> {{CommonFunction::GetSingleField('users','full_name','user_id',$feedbacks->feedback_by)}}</p>
+                        <p style="margin-top: -40px;margin-left: 89%;"> @if($feedbacks['rating'] == 1) <i class="fas fa-star checked"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @elseif($feedbacks['rating'] == 2) <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @elseif($feedbacks['rating'] == 3) <i class="fas fa-star checked"></i>  <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="far fa-star"></i>  <i class="far fa-star"></i> @elseif($feedbacks['rating'] == 4) <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="far fa-star"></i> @elseif($feedbacks['rating'] == 5) <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i>  <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> <i class="fas fa-star checked"></i> @else <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @endif</p>
+                        <p> {{$feedbacks['message']}}</p>  
+                        <!-- <p> {{array_search($feedbacks['module_type'],config('constant.FEEDBACK'))}} @if(!empty($module)) ({{$module}}) @endif</p> -->
+                        <p style="margin-top: -40px;margin-left: 89%;"> {{date('d M, Y',strtotime($feedbacks->created_at))}}</p> 
+                      </div>
+                      <hr>
+                    <?php }   } ?>
+                </div>
             </div>
         </div>
         <div class="faq_heading">
