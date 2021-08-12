@@ -6,7 +6,7 @@
 }
 </style>
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container-fluid">
+    <div class="px-0 container-fluid">
     
         <div class="">
             <div class="col-sm-12">
@@ -25,11 +25,22 @@
                                     <div class="col-lg-6">
                                         <h3 class="order-content">My Wishlist</h3>
                                     </div>
+                                    
                                     <div class="col-lg-6" style="text-align:right;padding-top: 20px;">
                                         <span class="view-icon"><a style="color:white" onclick="dele_multi()" class="btn btn-danger">DELETE</a></span> 
                                     </div>
                                 </div>
-                                <table class="table table-bordered appoint-table" style="width:100%">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <a href="#"><button class="w-100 @if(!isset($request['type']) || $request['type'] == 'current') curent-appoint @else previous-appoint @endif">Expert List</button></a>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        
+                                <a href="#"><button class="w-100 @if($request['type'] == 'previous') curent-appoint @else previous-appoint @endif">Product List </button></a>
+                                    </div>
+                                </div>
+                                
+                                {{-- <table class="my-3 table table-bordered appoint-table" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th></th>
@@ -67,7 +78,40 @@
                                             </tr> 
                                         @endif
                                     </tbody>
-                                </table>
+                                </table> --}}
+                            </div>
+                            <div class="shadow p-3 mb-5 bg-white rounded  p-3 card border-0  mb-3" style="max-width:100%;">
+                                <div class="row no-gutters">
+                                    <div class="col-md-3">
+                                    <img width="100%;" height="130px;" src="#" class="card-img" alt="...">
+                                        <div class="pl-0 expert_button">
+                                            <a style="min-width: 100%; text-align:center" href="#">View Profile</a> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Expert Name</h5>
+                                            <p class="text-muted">designation</p>
+                                            <p class="text-muted">user_experience Years Experience Overall</p>
+                                            <div class="my-1 d-flex">
+                                                <img src="{{asset('front_end/images/link_thumb.svg')}}" alt="">
+                                                <span class="align-self-center"><span class="ml-2 text-success font-weight-bold">rating</span>  <i class="fas fa-star checked"></i>                                            </div>
+                                         
+                                               
+                                                    
+                                                       
+                                                            <p class="text-muted mb-0"> Available Slots</p>
+                                                            <!-- <p class="text-muted mb-0">Available Slots</p> -->
+                                                            <!-- <p class="text-muted mb-0">Booked Slots</p> -->
+                                                            <div class="pl-3 row">
+                                                                <div class="pl-0 col-lg-12 expert_time_slot">                           
+                                            <div class="pl-0 col-lg-12 expert_button">
+                                                <a style="display:none; text-align:center" href="" target="_blank"></a>
+                                                <a style="text-align:center; margin-left: 60%;" href="{{route('appointment.create')}}" target="_blank">Book Appointment</a>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="paginationPara">
                             {{$favourate->appends($request->all())->render('vendor.pagination.custom')}}

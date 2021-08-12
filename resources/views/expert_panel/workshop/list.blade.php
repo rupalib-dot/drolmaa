@@ -1,7 +1,7 @@
 @include('include.header')
 @include('include.nav')
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container-fluid">
+    <div class="px-0 container-fluid">
         <div class="">
             <div class="col-sm-12">
                 <div class="back-appoint">
@@ -9,15 +9,36 @@
                         @include('include.expert_sidebar')
                         <div class="col-md-10">
                             <div class="dashboard-panel" style="padding-top: 20px;">
-                                
-                                <a href="{{route('expworkshop.index',['status'=>$request['status'],'user'=>'admin'])}}"> <button class="@if(!isset($request['user']) || $request['user'] == 'admin') curent-appoint @else previous-appoint @endif">Admin Workshop</button></a>
-                                <a href="{{route('expworkshop.index',['status'=>$request['status'],'user'=>'expert'])}}"> <button class="@if($request['user'] == 'expert') curent-appoint @else previous-appoint @endif">My Workshop</button></a>
-                                
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <a href="{{route('expworkshop.index',['status'=>$request['status'],'user'=>'admin'])}}"> <button class="w-100 @if(!isset($request['user']) || $request['user'] == 'admin') curent-appoint @else previous-appoint @endif">Admin Workshop</button></a>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <a href="{{route('expworkshop.index',['status'=>$request['status'],'user'=>'expert'])}}"> <button class="w-100 @if($request['user'] == 'expert') curent-appoint @else previous-appoint @endif">My Workshop</button></a>
+    
+                                        </div>    
+                                    </div>    
+                                </div> 
+                                            {{-- <a href="{{route('expworkshop.index',['status'=>$request['status'],'user'=>'admin'])}}"> <button class="@if(!isset($request['user']) || $request['user'] == 'admin') curent-appoint @else previous-appoint @endif">Admin Workshop</button></a>
+                                            <a href="{{route('expworkshop.index',['status'=>$request['status'],'user'=>'expert'])}}"> <button class="@if($request['user'] == 'expert') curent-appoint @else previous-appoint @endif">My Workshop</button></a>
+                                            --}}
                                 @include('include.validation_message')
                                 @include('include.auth_message')
                                 <h3> @if($request['user'] == 'expert') My @else Admin  @endif Workshops</h3>
-                                <a href="{{route('expworkshop.index',['status'=>'upcoming','user'=>$request['user']])}}"> <button class="@if(!isset($request['status']) || $request['status'] == 'upcoming') curent-appoint @else previous-appoint @endif">Upcoming Workshop</button></a>
-                                <a href="{{route('expworkshop.index',['status'=>'previous','user'=>$request['user']])}}"> <button class="@if($request['status'] == 'previous') curent-appoint @else previous-appoint @endif">Previous Workshop</button></a>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <a href="{{route('expworkshop.index',['status'=>'upcoming','user'=>$request['user']])}}"> <button class="w-100 @if(!isset($request['status']) || $request['status'] == 'upcoming') curent-appoint @else previous-appoint @endif">Upcoming Workshop</button></a>
+                                        </div>
+                                        <div class="col-md-5">
+                                           <a href="{{route('expworkshop.index',['status'=>'previous','user'=>$request['user']])}}"> <button class="w-100 @if($request['status'] == 'previous') curent-appoint @else previous-appoint @endif">Previous Workshop</button></a>
+                                
+                                        </div>    
+                                    </div>    
+                                </div> 
+                                {{-- <a href="{{route('expworkshop.index',['status'=>'upcoming','user'=>$request['user']])}}"> <button class="@if(!isset($request['status']) || $request['status'] == 'upcoming') curent-appoint @else previous-appoint @endif">Upcoming Workshop</button></a>
+                                <a href="{{route('expworkshop.index',['status'=>'previous','user'=>$request['user']])}}"> <button class="@if($request['status'] == 'previous') curent-appoint @else previous-appoint @endif">Previous Workshop</button></a> --}}
                                 <!-- <form action="{{route('expappointment.index')}}" class="form-appoint">
 
                                     <input style="margin-right: 5px !important;" type="date" name="from_date" value="{{old('from_date',$request['from_date'])}}" class="mr-3">

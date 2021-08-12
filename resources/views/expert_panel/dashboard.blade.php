@@ -17,7 +17,7 @@
 }
 </style>
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container-fluid">
+    <div class="px-0 container-fluid">
         <div class="">
             <div class="col-md-12">
                 <div class="back-appoint">
@@ -76,6 +76,7 @@
                                                     </div>
                                                 </a>
                                             </div>
+                                          
             
                             </div>
                                 <div class="row layout-top-spacing" style="margin-top:40px">
@@ -86,6 +87,16 @@
                                                     <p class="w-value"><i class="fas fa-user-clock"></i></p>
                                                     <h5 class="">Availability</h5>
                                                 </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                        <a href="{{route('workshopHome')}}">
+                                            <div class="widget widget-one_hybrid widget-followers" style="height: 95%;">
+                                                <div class="widget-heading">
+                                                    <p class="w-value"><i class="fas fa-calendar-plus"></i></p>
+                                                    <h5 class="">Workshop</h5>
+                                                </div> 
                                             </div>
                                         </a>
                                     </div>

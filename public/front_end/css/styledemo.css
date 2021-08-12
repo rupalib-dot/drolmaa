@@ -169,7 +169,7 @@ header {
     z-index: 150;
     left: 0;
     background-color: black;
-    padding: 6px 0px 5px 0px;
+    padding: 0px 0px 5px 0px;
 }
 
 a.nav-item.nav-link::before {
@@ -291,12 +291,14 @@ section#aboutUs::after {
 
 a.readMoreCta {
     background-color: var(--red);
-    padding: 5px 10px;
+    padding: 0px 10px;
     color: var(--white);
     border-radius: 4px;
     line-height: 40px;
 }
-
+.text-decoration-underline{
+    text-decoration: underline;
+}
 h2.allHeading1 {
     font-size: 40px;
     margin-bottom: 30px;
@@ -460,8 +462,7 @@ section#blog::before {
     margin: auto;
     -webkit-transition: height .25s ease, width .25s ease;
     transition: height .25s ease, width .25s ease;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+  
 }
 
 .blogBox:hover {
@@ -546,7 +547,9 @@ section#blog::before {
 .blogText {
     position: relative;
     box-shadow: 3px 1px 6px 0px #ccc;
+    text-align: center;
     margin-right: 50px;
+    margin-top: 45px;
     padding: 15px;
     margin-bottom: 50px;
     border-radius: 10px;
@@ -560,7 +563,7 @@ section#channel {
     padding-bottom: 60px;
 }
 
-section#channel::after {
+/* section#channel::after {
     position: absolute;
     content: "";
     background-image: url(../images/sideimg.png);
@@ -570,12 +573,11 @@ section#channel::after {
     top: 73px;
     height: 410px;
     bottom: 0;
-}
+} */
 
 .channel .row {
-    border: 5px solid #F8E8CE;
+    border: 6px solid #F8E8CE;
     height: 100%;
-    background: linear-gradient( 175deg, #5a5a5abf, #e19999bf), url(../images/offer_bk.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -692,6 +694,28 @@ a.offer {
     color: #fff;
     vertical-align: -webkit-baseline-middle;
 }
+.gallery-cell {
+    width: 100%;
+    height: 200px;
+    margin-right: 10px;
+    background-image: url(../font_end/images/checked.png);
+    counter-increment: gallery-cell;
+  }
+.flickity-viewport {
+    height: 295px    !important;
+}
+.flickity-prev-next-button.previous {
+    left: -15px !important;
+}
+  /* cell number */
+  .gallery-cell:before {
+    display: block;
+    text-align: center;
+    content: "";
+    line-height: 200px;
+    font-size: 80px;
+    color: white;
+  }
 
 .page-link {
     margin: 0px 10px;
@@ -798,10 +822,11 @@ a.offer {
     border-bottom: 1px solid transparent;
 }
 
+
 section#contact_form_home {
-    background: linear-gradient( -90deg, black, transparent);
-    background-size: contain;
-    background-position-x: 75%;
+    background:url(../images/contact_modal_1.svg);
+    background-size: cover;
+    background-position: center;
     padding: 40px 0px 0px 0px;
 }
 
@@ -1066,14 +1091,18 @@ section#clientLogIn {
 .clientLogImage img {
     max-width: 100px;
 }
-
+.text-danger{
+    color:#952A16 !important;
+}
 .clientLogo {
     position: relative;
     text-align: center;
-    padding: 120px 0;
+    padding: 160px 0;
     color: white;
 }
-
+.navbar-toggler{
+    background: #fff !important;
+}
 .clientTextF {
     position: relative;
     margin-bottom: 30px;
@@ -1290,7 +1319,7 @@ a.next {
     color: var(--white);
 }
 
-button.next {
+button.previous,button.next {
     background-color: var(--red);
     padding: 10px 25px;
     border-radius: 4px;
@@ -1394,7 +1423,7 @@ span.count-back {
     bottom: 85px;
     right: 0px;
     top: 27px;
-    left: 157px;
+    left: 160px;
     border-radius: 5px;
     background-color: var(--white1);
 }
@@ -1470,7 +1499,7 @@ p.detail-heading.width::after {
     position: absolute;
     content: " ";
     border: 1px solid var(--green);
-    width: 45%;
+    width: 71%;
     bottom: 85px;
     right: 0px;
     top: 27px;
@@ -1991,6 +2020,7 @@ h4.profile-change {
     position: absolute;
     top: 50%;
     left: 50%;
+    text-align: center;
     min-width: 320px;
     transform: translate(-50%, -50%);
     background-color: white;
@@ -2041,6 +2071,7 @@ p.schedule-choose {
 .widget {
     background: transparent;
     padding: 8px;
+    color: #000;
     box-shadow: 0px 0px 6px 1px #e0d7d7;
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -2048,8 +2079,20 @@ p.schedule-choose {
 
 .widget:hover {
     border-color: #952A16;
+    background-color: #952A16;
+    color: #fff;
 }
+.verify_back{
+    background-color: #996515;
+    position: relative;
+    left: -20px;
+    top: -8px;
+    padding: 0px 10px;
+    color: #fff;
+    z-index: 10;
+    border-radius: 8px;
 
+}
 
 /* ---------------Availability css--------------- */
 
@@ -2316,6 +2359,9 @@ h2.hall-heading {
     padding: 75px;
     font-size: 36px;
 }
+.card-body h3{
+    font-weight: 500;
+}
 
 section#contact-page-inner {
     position: relative;
@@ -2341,7 +2387,16 @@ section#get-touch {
 .get-touch p {
     font-size: 14px;
 }
-
+.contact_right_side{
+    background-image: url(../images/contact_us_right.svg);
+    background-position: center center;
+    background-size: cover;
+    max-height: 100%;
+}
+.button_contact_page{
+    background: #fff;
+    border-color: transparent;
+}
 .single-cta {
     display: flex;
     justify-content: center;
@@ -2835,6 +2890,10 @@ h4.filter-text {
     left: 0;
     bottom: 0;
     right: 0;
+}
+.btn_small{
+    padding: 2px 2px !important;
+    margin-top: 5px !important;
 }
 
 .loading_popup {
@@ -3471,6 +3530,9 @@ input:checked~.close-list {
     @media screen and (max-width: 767px) {
         .seperator {
             display: none;
+        }
+        .navbar-light .navbar-nav .nav-link{
+            padding: 5px 15px;
         }
     }
 }

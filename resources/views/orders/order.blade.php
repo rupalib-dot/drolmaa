@@ -1,7 +1,7 @@
 @include('include.header')
 @include('include.nav')
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container-fluid">
+    <div class="px-0 container-fluid">
         <div class="">
             <div class="col-sm-12">
                 <div class="back-appoint">
@@ -16,6 +16,19 @@
                             @include('include.validation_message')
                                 @include('include.auth_message')
                                 <h3 class="order-content">My Orders</h3>
+                                <form action="{{route('appointment.index')}}" class="form-appoint">
+                                    <select name="payment_type" style="border: 1px solid var(--black1);padding: 9px;margin-right: 5px !important;">
+                                        <option value="">Order Number</option>
+                                        @foreach(config('constant.PAYMENT_MODE') as $value => $key)
+                                            <option {{ old('payment_type',$request['payment_type']) == $key ? 'selected' : ''}} value="{{$key}}">{{ucfirst(strtolower($value))}}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="type" value="{{$request['type']}}" class="">
+
+                                    <input style="margin-right: 5px !important;" type="date" name="from_date" value="{{old('from_date',$request['from_date'])}}" class="mr-2">
+                                    <button type="submit" class="filter" style="margin-left:0px;margin-right: 5px !important;">Filter</button> 
+                                    <a href="{{url('appointment')}}"> <button type="button" class="filter" style="">Clear </button></a>
+                                </form>
                                 <table class="table table-bordered appoint-table" style="width:100%">
                                     <thead>
                                         <tr>

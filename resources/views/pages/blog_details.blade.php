@@ -1,7 +1,7 @@
 @include('include.header')
 @include('include.nav')
 <section id="contact-page-inner" id="contact-page-inner" role="contact"
-    style="background-image:url({{asset('front_end/images/blogimg.png')}})">
+    style="background-image:url({{asset('front_end/images/perticuler_blog.svg')}})">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -50,6 +50,26 @@
                         congue curabitur molestie donec auctor. Tempus — nibh, eros non sem sed sit porttitor diam
                         commodo, cursus: ultricies non curabitur et sodales, congue sapien curabitur.
                     </p>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="my-3 border-0 float-right text-decoration-underline  text-dark " data-toggle="modal" data-target="#exampleModal">View All</button>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title text-light" id="exampleModalLabel">Our Comment</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                            ...
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                     <h3 class="success-heading">Leave a Reply</h3>
                     <p class="email-para">Your email address will not be published. Required fields
                         are marked *
@@ -153,7 +173,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="mt-5 card">
+                {{-- <div class="mt-5 card">
                     <div class="card-header"> Comment</div>
                         <div class="card-body">
                             <blockquote class="blockquote mb-0">
@@ -172,6 +192,7 @@
                             
                         </div>
                     </div>
+                </div> --}}
             </div>
         </div>
     </div>

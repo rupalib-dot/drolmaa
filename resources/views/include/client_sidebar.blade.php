@@ -90,7 +90,7 @@
         </li>
         <li class="data-sheet {{ Request::is('bookings*') ? 'active' : '' }}">
             <span class="icons"><img src="{{asset('front_end/images/booking.png')}}" alt=""></span>
-            <a href="{{route('bookings.index')}}">My Bookings</a>
+            <a href="{{route('bookings.index')}}">My Workshop</a>
         </li>
         <li class="data-sheet {{ Request::is('feedbacks*') ? 'active' : '' }}">
             <span class="icons"><img src="{{asset('front_end/images/feedback.png')}}" alt=""></span><a

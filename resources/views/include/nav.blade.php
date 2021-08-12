@@ -20,7 +20,7 @@
 
     </div>
     <header id="main-header" class="main-header fluid-container" role="Header">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{url('/')}}"><img class="img-fluid" src="{{asset('front_end/images/logo.svg')}}"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -79,11 +79,6 @@
                                     <a class="nav-item nav-link {{ Request::is('admin/dashboard') ? 'last' : '' }}" href="{{route('admin.dashboard')}}">Dashboard</a>
                                 </li> 
                         <?php }} ?> 
-                        <?php if(Session::get('role_id') != 2){?>
-                                <li class="nav-item last1">
-                                    <a class="nav-item nav-link last" href="{{route('our_experts')}}">Book An Appointment</a>
-                                </li>  
-                        <?php }?>
                         <?php if(Session::has('user_id') && Session::has('role_id')){ }else{?>
                             <li class="nav-item  {{ Request::is('user_login') ? 'last2' : '' }}">
                                 <a class="nav-item nav-link {{ Request::is('user_login') ? 'last' : '' }}" href="{{ route('login') }}">Login/SignUp</a>
@@ -93,6 +88,11 @@
                                 <?php $count = CommonFunction::getCount('cart','user_id',Session::get('user_id')); ?>
                                 <a class="nav-item nav-link" href="{{ route('viewcart') }}"><i style="font-size: 20px;color: white;position relative" class="fas fa-shopping-cart"></i><?php if($count > 0){ ?><b class="cart_value">{{$count}}</b> <?php } ?></a> 
                             </li>
+                            <?php if(Session::get('role_id') != 2){?>
+                                <li class="nav-item last1">
+                                    <a class="nav-item nav-link last" href="{{route('our_experts')}}">Book An Appointment</a>
+                                </li>  
+                        <?php }?>
                             
                     </ul>
                   

@@ -358,7 +358,7 @@
                 </div>
             </div>
         </div>
-        <div class="back-next">
+        <div class="mb-4 back-next">
             <a href="{{route('expert.third.step')}}" class="back">Back</a>
         </div>
     </div>

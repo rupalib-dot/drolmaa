@@ -17,7 +17,7 @@
 }
 </style>
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container-fluid">
+    <div class="px-0 container-fluid">
         <div class="">
             <div class="col-md-12">
                 <div class="back-appoint">
@@ -31,7 +31,7 @@
                                 <div style="border: 1px #952a16 solid; padding: 15px 15px 15px 15px; color: white; background: #952a16;">
                                     <?php if(!empty($subscription_data)){?>
                                         <div class="row">
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-8">
                                                 <p> Subscriptions Plan Details </p>
                                             </div>
                                             <?php $olddate=strtotime($subscription_data->end_date); $curdate=strtotime(date('Y-m-d'));
@@ -53,8 +53,11 @@
                                                         <a style="margin-left: 10px;" href="{{route('page.pricing',['update_plan'=>'update'])}}"><button style="background-color: #e80808;border-color: #e80808;" class="btn btn-info" type="button">Upgrade Plan</button></a>
                                                     </div>
                                                 <?php } ?>  
+                                                <div class="col-lg-4">
+                                                    <button type="button" class="float-right btn btn-outline-danger  button_contact_page">Upgrade Plan</button>
+                                                </div>
                                         </div>
-                                        <div class="row" <?php $olddate=strtotime($subscription_data->end_date); $curdate=strtotime(date('Y-m-d'));
+                                        <div class="mt-3 row" <?php $olddate=strtotime($subscription_data->end_date); $curdate=strtotime(date('Y-m-d'));
                                             if($olddate < $curdate) {?> style="margin-top: 20px;" <?php } ?>>
                                             <div class="col-lg-6">
                                                 <p> Plan Status:- 
@@ -63,8 +66,8 @@
                                                 <p>Amount:- <i class="fas fa-rupee-sign"></i> {{$subscription_data->register_amount}}</p>
                                             </div>
                                             <div class="col-lg-6">
-                                                <p>Time:- {{$subscription_data->month}} Month {{$subscription_data->plan_detail}}</p>
-                                                <p>Date:- From  {{date('d M,Y', strtotime($subscription_data->start_date))}}  To  {{date('d M,Y', strtotime($subscription_data->end_date))}}</p> 
+                                                <p class="text-right">Time:- {{$subscription_data->month}} Month {{$subscription_data->plan_detail}}</p>
+                                                <p class="text-right">Date:- From  {{date('d M,Y', strtotime($subscription_data->start_date))}}  To  {{date('d M,Y', strtotime($subscription_data->end_date))}}</p> 
                                             </div>
                                         </div> 
                                     <?php } else{?>
@@ -79,12 +82,14 @@
                                         <div class="input-group mb-4">
                                             <input type="text" class="form-control" placeholder="Name" aria-label="Name"
                                         aria-describedby="basic-addon1" name="full_name" value="{{old('full_name', $record_data->full_name)}}">
-                                        </div>
+                                           
+                                    </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="input-group mb-4">
                                             <input type="text" class="form-control" placeholder="Email" aria-label="Email"
                                             aria-describedby="basic-addon1" name="email_address" value="{{ old('email_address', $record_data->email_address) }}">
+                                            <button type="button" class="btn btn-danger verify_back input-group-text">Verify</button>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -161,7 +166,7 @@
 
                     </div>
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+                    <button type="button" class="mb-4 btn btn-info" data-toggle="modal" data-target="#exampleModal">
   Change Password
 </button>
 

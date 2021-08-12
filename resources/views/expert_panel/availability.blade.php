@@ -10,10 +10,7 @@
                         <div class="col-md-10">
                             <div class="dashboard-panel">
                                 <h3>Set your availability</h3>
-                                <p class="schedule-choose">Choose a schedule below to edit or create a new one that you
-                                    can
-                                    apply to your event types
-                                </p> 
+                                <p class="schedule-choose">Choose a schedule below to edit or create a new one that you can apply to your event types</p> 
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="appoinment-available" id="availability-section">

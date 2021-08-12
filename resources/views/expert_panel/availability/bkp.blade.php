@@ -1,7 +1,7 @@
 @include('include.header')
 @include('include.nav')
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container-fluid">
+    <div class="px-0 container-fluid">
         <div class="">
             <div class="col-sm-12">
                 <div class="back-appoint">

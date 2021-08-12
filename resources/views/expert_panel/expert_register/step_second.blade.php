@@ -86,6 +86,9 @@
                         
                             $special_plan =  old('special_plan', !empty($expert) ? explode(',',$expert->special_plan) : '');
                         @endphp
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Describe About Yourself..." id="exampleFormControlTextarea1" rows="4"></textarea>
+                          </div>
                         <div class="special">
                             <h3>Specialization Plan</h3>
                             <p>Select only 2 Plan</p>
@@ -116,7 +119,7 @@
                                     but yet professional help would make its difference.
                                 </label>
                             </div>
-                            <div class="back-next-next">
+                            <div class="mb-4 back-next-next">
                             <a href="{{route('expert.first.step')}}" class="back">Back</a>
                             <button type="submit" class="next">Next</button>
                         </div>

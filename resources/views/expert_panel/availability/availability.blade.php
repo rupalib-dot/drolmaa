@@ -1,7 +1,7 @@
 @include('include.header')
 @include('include.nav')
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container-fluid">
+    <div class="px-0 container-fluid">
         <div class="">
             <div class="col-sm-12">
                 <div class="back-appoint">
@@ -16,7 +16,51 @@
                                     <div class="col-lg-6">
                                     </div>
                                     <div class="col-lg-6" style="text-align: right;">
-                                        <a href="{{route('availabilty.create')}}"> <button type="button" style="background-color: #ba4811;border-color: #ba4811;" class="filter">Add Availability</button></a>
+                                        {{-- <a href="{{route('availabilty.create')}}"> <button type="button" style="background-color: #ba4811;border-color: #ba4811;" class="filter">Add Availability</button></a> --}}
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="filter btn btn-primary" style="background-color: #ba4811;border-color: #ba4811;" data-toggle="modal" data-target="#exampleModal">Add Availability</button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title text-light" id="exampleModalLabel">Add Availability</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <div class="text-left mt-3">
+                                                <h3 class="text-left">Date</h3>
+                                                <form>
+                                                    <div class="form-group">
+                                                      <label for="exampleInputEmail1">From</label>
+                                                      <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                      <small id="emailHelp" class="form-text text-muted">We'll never share your Details with anyone else.</small>
+                                                    </div>
+                                                    <div class="form-group">
+                                                      <label for="exampleInputPassword1">To</label>
+                                                      <input type="date" class="form-control" id="exampleInputPassword1">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputPassword1">Time Slot</label>
+                                                        <select class="form-control"name="time_slot" id="">
+                                                            <option value="10.30">10.30</option>
+                                                            <option value="10.30">10.30</option>
+                                                            <option value="10.30">10.30</option>
+                                                            <option value="10.30">10.30</option>
+                                                            <option value="10.30">10.30</option>
+                                                        </select>
+                                                      </div>
+                                                    
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                  </form>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
                                     </div>
                                 </div>
                                 <table class="table table-bordered appoint-table" style="width:100%">

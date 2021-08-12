@@ -14,10 +14,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <div class="clientLogImage" style="background-image:url({{asset('front_end/images/img1-1.png')}})">
+                <div class="clientLogImage">
                     <div class="clientLogo">
                         <img src="{{asset('front_end/images/bannerimg2.png')}}" alt="">
-                        <h3>DrolMaa Constellation Club</h3>
+                        <h3 class="text-dark">DrolMaa Constellation Club</h3>
                     </div>
                 </div>
             </div>
@@ -52,13 +52,13 @@
                                         aria-describedby="basic-addon1" name="user_password" id="user_password">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="ShowPass('user_password')" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                 </div>
-                                <a href="{{route('forgot_password')}}" class="forgotPasswrd">Forgot Password?</a>
+                                <a href="{{route('forgot_password')}}" class="text-danger forgotPasswrd">Forgot Password?</a>
                             </div>
                             <button class="login1 btn">Log In</button>
                         </div>
                         <div class="sign-up ajay mt-4">
                             Don't have an Account ?<br> 
-                            <a href="{{route('customer.create')}}">Register as USER </a><span> | <a href="{{route('expert.first.step')}}">Register as EXPERT</span></a>
+                            <a href="{{route('customer.create')}}" class="text-danger">Register as USER </a><span> | <a href="{{route('expert.first.step')}}" class="text-danger">Register as EXPERT</span></a>
                         </div>
                     </form>
                 </div>
