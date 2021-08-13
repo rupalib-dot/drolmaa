@@ -22,6 +22,8 @@ class Workshop extends JsonResource
             'workshop_id'       => $this->workshop_id,
             'title'             => $this->title,
             'price'             => $this->price,
+            'description'       => $this->description,
+            'image' 	        => asset('public/workshop/'.$this->image),
             'date'              => date('d M, Y', strtotime($this->date)),
             'start_date'        => date('d M, Y', strtotime($this->start_date)),
             'time'              => date('h:i A', strtotime($this->time)),

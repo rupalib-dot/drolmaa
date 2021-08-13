@@ -24,11 +24,21 @@ use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\AdminOrderController; 
 use App\Http\Controllers\Admin\AdminExpertController;
 use App\Http\Controllers\Admin\WorkshopController;
+use App\Http\Controllers\Admin\HealthTipsController;
 use App\Http\Controllers\Admin\ProductController; 
 use App\Http\Controllers\Admin\CategoryController; 
 use App\Http\Controllers\Admin\AdminCustomerController;
 use App\Http\Controllers\Admin\SettingController; 
-use App\Http\Controllers\PagesController;
+use App\Http\Controllers\PagesController; 
+use App\Http\Controllers\Admin\ServicesController;
+use App\Http\Controllers\Admin\BlogController ;
+use App\Http\Controllers\Admin\BannerController ;
+use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\OffersCoupnsController;
+use App\Http\Controllers\Admin\cancelReasonController;
+use App\Http\Controllers\Admin\TrainingController ;
+use App\Http\Controllers\Admin\FAQController; 
+
 
 /*
 |--------------------------------------------------------------------------
@@ -191,6 +201,24 @@ Route::group(['middleware' => ['administrator']], function(){
          Route::post('payexpert-submit',[TransactionController::class, 'payexpert'])->name('payexpert');
          Route::get('payDetails',[TransactionController::class, 'payDetails'])->name('pay-details');
         
+        //banners
+        Route::resource('banners', BannerController::class); 
+        //faq
+        Route::resource('faq', FAQController::class); 
+        //testimonial
+        Route::resource('testimonial', TestimonialController::class); 
+        //cancel reasons
+        Route::resource('cancel_reason', cancelReasonController::class); 
+        //blogs
+        Route::resource('blogs', BlogController::class); 
+        //services
+        Route::resource('services', ServicesController::class); 
+        //training
+        Route::resource('training', TrainingController::class); 
+         //health tips
+         Route::resource('health_tips', HealthTipsController::class); 
+        //offers_coupons
+        Route::resource('offers_coupons', OffersCoupnsController::class);  
     }); 
 
     Route::group(['middleware' => ['customer']], function() {

@@ -132,7 +132,7 @@ class PagesController extends Controller
             $validatedData = $request->validate([
                 'name' 	            => 'required|min:3|max:30|regex:/^[\pL\s\']+$/u',
                 'message'           => 'required|min:3|max:250',
-                'phone' 	        => 'required|digits:10',
+                'phone' 	        => 'required',
                 'email' 	        => 'required|max:50|regex:^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^', 
             ], $error_message);
 
@@ -140,7 +140,7 @@ class PagesController extends Controller
             if(Session::has('user_id')){
                 $user_id = Session::get('user_id');
             }
-
+            
             $data=array(
                 'name' 	            => $request['name'],
                 'user_id'           => $user_id,
@@ -151,8 +151,7 @@ class PagesController extends Controller
                 'module_id' 	    => $request['module_id'],
                 'created_at' 	    => date('Y-m-d H:i:s'),
                 'updated_at' 	    => date('Y-m-d H:i:s'), 
-            );
-            print_r($data);exit;
+            ); 
             $count_row = ContactEnquiery::create($data);  
             if(!empty($count_row)){
                 return redirect()->back()->with('Success', 'Contact inquiry submitted successfully');
@@ -163,5 +162,44 @@ class PagesController extends Controller
         $data           = compact('title');
         return view('pages.contact', $data);
     }
-     
+      
+    public function blog_list()
+    {
+        $blog_list      = Blog::OrderBy('created_at','DESC')->get();
+        $title          = "Blogs";
+        $data           = compact('title','blog_list');
+        return view('blog', $data);
+    }
+
+
+    public function save_comment(Request $request)
+    {
+        $error_message = 	[
+			'full_name.required'        => 'Name should be required',
+			'email_address.required'    => 'Email address should be required',
+			'comment_details.required'  => 'Comment should be required',
+            'regex'                     => 'Provide valid email adddress',
+		];
+
+		$validatedData = $request->validate([
+			'full_name' 	    => 'required',
+			'email_address' 	=> 'required|regex:^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^',
+            'comment_details' 	=> 'required',
+        ], $error_message);
+
+        try
+		{
+            \DB::beginTransaction();
+                $comment = new Comment();
+                $comment->fill($request->all())->save();
+                $comment->save();
+            \DB::commit();
+            return back()->with('Success','Comment posted successfully');
+        }
+        catch (\Throwable $e)
+    	{
+            \DB::rollback();
+            return back()->with('Failed',$e->getMessage())->withInput($request->all());
+    	}   
+    }
 }

@@ -46,7 +46,7 @@
                                         <th>Email</th> 
                                         <th style="width: 250px;">Message</th>
                                         <th>Module Type</th>
-                                        <th>Date</th> 
+                                        <th>Module Title</th> 
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -60,7 +60,7 @@
                                                 <td>{{$aGetData->email}}</td>
                                                 <td>{{$aGetData->message}}</td>
                                                 <td>{{ucwords(strtolower(array_search($aGetData->module_type,config('constant.ENQUIERY'))))}}</td>
-                                                <td>{{date('d M,Y H:i A',strtotime($aGetData->created_at))}}</td>
+                                                <td>@if($aGetData->module_type == config('constant.ENQUIERY.WORKSHOP')) {{CommonFunction::GetSingleField('workshop','title','workshop_id',$aGetData->module_id)}} @endif</td>
                                             </tr> 
                                         @php $i++; @endphp
                                         @endforeach 
