@@ -23,6 +23,12 @@ class ExpertWorkshopController extends Controller
 
     // image/about
 
+    public function Home(){
+        $title = 'Workshop Index';
+        $data   = compact('title');
+        return view('expert_panel.workshop.index', $data);
+    }
+
     /**
      * Display a listing of the resource.
      *

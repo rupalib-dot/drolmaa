@@ -14,10 +14,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <div class="clientLogImage" style="background-image:url({{asset('front_end/images/img1-1.png')}})">
+            <div class="clientLogImage">
                     <div class="clientLogo">
                         <img src="{{asset('front_end/images/bannerimg2.png')}}" alt="">
-                        <h3>DrolMaa Constellation Club</h3>
+                        <h3 class="text-dark">DrolMaa Constellation Club</h3>
                     </div>
                 </div>
             </div>
@@ -141,8 +141,7 @@
                             <!--        </a></span>-->
                             <!--</p>-->
                         </div>
-                        <button class="login1 btn">Send OTP
-                        </button>
+                        <button class="login1 btn mb-4">Send OTP</button>
 
                 </div>
                 </form>

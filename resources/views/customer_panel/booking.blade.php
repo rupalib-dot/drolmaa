@@ -11,7 +11,7 @@
                             <div class="dashboard-panel">
                                 @include('include.validation_message')
                                 @include('include.auth_message')
-                                <h3 class="order-content">My Bookings</h3> 
+                                <h3 class="order-content"> Workshop/Webinar </h3> 
                          
                                 <form action="{{route('bookings.index')}}"class="form-appoint">
                                     <input type="date" name="from_date" value="{{$request['from_date']}}" class="">
@@ -19,7 +19,7 @@
                                     <input type="date" name="to_date" value="{{$request['to_date']}}" class="">
                                     <a href="#"> <button type="submit" class="filter" style="margin-left:0px">Filter</button></a>
                                     <a href="{{url('bookings')}}"> <button type="button" class="filter" style="margin-left:0px">Clear Filter</button></a>
-                                    <a href="{{route('bookings.create')}}"> <button type="button" style="background-color: #ba4811;border-color: #ba4811;" class="filter">Add Booking</button></a>
+                                    {{-- <a href="{{route('bookings.create')}}"> <button type="button" style="background-color: #ba4811;border-color: #ba4811;" class="filter">Add Booking</button></a> --}}
                                 </form>
                                 <table class="table table-bordered appoint-table" style="width:100%">
                                     <thead>

@@ -62,7 +62,7 @@
         </li>
         <li class="nav-item sidebar-dropdown data-sheet {{ Request::is('expert/expworkshop*') ? 'active' : '' }}" >
             <span class="icons"><img src="{{asset('front_end/images/profile.png')}}" alt=""></span>
-            <a href="#">Workshop</a>
+            <a href="{{route('workshopHome')}}">Workshop</a>
             <a  href="#submenu2" data-toggle="collapse" data-target="#submenu2"> <i class="ml-2 fas fa-chevron-down"></i> </a>
             <ul class="list-unstyled flex-column pl-3 collapse" id="submenu2" aria-expanded="false">
               <li class="nav-item" style="padding: 5px 0px;border: none;"><a class="nav-link" href="{{route('expworkshop.create')}}" >Create Workshop</a></li>

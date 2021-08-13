@@ -2,7 +2,7 @@
 @include('include.nav')
 <style> 
 .fas, .far{
-   color: #ffc800;
+   color: #952A16;
 }
 </style>
 <section id="contact-page-inner" id="contact-page-inner" role="contact"
@@ -111,16 +111,17 @@
                                                 <i onclick="addTofavourat('{{$prod->product_id}}','{{Session::get('user_id')}}')" style="color:#952A16;font-size: 30px;" class="fas fa-heart"></i> 
                                             @else
                                                 <img onclick="addTofavourat('{{$prod->product_id}}','{{Session::get('user_id')}}')" src="{{asset('front_end/images/like.png')}}" alt="" class=" img-fluid like-img">
-                                            @endif 
-                                            <img src="{{asset('front_end/images/shopping-cart.png')}}" alt="" onclick="addToCart('{{$prod->product_id}}','{{Session::get('user_id')}}')" class=" img-fluid like-img">  
+                                            @endif
                                             <a href="{{route('page.shopDetail',$prod->product_id)}}"><img src="{{asset('front_end/images/view.png')}}" alt="" class=" img-fluid like-img"> </a>
-                                        </div>
+                                            <button type="button" class="btn btn-danger btn_small btn-sm"onclick="addToCart('{{$prod->product_id}}','{{Session::get('user_id')}}')">Add To Cart</button>
+                                            {{-- <img src="{{asset('front_end/images/shopping-cart.png')}}" alt="" onclick="addToCart('{{$prod->product_id}}','{{Session::get('user_id')}}')" class=" img-fluid like-img">   --}}
+                                            </div>
                                     </div>
                                     <a href="{{route('page.shopDetail',$prod->product_id)}}">
                                         <h5 style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 150px;" class="tool-the">{{ucwords(strtolower($prod->product_name))}}</h5>
                                         <p class="tool-para"> {{CommonFunction::GetSingleField('category','category_name','category_id',$prod->category_id)}}</p>
                                         <p class="indrupee"> &#8377 <span class="yerupee">{{number_format($prod->selling_price,2,'.',',')}}</span></P>
-                                        <p class="mb-5">{{$prod->rating}} <span class="star-rating">@if($prod->rating == 1) <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @elseif($prod->rating == 2) <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @elseif($prod->rating == 3) <i class="fas fa-star"></i>  <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i>  <i class="far fa-star"></i> @elseif($prod->rating == 4) <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> @elseif($prod->rating == 5) <i class="fas fa-star"></i> <i class="fas fa-star"></i>  <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> @else <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @endif</p>
+                                        <p class="mb-5"><span class="star-rating">@if($prod->rating == 1) <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @elseif($prod->rating == 2) <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @elseif($prod->rating == 3) <i class="fas fa-star"></i>  <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i>  <i class="far fa-star"></i> @elseif($prod->rating == 4) <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> @elseif($prod->rating == 5) <i class="fas fa-star"></i> <i class="fas fa-star"></i>  <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> @else <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> @endif</p>
                                     </a>
                             </div> 
                         @endforeach
@@ -131,8 +132,20 @@
                 <div class="paginationPara">
                     {{$products->appends($request->all())->render('vendor.pagination.custom')}}
                 </div>
+                <ul class="mb-4 pagination justify-content-start">
+                    <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    <li class="active   page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
             </div>
         </div>
+        
 </section>
 
 <script>

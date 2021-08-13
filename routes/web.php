@@ -146,7 +146,8 @@ Route::group(['middleware' => ['administrator']], function(){
         //workshop
         Route::resource('expworkshop', ExpertWorkshopController::class)->only([
             'index','create', 'store','update', 'edit','show'
-        ]);  
+        ]); 
+        Route::get('expworkshop-index', [ExpertWorkshopController::class, 'Home'])->name('workshopHome');
         Route::get('expworkshop-delete/{id}', [ExpertWorkshopController::class, 'destroy'])->name('expworkshop.delete');
 
         //transactions

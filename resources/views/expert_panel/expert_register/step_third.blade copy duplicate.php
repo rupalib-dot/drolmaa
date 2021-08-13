@@ -90,7 +90,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="back-next-next">
+                            <div class="mb-4 back-next-next">
                                 <a href="{{route('expert.second.step')}}" class="back">Back</a>
                                 <button type="submit" class="next">Next</button>
                             </div>

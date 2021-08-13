@@ -159,7 +159,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="input-group mb-4">
-                                    <input type="text" class="form-control" placeholder="Address Detail"
+                                    <input type="text" class="form-control" placeholder="Home Address"
                                         aria-label="Address" aria-describedby="basic-addon1" name="address_details"
                                         value="{{old('address_details',  !empty($expert) ? $expert->address_details : '')}}">
                                 </div>
@@ -181,7 +181,7 @@
                                 </div>
                             </div>
 </div>
-                            <div class="back-next">
+                            <div class="mb-4 back-next">
                                 <button type="submit" class="next">Next</button>
                             </div>
                         </div>
