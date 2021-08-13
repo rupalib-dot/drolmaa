@@ -17,12 +17,27 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group mb-4">
-                                                <input type="text" value="{{old('title')}}" name="title" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1">
+                                                <input type="text" value="{{old('title')}}" name="Title" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group mb-4">
+                                                <input type="text" name="Expert_Name" id="Expert_name" value="{{old('name')}}" placeholder="Expert Name" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group mb-4">
+                                                <input type="text" name="Select_Designation" id="Select_Designation" value="{{old('name')}}" placeholder="Select Designation" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group mb-4">
                                                 <input type="time" name="time" id="time" value="{{old('time')}}" placeholder="Time" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group mb-4">
+                                                <input type="text" name="Workshop_Duration" id="Workshop_Duration" value="{{old('time')}}" placeholder="Workshop Duration" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -37,24 +52,23 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group mb-4">
+                                                <input type="text" class="form-control" value="" name="date" placeholder="Price" aria-label="Price" aria-describedby="basic-addon1"> 
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group mb-4">
                                                 <input type="file" class="form-control" value="{{old('image')}}" name="image" placeholder="Image" aria-label="Image" aria-describedby="basic-addon1"> 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group mb-4">
-                                                <textarea type="text" maxlength="255" name="description" id="description" placeholder="Description" class="form-control">{{old('description')}}</textarea>
-                                            </div>
-                                        </div> 
-                                        
-                                        <div class="col-md-6">
-                                            <div class="input-group mb-4">
-                                                <input type="text" maxlength="4" name="price" id="price" value="{{old('price')}}" placeholder="Price" class="form-control">
+                                                <input type="text"  name="description" id="description" placeholder="Description" class="form-control">{{old('description')}}</textarea>
                                             </div>
                                         </div> 
                                         <div class="col-md-12">
-                                             <button class="login1 btn" type="submit" name="submit">Submit</button>
+                                            <button class="login1 btn" type="submit" name="submit">Submit</button>
                                         </div>
-                                </form> 
+                                </form>  
                             </div>
                         </div>
                     </div>

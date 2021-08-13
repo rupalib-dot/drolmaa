@@ -10,14 +10,13 @@
                         <div class="col-md-10">
                             <div class="dashboard-panel" style="padding-top: 20px;">
                                 <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-5">
+                                    <div class="justify-content-center row">
+                                        <div class="col-md-3">
                                             <a href="{{route('expworkshop.index',['status'=>$request['status'],'user'=>'admin'])}}"> <button class="w-100 @if(!isset($request['user']) || $request['user'] == 'admin') curent-appoint @else previous-appoint @endif">Admin Workshop</button></a>
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-3">
                                             <a href="{{route('expworkshop.index',['status'=>$request['status'],'user'=>'expert'])}}"> <button class="w-100 @if($request['user'] == 'expert') curent-appoint @else previous-appoint @endif">My Workshop</button></a>
-    
-                                        </div>    
+                                        </div>   
                                     </div>    
                                 </div> 
                                             {{-- <a href="{{route('expworkshop.index',['status'=>$request['status'],'user'=>'admin'])}}"> <button class="@if(!isset($request['user']) || $request['user'] == 'admin') curent-appoint @else previous-appoint @endif">Admin Workshop</button></a>
@@ -25,17 +24,31 @@
                                             --}}
                                 @include('include.validation_message')
                                 @include('include.auth_message')
-                                <h3> @if($request['user'] == 'expert') My @else Admin  @endif Workshops</h3>
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-5">
+                                <div class="">
+                                    <div class="mt-3 justify-content-around row">
+                                        <div class="col-md-3">
                                             <a href="{{route('expworkshop.index',['status'=>'upcoming','user'=>$request['user']])}}"> <button class="w-100 @if(!isset($request['status']) || $request['status'] == 'upcoming') curent-appoint @else previous-appoint @endif">Upcoming Workshop</button></a>
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-3">
                                            <a href="{{route('expworkshop.index',['status'=>'previous','user'=>$request['user']])}}"> <button class="w-100 @if($request['status'] == 'previous') curent-appoint @else previous-appoint @endif">Previous Workshop</button></a>
-                                
-                                        </div>    
-                                    </div>    
+                                        </div>   
+                                    </div> 
+                                    <div class="justify-content-between row">
+                                        <div class="align-self-center col-md-3">
+                                <h3> @if($request['user'] == 'expert') My @else Admin  @endif Workshops</h3>
+
+                                        </div>
+                                        <div class="col-md-8">
+                                            <form action="{{route('expappointment.index')}}" class="form-appoint">
+
+                                                <input style="margin-right: 5px !important;" type="date" name="from_date" value="{{old('from_date',$request['from_date'])}}" class="mr-3">
+            
+                                                <input style="margin-right: 5px !important;" type="date" name="to_date" value="{{old('to_date',$request['to_date'])}}">
+                                                <button type="submit" class="filter" style="margin-left:0px;margin-right: 5px !important;">Filter</button> 
+                                                <a href="{{url('expert/expappointment')}}"> <button type="button" class="filter"  style="margin-left:0px">Clear</button></a>
+                                            </form>    
+                                        </div>     
+                                    </div>   
                                 </div> 
                                 {{-- <a href="{{route('expworkshop.index',['status'=>'upcoming','user'=>$request['user']])}}"> <button class="@if(!isset($request['status']) || $request['status'] == 'upcoming') curent-appoint @else previous-appoint @endif">Upcoming Workshop</button></a>
                                 <a href="{{route('expworkshop.index',['status'=>'previous','user'=>$request['user']])}}"> <button class="@if($request['status'] == 'previous') curent-appoint @else previous-appoint @endif">Previous Workshop</button></a> --}}
