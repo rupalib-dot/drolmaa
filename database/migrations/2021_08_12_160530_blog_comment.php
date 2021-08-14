@@ -16,6 +16,7 @@ class BlogComment extends Migration
         Schema::create('blog_comment', function (Blueprint $table) {
             $table->bigIncrements('comment_id');
             $table->unsignedBigInteger('blog_id');
+            $table->integer('user_id')->nullable();
             $table->string('full_name',32);
             $table->string('email_address',50);
             $table->longText('comment_details');

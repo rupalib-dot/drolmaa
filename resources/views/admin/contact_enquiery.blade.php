@@ -46,7 +46,7 @@
                                         <th>Email</th> 
                                         <th style="width: 250px;">Message</th>
                                         <th>Module Type</th>
-                                        <th>Module Title</th> 
+                                        <th> Topic</th> 
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -60,7 +60,7 @@
                                                 <td>{{$aGetData->email}}</td>
                                                 <td>{{$aGetData->message}}</td>
                                                 <td>{{ucwords(strtolower(array_search($aGetData->module_type,config('constant.ENQUIERY'))))}}</td>
-                                                <td>@if($aGetData->module_type == config('constant.ENQUIERY.WORKSHOP')) {{CommonFunction::GetSingleField('workshop','title','workshop_id',$aGetData->module_id)}} @endif</td>
+                                                <td>@if($aGetData->module_type == config('constant.ENQUIERY.WORKSHOP')) {{CommonFunction::GetSingleField('workshop','title','workshop_id',$aGetData->module_id)}} @elseif($aGetData->module_type == config('constant.ENQUIERY.TALK TO EXPERT')) {{array_search($aGetData->topic_id,config('constant.SPECIAL_PLANS'))}} @endif</td>
                                             </tr> 
                                         @php $i++; @endphp
                                         @endforeach 

@@ -15,6 +15,7 @@ class BlogComment extends Model
 
     protected $fillable = [
         'blog_id',
+        'user_id',
         'full_name',
         'email_address',
         'comment_details',

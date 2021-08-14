@@ -10,6 +10,7 @@ use App\Models\Feedback;
 use App\Http\Resources\Feedback as Feedbacks; 
 use App\Models\Workshop;
 use DB; 
+use App\Models\Training;
 use CommonFunction;
 use App\Models\Availability;
 
@@ -123,12 +124,17 @@ class CommonTaskController extends Controller
 
     public function our_training(Request $request)
     { 
-         
+        $title  = "Training"; 
+        $trainings  = Training::OrderBy('training_id','desc')->paginate(10);     
+        $data   = compact('title','trainings','request');
+        return view('pages.training', $data);
     } 
 
     public function other_activities(Request $request)
-    { 
-         
+    {  
+        $title  = "Other Activities";     
+        $data   = compact('title','request');
+        return view('pages.other_activities', $data); 
     }
     
 

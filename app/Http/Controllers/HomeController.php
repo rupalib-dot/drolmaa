@@ -9,6 +9,7 @@ use App\Models\UserRole;
 use App\Models\Settings;
 use App\Models\Services;
 use App\Models\Category;
+use App\Models\Testimonial;
 use Session;
 
 class HomeController extends Controller
@@ -23,8 +24,10 @@ class HomeController extends Controller
     { 
         $title  = "Welcome";
         $services = Services::where('services_for',3)->get();
-        $category = Category::paginate(6); 
-        $data   = compact('title','services','category');
+        $category = Category::get(); 
+        $blogcategory = Category::paginate(3);
+        $testimonial = Testimonial::get(); 
+        $data   = compact('title','services','blogcategory','testimonial','category');
         return view('welcome', $data);
     }
 

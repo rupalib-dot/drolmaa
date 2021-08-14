@@ -22,6 +22,7 @@
                                 <div class="modal-body">
                                     <input type="hidden" value="{{config('constant.ENQUIERY.WORKSHOP')}}" name="module_type">
                                     <input type="hidden" value="{{$workshop->workshop_id}}" name="module_id">
+                                    <input type="hidden" class="form-control" value="0"  name="topic_id" placeholder="Topic">
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="name_user">Name</label>
@@ -29,7 +30,7 @@
                                         </div>
                                         <label for="email1">Email address</label>
                                         <input type="email" class="form-control" value="{{old('email')}}" name="email" placeholder="Email" aria-describedby="emailHelp" placeholder="Enter email"required>
-                                        <small id="emailHelp" maxlength="50" class="form-text text-muted">Your information is safe with us.</small>
+                                        <!-- <small id="emailHelp" maxlength="50" class="form-text text-muted">Your information is safe with us.</small> -->
                                     </div>
                                     <div class="form-group">
                                         <div class="form-group">

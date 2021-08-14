@@ -267,7 +267,12 @@ Route::get('shop', [PagesController::class, 'shop'])->name('page.shop');
 Route::get('shop-detail/{id}', [PagesController::class, 'shopDetail'])->name('page.shopDetail');
 Route::get('tools', [PagesController::class, 'tools'])->name('page.tools');
 Route::get('blog', [PagesController::class, 'blog'])->name('page.blog');
-Route::get('blog-detail', [PagesController::class, 'blogDetail'])->name('page.blogDetail');
+Route::get('blog-detail/{blogId}', [PagesController::class, 'blogDetail'])->name('page.blogDetail');
+Route::get('blog-list/{catid}', [PagesController::class, 'blogList'])->name('page.bloglist');
+Route::post('post_comment/{blogId}', [PagesController::class, 'postComment'])->name('page.postComment');
+
+
+
 Route::get('collaboration', [PagesController::class, 'collaboration'])->name('page.collaboration');
 Route::get('contact', [PagesController::class, 'contact'])->name('page.contact');
 Route::post('contact', [PagesController::class, 'contact'])->name('contact-submit');
@@ -313,5 +318,5 @@ Route::namespace('CommonController')->group(function () {
     Route::get('live/workshops', [CommonTaskController::class, 'live_workshops'])->name('live_webinar');
     Route::get('live/workshops/details/{id}', [CommonTaskController::class, 'live_workshops_details'])->name('live_webinar_details'); 
     Route::get('other_services', [CommonTaskController::class, 'other_activities'])->name('other_activities'); 
-
+    
 });
