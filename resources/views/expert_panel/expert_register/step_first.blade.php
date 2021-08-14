@@ -1,5 +1,15 @@
 @include('include.header')
 @include('include.nav')
+<style>
+.feather-eye
+    {
+        cursor: pointer;
+        width: 16px;
+        position: absolute;
+        top: 6px;
+        left: 295px;
+    }
+</style>
 <section id="clientMemberLogin" class="clientMemberLogin padding-top" role="Member log In">
     <div class="container">
         <div class="row">
@@ -44,43 +54,27 @@
                     <form action="{{route('expert.first.step.post')}}" method="POST" enctype='multipart/form-data'
                         class="formLogIn">
                         @csrf
+                        
                         <div class="custom-file-container" data-upload-id="myUploader">
                             <label><a href="javascript:void(0)" class="custom-file-container__image-clear"
                                     title="Clear Image"></a></label>
 
                             <label class="custom-file-container__custom-file">
+                            <span class="upload_label">Updalod a file</span>
                                 <input type="file" class="custom-file-container__custom-file__custom-file-input"
                                     accept="*" name="user_image">
+                                    
                                 <span class="custom-file-container__custom-file__custom-file-control pp"></span>
+                                
                             </label>
                             <div class="custom-file-container__image-preview"></div>
                         </div>
-                        <div class="row">
+                        <div class="row" style="margin-top:170px;">
                             <div class="col-md-4">
                                 <div class="input-group mb-4">
                                     <input type="text" class="form-control" placeholder="Full Name" aria-label="Name"
                                         aria-describedby="basic-addon1" name="full_name"
                                         value="{{old('full_name', !empty($expert) ? $expert->full_name : '')}}">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="input-group mb-4">
-                                    <input type="text" class="form-control" placeholder="Mobile Number"
-                                        aria-label="Phone" aria-describedby="basic-addon1" name="mobile_number"
-                                        value="{{old('mobile_number', !empty($expert) ? $expert->mobile_number : '')}}">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="input-group mb-4">
-                                    <input type="text" class="form-control" placeholder="Email Address"
-                                        aria-label="Email" aria-describedby="basic-addon1" name="email_address"
-                                        value="{{old('email_address', !empty($expert) ? $expert->email_address : '')}}">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="input-group mb-4">
-                                    <input type="number" placeholder="Age" class="form-control" name="user_age"
-                                        value="{{old('user_age', !empty($expert) ? $expert->user_age : '')}}">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -97,15 +91,47 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="input-group mb-4">
+                                    <input type="number" placeholder="Age" class="form-control" name="user_age"
+                                        value="{{old('user_age', !empty($expert) ? $expert->user_age : '')}}">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-lg-3" style="padding-right:0px">
+                                        <div class="input-group mb-4">
+                                            <input type="text" class="form-control" aria-label="Country Code" aria-describedby="basic-addon1" name="country_code" value="+91" ReadOnly>
+                                        </div> 
+                                    </div>
+                                    <div class="col-lg-9" style="padding-left:0px">  
+                                        <div class="input-group mb-4">
+                                            <input type="text" class="form-control" placeholder="Mobile Number"
+                                                aria-label="Phone" aria-describedby="basic-addon1" name="mobile_number"
+                                                value="{{old('mobile_number', !empty($expert) ? $expert->mobile_number : '')}}">
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group mb-4">
+                                    <input type="text" class="form-control" placeholder="Email Address"
+                                        aria-label="Email" aria-describedby="basic-addon1" name="email_address"
+                                        value="{{old('email_address', !empty($expert) ? $expert->email_address : '')}}">
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="col-md-4">
+                                <div class="input-group mb-4">
                                     <select class="form-control" id="exampleFormControlSelect1"
                                         class="form-control country_id" name="country_id"
                                         onchange="state_list(this.value)">
                                         <option value="">Select Country</option>
-                                        @foreach($country_list as $con_list)
+                                        <!-- @foreach($country_list as $con_list)
                                         <option
                                             {{ old('country_id', !empty($expert) ? $expert->country_id : '') == $con_list->country_id ? 'selected' : ''}}
                                             value="{{$con_list->country_id}}">{{$con_list->country_name}}</option>
-                                        @endforeach
+                                        @endforeach -->
+                                        <option {{ old('country_id','101', !empty($expert) ? $expert->country_id : '') == 101 ? 'selected' : ''}} value="101">India</option>
                                     </select>
                                 </div>
                             </div>
@@ -116,6 +142,7 @@
                                     <select class="form-control state_list" id="exampleFormControlSelect1"
                                         name="state_id" onchange="city_list(this.value)">
                                         <option value="">Select State</option>
+                                        <option value="">rajasthan</option>
                                     </select>
                                 </div>
                             </div>
@@ -126,12 +153,13 @@
                                     <select class="form-control city_list" id="exampleFormControlSelect1"
                                         class="form-control" name="city_id">
                                         <option value="">Select City</option>
+                                        <option value="">jaipur</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="input-group mb-4">
-                                    <input type="text" class="form-control" placeholder="Address Detail"
+                                    <input type="text" class="form-control" placeholder="Home Address"
                                         aria-label="Address" aria-describedby="basic-addon1" name="address_details"
                                         value="{{old('address_details',  !empty($expert) ? $expert->address_details : '')}}">
                                 </div>
@@ -139,19 +167,21 @@
                             <div class="col-md-4">
                                 <div class="input-group mb-4">
                                     <input type="password" class="form-control" placeholder="Password" aria-label="Password"
-                                        aria-describedby="basic-addon1" name="user_password" value="{{old('user_password')}}">
+                                        aria-describedby="basic-addon1" name="user_password" value="{{old('user_password')}}" id="user_password">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="ShowPass('user_password')" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                    
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="input-group mb-4">
-                                <input type="text" class="form-control" placeholder="Confirm password"
-                                        aria-label="Confirm password" aria-describedby="basic-addon1" name="confirm_password" value="{{old('confirm_password')}}">
+                                <input type="password" class="form-control" placeholder="Confirm password"
+                                        aria-label="Confirm password" aria-describedby="basic-addon1" name="confirm_password" value="{{old('confirm_password')}}" id="confirm_password">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="ShowPass('confirm_password')" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                    
                                 </div>
                             </div>
 </div>
-                            <div class="back-next">
+                            <div class="mb-4 back-next">
                                 <button type="submit" class="next">Next</button>
                             </div>
                         </div>
@@ -177,3 +207,14 @@ $(document).ready(function() {
     }
 });
 </script>
+<script>
+        function ShowPass(id)
+        {
+            var x = document.getElementById(id);
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>

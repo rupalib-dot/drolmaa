@@ -19,9 +19,10 @@ class ExpertFeedbackController extends Controller
 
     public function feedback_list(Request $request)
     {
+         
         $title  = "Feedbacks";
-        $feedback_list   = $this->Feedback->feedback_list($request['appoinment_id'],$request['feedback_by'],$request['feedback_to'],$request['type']);
-        $data   = compact('title','feedback_list');
+        $feedback_list   = $this->Feedback->feedback_list($request['module_id'],$request['feedback_by'],$request['feedback_to'],$request['module_type']);
+        $data   = compact('title','feedback_list','request');
         return view('expert_panel.feedback', $data);
     }
 

@@ -107,6 +107,17 @@ class CustomerController extends Controller
                 $user_role->user_id = $user->user_id;
                 $user_role->save();
             \DB::commit();
+
+             //mail to new user
+             $details = array(
+                'name'         => $request->full_name,
+                'mobile' 		=>  $request->mobile_number,
+                'email' 		=> $request->email_address,   
+                'password'      => $request->user_password,
+                'user_id'       => $user->user_id,
+            );   
+            \Mail::to($request->email_address)->send(new \App\Mail\NewUserMail($details));
+
             return redirect()->route('login')->with('Success', 'Account created successfully, Check your email inbox to verify your email...');  
         }
         catch (\Throwable $e)

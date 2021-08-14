@@ -20,7 +20,7 @@
                     <div class="widget-header">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                <h4>{{$title}}</h4>
+                                <h4>Order Details</h4>
                             </div>
                         </div>
                     </div> 
@@ -34,20 +34,20 @@
                             <div class="col-lg-6">
                                 <ul class="contacts-block list-unstyled" style="max-width: 100%;">
                                     <li><b>Name :- </b>{{$order['full_name']}}</li>
-                                    <li><b>Company Name :- </b>{{$order['company_name']}}</li>
+                                    <li><b>Company Name :- </b>@if($order['company_name'] == '') N/A @else {{$order['company_name']}} @endif</li>
                                     <li><b>Gender :- </b>{{array_search($order['user_gender'],config('constant.GENDER'))}}</li> 
-                                    <li><b>Mobile Number :-</b> {{$order['mobile_number']}}</li>
+                                    <li><b>Mobile Number :-</b> +91 {{$order['mobile_number']}}</li>
                                     <li><b>Payment Id :- </b>{{$order['payment_id']}}</li>
                                     <li><b>Payment Mode :- </b>{{array_search($order['payment_type'],config('constant.PAYMENT_MODE'))}}</li>
-                                    <li><b>Payment Status :- </b>{{$order['payment_status']}}</li>  
-                                    <li><b>Refund Id :- </b>{{$order['refund_id']}}</li>
-                                    <li><b>Refund Status :- </b>{{$order['refund_status']}}</li>
-                                    <li><b>Refund Amount :- </b>{{$order['refund_amount']}}</li> 
+                                    <li><b>Payment Status :- </b>{{ucwords($order['payment_status'])}}</li>  
+                                    <li><b>Refund Id :- </b>@if($order['refund_id'] == '') N/A @else {{$order['refund_id']}} @endif</li>
+                                    <!-- <li><b>Refund Status :- </b>@if($order['refund_status'] == '') N/A @else{{$order['refund_status']}} @endif</li> -->
+                                    <li><b>Refund Amount :- </b>@if($order['refund_amount'] == '') N/A @else<i class="fas fa-rupee-sign"></i> {{number_format($order['refund_amount'],2,'.',',')}}@endif</li> 
                                 </ul>
                             </div> 
                             <div class="col-lg-6">
                                 <ul class="contacts-block list-unstyled" style="max-width: 100%;"> 
-                                    <li><b>Grand Total :- </b>{{$order['grand_total']}}</li> 
+                                    <li><b>Grand Total :- </b><i class="fas fa-rupee-sign"></i> {{number_format($order['grand_total'],2,'.',',')}}</li> 
                                     <li><b>Pincode :- </b>{{$order['pincode']}}</li> 
                                     <li><b>Email Address :-</b> {{$order['email_address']}}</li> 
                                     <li><b>Address Line1 :-</b> {{$order['address1']}}</li>

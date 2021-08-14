@@ -15,8 +15,13 @@ return [
 
     'PAYMENT_MODE' => [
         "ONLINE"   => 103,
-        "OFLINE"   => 104, 
+        "OFFLINE"   => 104, 
     ],
+
+    "MAIL_STATUS"	=> [
+		"UNVERIFIED"	=> 309,
+		"VERIFIED"		=> 310,
+	],
 
     'STATUS' => [
         "PENDING"       => 105,
@@ -29,6 +34,8 @@ return [
     'ENQUIERY' => [
         "CONTACT"   => 110,
         "BLOG"      => 111,  
+        "WORKSHOP"  => 125,  
+        'TALK TO EXPERT' =>126,
     ],
 
     'FEEDBACK' => [
@@ -49,6 +56,13 @@ return [
     'AVAIL_STATUS'=> [ 
         "BOOKED"      => 122, 
         "AVAILABLE"      => 123,   
+    ],
+
+    'SPECIAL_PLANS'=>[
+        'Crisis intervention- immediate appointment and no diagnosis' => 1,
+        'Deeper therapy route - consultation, screening and diagnosis and treatment ( a long term treatment).' => 2,
+        'Expression therapy route. Self enhancing & experiential mode.'=> 3,
+        'For general expertise guidance for issues like loneliness, relationships and so on where no diagnosis needed but yet professional help would make its difference.'=>4
     ],
 ]
 ?>

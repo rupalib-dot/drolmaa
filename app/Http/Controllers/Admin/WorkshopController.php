@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Designation;
 use App\Models\Feedback;
+use DB;
 use App\Models\Workshop;
 use App\Models\Bookings;
 
@@ -16,6 +17,8 @@ class WorkshopController extends Controller
         $this->Workshop     = new Workshop;
         $this->Bookings     = new Bookings;
     }
+
+    // image/about
 
     /**
      * Display a listing of the resource.
@@ -60,7 +63,10 @@ class WorkshopController extends Controller
             'designation.required'  => 'Designation should be required', 
             'expert.required'       => 'Expert should be required',
             'date.required'         => 'Date should be required',
+            'start_date.required'   => 'Start Date should be required',
+            'start_date.before'         => 'Start Date must be greater than end date',
             'time.required'         => 'Time should be required',
+            'description.required'  =>'Description should be required'
 		];
 
 		$validatedData = $request->validate([
@@ -69,19 +75,32 @@ class WorkshopController extends Controller
             'designation' 	=> 'required',
             'expert' 	    => 'required',
             'date' 	        => 'required',
-            'time' 	        => 'required',			 
+            'start_date' 	        => 'required|before:date',
+            'time' 	        => 'required',			
+            'description' 	    => 'required' 
         ], $error_message);
 
         
         try 
         { 
+            $workshop_image = NULL;
+            if($request->hasFile('image'))
+            {
+                $workshop_image = time() . '.' . $request->file('image')->getClientOriginalExtension();
+                $request->file('image')->move(public_path('workshop'), $workshop_image); 
+            } 
+ 
             $workshop_data = Workshop::create([
                 'title'          => $request->title,
-                'price'          => $request->price, 
+                'price'          => $request->price,  
                 'designation'   => $request->designation, 
                 'expert'        => $request->expert,
-                'date'          => $request->date,
-                'time'          => $request->time,
+                'date'          => date('Y-m-d',strtotime($request->date)),
+                'start_date'    => date('Y-m-d',strtotime($request->start_date)),
+                'description'   => $request->description, 
+                'image'         => $workshop_image,
+                'time'          => $request->time,  
+                'created_by'    => 1,
                 'created_at'    => date('Y-m-d H:i:s'),
                 'updated_at'    => date('Y-m-d H:i:s'),
             ]); 
@@ -107,7 +126,7 @@ class WorkshopController extends Controller
     {
         $title  = "Workshop Detail";
         $users_list = $this->Bookings->UsersBookedWorkshop($id); 
-        $feedback_list   = Feedback::where(['module_id'=>$id,'module_type'=>config('constant.FEEDBACK.BOOKING')])->get();
+        $feedback_list   = Feedback::where(['module_id'=>$id,'module_type'=>config('constant.FEEDBACK.BOOKING')])->orderBy('feedback_id','desc')->get();
         $data   = compact('title','users_list','request','feedback_list');
         return view('admin.workshop.detail', $data);
     }
@@ -145,7 +164,10 @@ class WorkshopController extends Controller
             'designation.required'  => 'Designation should be required', 
             'expert.required'       => 'Expert should be required',
             'date.required'         => 'Date should be required',
+            'start_date.required'         => 'Start Date should be required',
+            'start_date.before'         => 'Start Date must be greater than end date',
             'time.required'         => 'Time should be required',
+            'description.required'  =>'Description should be required'
 		];
 
 		$validatedData = $request->validate([
@@ -154,21 +176,34 @@ class WorkshopController extends Controller
             'designation' 	    => 'required',
             'expert' 	        => 'required',
             'date' 	            => 'required',
+            'start_date' 	        => 'required|before:date',
             'time' 	            => 'required',			 
+            'description' 	    => 'required'
         ], $error_message);
 
         
         try 
         { 
+            $workshop_image = CommonFunction::GetSingleField('workshop','image','workshop_id',$id);
+            if($request->hasFile('image'))
+            {
+                $workshop_image = time() . '.' . $request->file('image')->getClientOriginalExtension();
+                $request->file('image')->move(public_path('workshop'), $workshop_image); 
+            } 
+
             $workshop_data = Workshop::where('workshop_id',$id)->update([
                 'title'          => $request->title,
                 'price'          => $request->price, 
+                'description'   => $request->description, 
                 'designation'   => $request->designation, 
                 'expert'        => $request->expert,
-                'date'          => $request->date,
+                'date'          => date('Y-m-d',strtotime($request->date)),
+                'start_date'    => date('Y-m-d',strtotime($request->start_date)),
+                'image'         => $workshop_image,
                 'time'          => $request->time, 
-                'updated_at'    => date('Y-m-d H:i:s'),
+                'updated_at'    => date('Y-m-d H:i:s'), 
             ]); 
+
             if(!empty($workshop_data)){
                 return redirect()->route('workshop.index')->with('Success', 'Workshop updated successfully');
             }else{
@@ -187,7 +222,7 @@ class WorkshopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         $workshop_data = Workshop::where('workshop_id',$id)->update([
             'deleted_at'    => date('Y-m-d H:i:s'),

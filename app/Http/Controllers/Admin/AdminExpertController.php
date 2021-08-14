@@ -5,12 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Appointment;
+use DB;
+use App\Models\ExpertPayments;
+
 
 class AdminExpertController extends Controller
 {
     public function __construct()
     { 
-        $this->User     = new User; 
+        $this->User     = new User;  
+        $this->Appointment = new Appointment;
     }
 
     /**
@@ -57,7 +62,11 @@ class AdminExpertController extends Controller
     {
         $title  = "Expert Detail";
         $expert   = User::find($id); 
-        $data   = compact('title','expert');
+        $appoinment = $this->Appointment->admin_appoinment_list($id);  
+        $totalamount = Appointment::where('expert',$id)->sum('amount');
+        $totalPaidamount = ExpertPayments::where('user_id',$id)->sum('amount');
+        $amountLeft = $totalamount - $totalPaidamount;
+        $data   = compact('title','expert','appoinment','totalamount','totalPaidamount','amountLeft');
         return view('admin.expert.detail', $data);
     }
 

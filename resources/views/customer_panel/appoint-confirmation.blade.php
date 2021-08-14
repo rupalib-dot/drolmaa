@@ -1,8 +1,8 @@
 @include('include.header')
 @include('include.nav')
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container">
-        <div class="row">
+    <div class="container-fluid">
+        <div class="">
             <div class="col-sm-12"> 
                 <div class="profile-form">
                  @include('include.validation_message')
@@ -24,7 +24,7 @@
                         <form action="{{route('appointment.payment')}}" method="POST">
                             @csrf 
                             <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                    data-key="{{ env('RAZORPAY_KEY') }}"
+                                    data-key="rzp_test_tazXyaYClLVzyb"
                                     data-amount="50000"
                                     data-buttontext="Pay 500 INR"
                                     data-name="i4consulting.org"

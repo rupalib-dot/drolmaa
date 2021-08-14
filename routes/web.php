@@ -5,25 +5,40 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ExpertController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CommonController\AjaxController;
+use App\Http\Controllers\CommonController\CommonTaskController;
 use App\Http\Controllers\Customer\ProfileController;
 use App\Http\Controllers\Expert\ExpertFeedbackController;
 use App\Http\Controllers\Expert\ExpertProfileController;   
 use App\Http\Controllers\Customer\AppointmentController; 
 use App\Http\Controllers\Expert\ExpertAppoinmentController; 
 use App\Http\Controllers\Expert\AvailabiltyController;
-use App\Http\Controllers\Customer\OrderController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Customer\BookingController;
 use App\Http\Controllers\Customer\FeedbackController;
+use App\Http\Controllers\Customer\CustomerTransactionController; 
+use App\Http\Controllers\Expert\ExpertTransactionController;
+use App\Http\Controllers\Expert\ExpertWorkshopController; 
 use App\Http\Controllers\Admin\AdminController; 
 use App\Http\Controllers\Admin\AdminAppoinmentController;
+use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\AdminOrderController; 
 use App\Http\Controllers\Admin\AdminExpertController;
 use App\Http\Controllers\Admin\WorkshopController;
+use App\Http\Controllers\Admin\HealthTipsController;
 use App\Http\Controllers\Admin\ProductController; 
 use App\Http\Controllers\Admin\CategoryController; 
 use App\Http\Controllers\Admin\AdminCustomerController;
 use App\Http\Controllers\Admin\SettingController; 
-use App\Http\Controllers\PagesController;
+use App\Http\Controllers\PagesController; 
+use App\Http\Controllers\Admin\ServicesController;
+use App\Http\Controllers\Admin\BlogController ;
+use App\Http\Controllers\Admin\BannerController ;
+use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\OffersCoupnsController;
+use App\Http\Controllers\Admin\cancelReasonController;
+use App\Http\Controllers\Admin\TrainingController ;
+use App\Http\Controllers\Admin\FAQController; 
+
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +84,10 @@ Route::get('/storage', function () {
     Route::get('user_login', [HomeController::class, 'login_index'])->name('login');
     Route::post('user_login', [HomeController::class, 'login_account'])->name('login.account');
     Route::get('user_logout', [HomeController::class, 'login_logout'])->name('logout.account');
+    Route::get('forgot_password', [HomeController::class, 'forgot_password'])->name('forgot_password');
+    Route::post('forgot_password', [HomeController::class, 'forgot_password'])->name('forgot_password.submit'); 
+    Route::get('reset_password', [HomeController::class, 'reset_password'])->name('reset_password');
+    Route::post('reset_password', [HomeController::class, 'reset_password'])->name('reset_password.submit');
 
     // EXPERT PERSONAL DETAILS ROUTES
     Route::get('expert_personal_details', [ExpertController::class, 'expert_personal'])->name('expert.first.step');
@@ -103,6 +122,9 @@ Route::group(['middleware' => ['administrator']], function(){
         Route::resource('profile', ExpertProfileController::class)->only([
             'update', 'edit'
         ]); 
+        Route::post('subscribe', [ExpertProfileController::class, 'subscribe'])->name('expert.subscribe.post');
+        
+        Route::get('dashboard', [ExpertProfileController::class, 'dashboard'])->name('expert.dashboard');
 
         Route::get('change-status-appoinment/{id}/{status}', [ExpertAppoinmentController::class, 'changeStatusAppoinment'])->name('expappointment.changeStatusAppoinment');
         Route::post('expappointment-feedback', [ExpertAppoinmentController::class, 'feedback'])->name('expappointment.feedback');
@@ -120,6 +142,18 @@ Route::group(['middleware' => ['administrator']], function(){
         Route::resource('availabilty', AvailabiltyController::class)->only([
             'index','create', 'store','update', 'edit'
         ]); 
+
+        //workshop
+        Route::resource('expworkshop', ExpertWorkshopController::class)->only([
+            'index','create', 'store','update', 'edit','show'
+        ]); 
+        Route::get('expworkshop-index', [ExpertWorkshopController::class, 'Home'])->name('workshopHome');
+        Route::get('expworkshop-delete/{id}', [ExpertWorkshopController::class, 'destroy'])->name('expworkshop.delete');
+
+        //transactions
+        Route::get('exptransaction/{type}',[ExpertTransactionController::class, 'index'])->name('exptransaction.index');
+        Route::get('transactions/index', [ExpertTransactionController::class, 'transactionIndex'])->name('expert.transactions');
+
     });
 
     Route::group(['prefix' => 'admin','middleware' => ['admin']], function() { 
@@ -160,12 +194,40 @@ Route::group(['middleware' => ['administrator']], function(){
         
         //settings
         Route::resource('settings', SettingController::class)->only(['update', 'edit']); 
+
+        //transactions
+        Route::get('transactions/{type}',[TransactionController::class, 'index'])->name('transaction.index');
+
+         //transactions
+         Route::post('payexpert-submit',[TransactionController::class, 'payexpert'])->name('payexpert');
+         Route::get('payDetails',[TransactionController::class, 'payDetails'])->name('pay-details');
+        
+        //banners
+        Route::resource('banners', BannerController::class); 
+        //faq
+        Route::resource('faq', FAQController::class); 
+        //testimonial
+        Route::resource('testimonial', TestimonialController::class); 
+        //cancel reasons
+        Route::resource('cancel_reason', cancelReasonController::class); 
+        //blogs
+        Route::resource('blogs', BlogController::class); 
+        //services
+        Route::resource('services', ServicesController::class); 
+        //training
+        Route::resource('training', TrainingController::class); 
+         //health tips
+         Route::resource('health_tips', HealthTipsController::class); 
+        //offers_coupons
+        Route::resource('offers_coupons', OffersCoupnsController::class);  
     }); 
 
     Route::group(['middleware' => ['customer']], function() {
         Route::resource('profile', ProfileController::class)->only([
             'update', 'edit'
         ]); 
+
+        Route::get('dashboard', [ProfileController::class, 'dashboard'])->name('customer.dashboard');
 
         //appointment 
         Route::resource('appointment', AppointmentController::class)->only([
@@ -187,40 +249,56 @@ Route::group(['middleware' => ['administrator']], function(){
         // FEEDBACKS ROUTE
         Route::get('feedbacks', [FeedbackController::class, 'feedback_list'])->name('customer.feedback');
         Route::post('feedback-submit', [FeedbackController::class, 'feedback_submit'])->name('feedback_submit');
+ 
 
-        // wishlist ROUTE
-        Route::get('wishlist', [ProfileController::class, 'myWishlist'])->name('customer.myWishlist');
+        //transactions
+        Route::get('custransaction/{type}',[CustomerTransactionController::class, 'index'])->name('custransaction.index');
+        Route::get('customer/transactions/index', [CustomerTransactionController::class, 'transactionIndex'])->name('customer.transactions');
 
-         // ORDERS ROUTE
-         Route::get('orders', [OrderController::class, 'order_list'])->name('customer.order');
-         Route::get('order_detail/{id}', [OrderController::class, 'order_detail'])->name('customer.order_detail');
-        Route::get('checkout', [OrderController::class, 'checkout'])->name('checkout');
-        Route::get('confirm-order-payment', [OrderController::class, 'order_comfirm'])->name('order.confirm');
-        Route::post('confirm-order-payment', [OrderController::class, 'payment'])->name('order.payment'); 
-        Route::post('placeOrder', [OrderController::class, 'placeOrder'])->name('placeOrder');
-        Route::post('addtocart', [OrderController::class, 'addtocart'])->name('addtocart');
-        Route::get('viewcart', [OrderController::class, 'viewcart'])->name('viewcart'); 
-        Route::post('updateCartQty', [OrderController::class, 'updateCartQty'])->name('updateCartQty');
-        Route::get('deletecartItem/{id}/{delType}', [OrderController::class, 'deletecartItem'])->name('cartItem.delete');
-        
-        Route::post('addtofavourate', [OrderController::class, 'addtofavourate'])->name('addtofavourate');
     });                    
 });
 
 //other pages
 Route::get('pricing', [PagesController::class, 'pricing_plan'])->name('page.pricing');
 Route::get('about_us', [PagesController::class, 'about_us'])->name('page.about_us');
+Route::get('psychological_care', [PagesController::class, 'psychological_care'])->name('page.psychological_care'); 
 Route::get('services', [PagesController::class, 'services'])->name('page.services');
 Route::get('shop', [PagesController::class, 'shop'])->name('page.shop');
 Route::get('shop-detail/{id}', [PagesController::class, 'shopDetail'])->name('page.shopDetail');
 Route::get('tools', [PagesController::class, 'tools'])->name('page.tools');
 Route::get('blog', [PagesController::class, 'blog'])->name('page.blog');
-Route::get('blog-detail', [PagesController::class, 'blogDetail'])->name('page.blogDetail');
+Route::get('blog-detail/{blogId}', [PagesController::class, 'blogDetail'])->name('page.blogDetail');
+Route::get('blog-list/{catid}', [PagesController::class, 'blogList'])->name('page.bloglist');
+Route::post('post_comment/{blogId}', [PagesController::class, 'postComment'])->name('page.postComment');
+
+
+
 Route::get('collaboration', [PagesController::class, 'collaboration'])->name('page.collaboration');
 Route::get('contact', [PagesController::class, 'contact'])->name('page.contact');
 Route::post('contact', [PagesController::class, 'contact'])->name('contact-submit');
 Route::post('change-password', [HomeController::class, 'change_password'])->name('change-password-submit');
+Route::get('privacy', [HomeController::class, 'privacy'])->name('privacy');
+Route::get('terms', [HomeController::class, 'terms'])->name('terms');
 
+
+ // ORDERS ROUTE
+ Route::get('orders', [OrderController::class, 'order_list'])->name('customer.order');
+ Route::get('order_detail/{id}', [OrderController::class, 'order_detail'])->name('customer.order_detail');
+Route::get('checkout', [OrderController::class, 'checkout'])->name('checkout');
+Route::get('confirm-order-payment', [OrderController::class, 'order_comfirm'])->name('order.confirm');
+Route::post('confirm-order-payment', [OrderController::class, 'payment'])->name('order.payment'); 
+Route::post('placeOrder', [OrderController::class, 'placeOrder'])->name('placeOrder');
+Route::post('addtocart', [OrderController::class, 'addtocart'])->name('addtocart');
+Route::get('viewcart', [OrderController::class, 'viewcart'])->name('viewcart'); 
+Route::post('updateCartQty', [OrderController::class, 'updateCartQty'])->name('updateCartQty');
+Route::get('deletecartItem/{id}/{delType}', [OrderController::class, 'deletecartItem'])->name('cartItem.delete'); 
+Route::get('order-status-change', [OrderController::class, 'changeOrderStatus'])->name('order-status-change'); 
+Route::post('addtofavourate', [OrderController::class, 'addtofavourate'])->name('addtofavourate');
+
+// wishlist ROUTE
+Route::get('wishlist', [OrderController::class, 'myWishlist'])->name('customer.myWishlist');
+Route::get('deleteWishlist', [OrderController::class, 'deleteWishlist'])->name('wishlist.delete');
+Route::post('del_multi_wishlist', [OrderController::class, 'del_multi_wishlist'])->name('del_multi_wishlist');
 
 
 Route::namespace('CommonController')->group(function () {
@@ -230,5 +308,15 @@ Route::namespace('CommonController')->group(function () {
     Route::post('get_expert_list', [AjaxController::class, 'get_expert'])->name('expert.list.ajax');
     Route::post('get_timeslot_list', [AjaxController::class, 'get_timeslot'])->name('timeslot.list.ajax');
     Route::post('get_workshop_detail', [AjaxController::class, 'get_workshop_detail'])->name('workshop.detail.ajax');
- 
+    Route::get('account/verify', [CommonTaskController::class, 'verify_account'])->name('verify_account');
+    Route::get('verify_otp', [CommonTaskController::class, 'checkOtp'])->name('verify.otp');
+    Route::post('verify_otp', [CommonTaskController::class, 'checkOtp'])->name('verify.otp.submit');   
+
+    Route::get('experts', [CommonTaskController::class, 'our_experts'])->name('our_experts');
+    Route::get('expert/details/{id}', [CommonTaskController::class, 'expert_details'])->name('expert.details'); 
+    Route::get('trainings', [CommonTaskController::class, 'our_training'])->name('our_training');
+    Route::get('live/workshops', [CommonTaskController::class, 'live_workshops'])->name('live_webinar');
+    Route::get('live/workshops/details/{id}', [CommonTaskController::class, 'live_workshops_details'])->name('live_webinar_details'); 
+    Route::get('other_services', [CommonTaskController::class, 'other_activities'])->name('other_activities'); 
+    
 });

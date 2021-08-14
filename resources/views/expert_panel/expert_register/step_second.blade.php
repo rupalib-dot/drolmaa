@@ -7,6 +7,7 @@
             <div class="col-sm-12">
                 <div class="back1">
                     @include('include.validation_message')
+                    @include('include.auth_message')
                     <div class="clientTextF">
                         <h4 class="wel-heading">Welcome to</h4>
                         <h3>DrolMaa Constellation Club</h3>
@@ -58,12 +59,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="input-group mb-4">
-                                    <input type="text" class="form-control" placeholder="Phone" aria-label="Phone"
-                                        aria-describedby="basic-addon1" name="office_phone_number" value="{{ old('office_phone_number', !empty($expert) ? $expert->office_phone_number : '') }}">
-                                </div>
-                            </div>
+                           
                             <div class="col-md-4">
                                 <div class="input-group mb-4">
                                     <select class="form-control" id="exampleFormControlSelect1"
@@ -79,11 +75,20 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="input-group mb-4">
+                                    <input type="text" class="form-control" placeholder="Phone" aria-label="Phone"
+                                        aria-describedby="basic-addon1" name="office_phone_number" value="{{ old('office_phone_number', !empty($expert) ? $expert->office_phone_number : '') }}">
+                                </div>
+                            </div>
                         </div> 
                         @php
                         
                             $special_plan =  old('special_plan', !empty($expert) ? explode(',',$expert->special_plan) : '');
                         @endphp
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Describe About Yourself..." id="exampleFormControlTextarea1" rows="4"></textarea>
+                          </div>
                         <div class="special">
                             <h3>Specialization Plan</h3>
                             <p>Select only 2 Plan</p>
@@ -114,7 +119,7 @@
                                     but yet professional help would make its difference.
                                 </label>
                             </div>
-                            <div class="back-next-next">
+                            <div class="mb-4 back-next-next">
                             <a href="{{route('expert.first.step')}}" class="back">Back</a>
                             <button type="submit" class="next">Next</button>
                         </div>
@@ -124,5 +129,6 @@
         </div>
     </div>
 </section>
-@include('include.footer')
 
+@include('include.footer')
+ 

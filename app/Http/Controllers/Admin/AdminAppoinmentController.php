@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
-use App\Models\Feedback;
-
-
+use DB;
+use App\Models\Feedback; 
+ 
 class AdminAppoinmentController extends Controller
 {
 
@@ -60,7 +60,7 @@ class AdminAppoinmentController extends Controller
     {
         $title  = "Appoinment Details";
         $appoinment  = Appointment::findOrfail($id);  
-        $feedback_list   = Feedback::where(['module_id'=>$id,'module_type'=>config('constant.FEEDBACK.APPOINMENT')])->get(); 
+        $feedback_list   = Feedback::where(['module_id'=>$id,'module_type'=>config('constant.FEEDBACK.APPOINMENT')])->orderBy('feedback_id','desc')->get(); 
         $data   = compact('title','appoinment','feedback_list','request');
         return view('admin.appoinment.detail', $data);
     }
@@ -98,4 +98,6 @@ class AdminAppoinmentController extends Controller
     {
         //
     }
+
+    
 }

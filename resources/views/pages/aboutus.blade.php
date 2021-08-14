@@ -33,8 +33,8 @@
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
                     et dolore magna aliqua.
                 </P>
-                <button class="appoint-btn">Appointment</button>
-                <a href="#"><button class="learn-btn">Learn More</button></a>
+                <!-- <a href="{{route('appointment.create')}}"><button class="appoint-btn">Appointment</button></a>
+                <a href="{{route('page.psychological_care')}}"><button class="learn-btn">Learn More</button></a> -->
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-5">
                 <div class="care-text">

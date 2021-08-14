@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
+use Session;
 
 class User extends Model
 {
@@ -25,13 +26,21 @@ class User extends Model
         'full_name',
         'mobile_number',
         'email_address',
+        'email_status',
+        'phone_status',
+        'register_amount',
+        'payment_id',
         'user_age',
         'user_gender',
         'country_id',
+        'user_dob',
         'state_id',
         'city_id',
         'address_details',
+        'payment_id',
+        'register_amount',
         'designation_id',
+        'description',
         'office_phone_number',
         'user_experience',
         'special_plan',
@@ -62,6 +71,17 @@ class User extends Model
         return $user_status;
     }
 
+    public function user_data($user_id, &$user_data)
+    {
+        $user_status    = False;
+        $user_data      = User::with('user_role')->where('user_id',$user_id)->first(); 
+        if(isset($user_data))
+        {
+            $user_status = True;
+        }
+        return $user_status;
+    }
+
     public function pass_exist($user_id, $user_password, &$user_data)
     {
         $user_status    = False;
@@ -76,6 +96,18 @@ class User extends Model
      public function total_users($user_role)
     { 
         $user_data      = User::select('users.*')->Where('user_role.role_id',$user_role)->join('user_role','user_role.user_id','=','users.user_id')->orderBy('users.user_id','desc')->get(); 
+        return $user_data;
+    }
+
+    public function users_trans($user_role,$userType)
+    { 
+        $user_data      = User::select('users.*')->Where('user_role.role_id',$user_role)->join('user_role','user_role.user_id','=','users.user_id')
+        ->Where(function($query) use ($userType) {
+            if (isset($userType) && $userType == 'user') { 
+                $query->where('users.user_id',Session::get('user_id'));
+            }   
+        })
+        ->orderBy('users.user_id','desc')->paginate(15); 
         return $user_data;
     }
  

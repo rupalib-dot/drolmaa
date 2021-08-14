@@ -33,6 +33,50 @@
     <!-- END MAIN CONTAINER -->
 
     @include('admin.inc.scripts')
+    <script>
+function payExpert(name,userid,amountLeft){ 
+    $("#payexpertModal #amount").val(amountLeft);
+    $("#payexpertModal #amount").attr('max',amountLeft);
+    $("#payexpertModal #userid").val(userid);
+    $("#payexpertModal .name").text(name);
+    $("#payexpertModal").modal('show');
+}
+</script>
+<script>
+    $(document).ready(function (e) { 
+        setInterval(function(){ $("div .alert").hide(); }, 4000); 
+
+        $.ajaxSetup({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+        });
+        
+        $('#payExpert').submit(function(e) { 
+            e.preventDefault();
+            var formData = new FormData(this);  
+            $.ajax({
+                type:'POST',
+                url: "{{url('admin/payexpert-submit')}}",
+                data: formData,
+                cache:false,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                success: function(response) {     
+                    window.location.reload();
+                    alert(response.message);  
+                },
+                error: function(xhr,status,error){  
+                    var err = eval("(" + xhr.responseText + ")");
+                    console.log(err);
+                    $("#amount-error").text(err.errors.amount); 
+                    $("#transaction_id-error").text(err.errors.transaction_id);
+                    $("#transaction_date-error").text(err.errors.transaction_date);
+                    $("#payment_mode-error").text(err.errors.payment_mode); 
+                }
+            });
+        });
+    });
+</script>
 
 </body>
 </html>

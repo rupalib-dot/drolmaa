@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Country;
 use App\Models\Designation;
 use App\Models\UserRole;
+use App\Models\Subscription;
+use CommonFunction;
 use Session;
 use Razorpay\Api\Api;
 
@@ -19,9 +21,10 @@ class ExpertController extends Controller
         $this->Designation  = new Designation;
         $this->UserRole     = new UserRole;
     }
-    
+     
+
     public function expert_personal(Request $request)
-    {
+    {  
         $expert         = $request->session()->get('expert');
         $country_list   = Country::OrderBy('country_name')->get();
         $title          = "Personal Details";
@@ -134,7 +137,13 @@ class ExpertController extends Controller
 			'user_experience' 	    => 'required',
         ], $error_message); 
 
-        $expert = $request->session()->get('expert');
+        if($request->special_plan == ''){
+            return redirect()->back()->withInput($request->all())->with('Failed','Plan must not be empty');
+        }
+        if(count($request->special_plan)>2){
+            return redirect()->back()->withInput($request->all())->with('Failed','Select only 2 Plan');
+        }
+        $expert = $request->session()->get('expert'); 
         if(!empty($request->special_plan)){
             $expert->special_plan = implode(',',$request->special_plan);
         }else{
@@ -212,30 +221,71 @@ class ExpertController extends Controller
     }
 
     public function expert_plan_post(Request $request)
-    {
+    { 
         $input = $request->all();
-  
-        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+        $month      =   explode('_',$input['month']);
+        $subPeriod  =   $month[0];
+        $subType    =   $month[1];
+        $today = date("Y-m-d");
+        $date = date('Y-m-d', strtotime('+'.$subPeriod.' month', strtotime($today)));
+
+
+        $api = new Api("rzp_test_tazXyaYClLVzyb", "QcFkC78PT0dkVGsPO8FWVMNB");
   
         $payment = $api->payment->fetch($input['razorpay_payment_id']);
   
         if(count($input)  && !empty($request['razorpay_payment_id'])) 
         {
-            try 
-            {
+            try{
                 $response   = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount'])); 
                 $expert     = $request->session()->get('expert');
+                $expert->payment_id = $request['razorpay_payment_id'];
+                $expert->register_amount = substr(round($payment['amount'], 2) , 0, -2);
                 $expert->save();
 
                 $user_data = User::Where('mobile_number',$expert->mobile_number)->first('user_id');
-                Session()->flush();
+               
 
                 $user_role = new UserRole;
                 $user_role->role_id = 2;
                 $user_role->user_id = $user_data->user_id;
                 $user_role->save();
 
-                return redirect()->route('login')->with('Success', 'Account created successfully, Check your email inbox to verify your email...');
+                //expert subscription entry
+                $detail = array(
+                    'payment_id' =>$request['razorpay_payment_id'],
+                    'month' => $subPeriod,
+                    'plan_detail' =>  $subType,
+                    'register_amount' =>substr(round($payment['amount'], 2) , 0, -2),
+                    'user_id' => $user_data->user_id,
+                    'start_date'=>$today,
+                    'end_date' => $date,
+                    'payment_mode'=>config('constant.PAYMENT_MODE.ONLINE'),
+                    'created_at'=>  date("Y-m-d H:i:s"),
+                    'updated_at'=>  date("Y-m-d H:i:s"),
+                );
+                Subscription::create($detail);
+
+
+                //otp function
+                $otp = rand(1, 1000000);  
+                $request->session()->put('otp',$otp);
+                $request->session()->put('user_id',$user_data->user_id);
+                $sms_text = "Dear User " .$otp. " is your one time password (OTP) for registration. Please enter the OTP to proceed";
+                $response = CommonFunction::sendSMS($expert->mobile_number,$sms_text);  
+
+                //mail to new user
+                $details = array(
+                    'name'          => $expert->full_name,
+                    'mobile' 		=> $expert->mobile_number,
+                    'email' 		=> $expert->email_address,   
+                    'password'      => $expert->user_password,
+                    'user_id'       => $user_data->user_id,
+                );   
+                // \Mail::to($expert->email_address)->send(new \App\Mail\NewUserMail($details));
+
+                //  Session()->flush();
+                return redirect()->route('verify.otp')->with('Success', 'Account created successfully, Check your email inbox  & mobile number to verify your email & phone number...');
             } 
             catch (\Throwable $e) 
             {
@@ -243,4 +293,6 @@ class ExpertController extends Controller
             }
         }
     }
+
+   
 }

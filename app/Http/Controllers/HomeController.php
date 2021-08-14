@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use URL;
 use App\Models\UserRole;
+use App\Models\Settings;
+use App\Models\Services;
+use App\Models\Category;
+use App\Models\Testimonial;
 use Session;
 
 class HomeController extends Controller
@@ -19,8 +23,99 @@ class HomeController extends Controller
     public function index_page()
     { 
         $title  = "Welcome";
-        $data   = compact('title');
+        $services = Services::where('services_for',3)->get();
+        $category = Category::get(); 
+        $blogcategory = Category::paginate(3);
+        $testimonial = Testimonial::get(); 
+        $data   = compact('title','services','blogcategory','testimonial','category');
         return view('welcome', $data);
+    }
+
+    public function forgot_password(Request $request)
+    {
+        $title  = "Forgot Password";
+        if(isset($_POST['submit'])){ 
+            $error_message = 	[
+                'email_address.required' 	=> 'Email address should be required',
+            ];
+
+            $validatedData = $request->validate([
+                'email_address' 	=> 'required',
+            ], $error_message);
+
+            try
+            { 
+               
+                $emailExist	= User::where('email_address',$request['email_address'])->first(); 
+                if(!empty($emailExist)){  
+                    //mail to new subadmin
+                    $details = [
+                        'name'         => $emailExist->full_name,
+                        'mobile' 		=>  $emailExist->mobile_number,
+                        'email' 		=> $emailExist->email_address,  
+                        'userId'       => $emailExist->user_id,
+                    ]; 
+                    \Mail::to($request['email_address'])->send(new \App\Mail\ForgotPasswordMail($details));  
+                    return redirect('user_login')->with('Success','Please check your email for password reset link & reset your password'); 
+                
+                }else{
+                    return redirect()->back()->with('Failed', 'Invalid Credentials')->withInput($request->all());  
+                }
+            }
+            catch (\Throwable $e)
+            {
+                \DB::rollback();
+                return redirect()->back()->with('Failed', $e->getMessage())->withInput($request->all());  
+            }
+        }
+        $data   = compact('title');
+        return view('forgot-password', $data);             
+    }
+
+    public function reset_password(Request $request)
+    {
+        $title  = "Reset Password";
+        if(isset($_POST['submit'])){ 
+            $error_message = 	[
+                'user_password.required' 	=> 'Password should be required',
+                'confirm_password.required' => 'Confirm password should be required', 
+                'user_password.min'         => 'Password minimun length :min characters',
+                'user_password.max'         => 'Password maximum length :max characters',
+                'user_password.regex'       => 'Password Should contain at-least 1 Uppercase, 1 Lowercase, 1 Numeric and 1 special character',
+                'same'                      => 'Confirm password did not matched', 
+            ];
+    
+            $validatedData = $request->validate([ 
+                'user_password'		=> 'required|min:8|max:16|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+                'confirm_password'	=> 'required|required_with:user_password|same:user_password', 
+            ], $error_message);
+
+            try
+            { 
+                $email 	= base64_decode($request['email_address']);
+                $userId 	= base64_decode($request['userId']); 
+                $user_exist = User::where(['email_address'=>$email,'user_id'=> $userId])->first(); 
+                if($user_exist)
+                { 
+                    $aPassArr = array("user_password"	=> md5($request->confirm_password),'updated_at'=>date('Y-m-d H:i:s'));
+                    $nRow		= User::where(['email_address'=>$email,'user_id'=> $userId])->update($aPassArr); 
+                    if ($nRow) { 
+                        return redirect('user_login')->with('Success', "Password has been reset successfully...");
+                    } else {
+                        return redirect()->back()->withInput($request->all())->with('Failed', "Something went wrong...");
+                    } 
+                } else {
+                    return redirect()->back()->withInput($request->all())->with('Failed', "User does not exist...");
+                }
+            }
+            catch (\Throwable $e)
+            {
+                \DB::rollback();
+                return redirect()->back()->with('Failed', $e->getMessage())->withInput($request->all());  
+            }
+        }
+        $data   = compact('title','request');
+        return view('reset-password', $data);             
     }
 
     public function login_index()
@@ -66,27 +161,42 @@ class HomeController extends Controller
 
         try
         {
-            $user_exist = $this->User->login_account($request->email_address, md5($request->user_password), $user_data);
-
+            $user_exist = $this->User->login_account($request->email_address, md5($request->user_password), $user_data); 
             if($user_exist)
-            {
-                if($request['loginFor'] == 'admin' && $user_data->user_role->role_id == 1){
-                    Session::put('user_id',$user_data->user_id);
-                    Session::put('role_id',$user_data->user_role->role_id);
-                    Session::put('full_name',$user_data->full_name); 
-                    return redirect('admin/dashboard/');
-                }else if($request['loginFor'] == 'admin' && $user_data->user_role->role_id != 1){
-                    return redirect()->back()->with('Failed', 'You are not allowded to access admin panel');
+            { 
+                if($user_data->email_status != config('constant.MAIL_STATUS.VERIFIED')){
+                    return redirect()->back()->with('Failed', 'Your email has not been verified yet');
+                }else if($user_data->phone_status != config('constant.MAIL_STATUS.VERIFIED')){
+                    return redirect()->back()->with('Failed', 'Your phone number has not been verified yet');
                 }else{
-                    Session::put('user_id',$user_data->user_id);
-                    Session::put('role_id',$user_data->user_role->role_id);
-                    Session::put('full_name',$user_data->full_name); 
-                    if($user_data->user_role->role_id == 1){
+                    if(isset($request["remember_me"]) && $request['remember_me'] == 1) {
+                        setcookie ("email_address",$request->email_address,time()+ 3600);
+                        setcookie ("user_password",$request->user_password,time()+ 3600); 
+                        setcookie ("remember_me",$request->remember_me,time()+ 3600);
+                    } else {
+                        setcookie("email_address","");
+                        setcookie("user_password",""); 
+                        setcookie ("remember_me","");
+                    }
+                    
+                    if($request['loginFor'] == 'admin' && $user_data->user_role->role_id == 1){
+                        Session::put('user_id',$user_data->user_id);
+                        Session::put('role_id',$user_data->user_role->role_id);
+                        Session::put('full_name',$user_data->full_name); 
                         return redirect('admin/dashboard/');
-                    }else if($user_data->user_role->role_id == 2){
-                        return redirect('expert/profile/'.Session::get('user_id').'/edit');
+                    }else if($request['loginFor'] == 'admin' && $user_data->user_role->role_id != 1){
+                        return redirect()->back()->with('Failed', 'You are not allowded to access admin panel');
                     }else{
-                        return redirect('profile/'.Session::get('user_id').'/edit');
+                        Session::put('user_id',$user_data->user_id);
+                        Session::put('role_id',$user_data->user_role->role_id);
+                        Session::put('full_name',$user_data->full_name); 
+                        if($user_data->user_role->role_id == 1){
+                            return redirect('admin/dashboard/');
+                        }else if($user_data->user_role->role_id == 2){
+                            return redirect('expert/dashboard/');
+                        }else{
+                            return redirect('dashboard/');
+                        }
                     }
                 }
             }
@@ -161,5 +271,19 @@ class HomeController extends Controller
         }  
     }
     
+     public function terms()
+    { 
+        $title  = "Terms & Condition";
+        $record = Settings::first();
+        $data   = compact('title','record');
+        return view('terms', $data);
+    }
+     public function privacy()
+    { 
+        $title  = "Privacy & Policy";
+        $record = Settings::first();
+        $data   = compact('title','record');
+        return view('privacy', $data);
+    } 
     
 }

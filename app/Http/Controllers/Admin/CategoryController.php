@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category; 
+use DB;
 use Session;
 
 class CategoryController extends Controller
@@ -170,7 +171,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         $category_data = Category::where('category_id',$id)->update([
             'deleted_at'    => date('Y-m-d H:i:s'),
@@ -183,7 +184,7 @@ class CategoryController extends Controller
         } 
     }
 
-    public function changeStatus($id,$status)
+    public function changeStatus(Request $request,$id,$status)
     {
         $category_data = Category::where('category_id',$id)->update([
             'category_status'    => $status,

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Country;
 use Session;
+use DB;
 use App\Models\Favourate;
 
 class ProfileController extends Controller
@@ -16,6 +17,14 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function dashboard()
+    {
+        $title          = "Dashboard";
+        $data           = compact('title');
+        return view('customer_panel.dashboard', $data);
+    }
+
     public function index()
     {
         //
@@ -30,6 +39,15 @@ class ProfileController extends Controller
     {
         //
     }
+
+    // public function d($user_id)
+    // {
+    //     $record_data    = User::findOrfail($user_id);
+    //     $country_list   = Country::OrderBy('country_name')->get();
+    //     $title          = "Profile";
+    //     $data           = compact('title','record_data','country_list');
+    //     return view('customer_panel.profile', $data);
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -136,12 +154,5 @@ class ProfileController extends Controller
         return view('customer_panel.change-password', $data);
     }     
     
-    public function myWishlist(Request $request)
-    { 
-        $title  = "My Wishlist";
-        $favourate = Favourate::where('user_id',Session::get('user_id'))->paginate(15);
-        $data   = compact('title','request','favourate');
-        return view('customer_panel.myWishlist', $data);
-    }
-
+    
 }

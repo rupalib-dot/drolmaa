@@ -18,7 +18,11 @@ class User extends Migration
             $table->string('user_image',100)->nullable();
             $table->string('full_name',30)->nullable();
             $table->string('mobile_number',10);
-            $table->string('email_address',50)->nullable();
+            $table->string('email_address',50)->nullable(); 
+            $table->integer('email_status')->nullable();
+            $table->integer('phone_status')->nullable();
+            $table->string('register_amount',10)->nullable();
+            $table->string('payment_id',50)->nullable();  
             $table->string('user_age',3)->nullable();
             $table->string('user_gender',3)->nullable();
             $table->string('country_id',4)->nullable();
@@ -32,7 +36,7 @@ class User extends Migration
             $table->string('special_plan',10)->nullable();
             $table->string('licance_pic')->nullable();
             $table->string('pan_card_pic')->nullable();
-            $table->string('aadhar_card_pic')->nullable();
+            $table->string('aadhar_card_pic')->nullable();  
             $table->string('professional_certificate_pic')->nullable();
             $table->string('user_password')->nullable();
             $table->softDeletes();

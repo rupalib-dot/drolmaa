@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Session;
+
 
 class Bookings extends Authenticatable
 {
@@ -50,14 +52,38 @@ class Bookings extends Authenticatable
                 $query->where('workshop.date','<=',$to_date);                 
             }  
         })
+        ->orderBy('booking_id','desc')
         ->paginate(15);
         return $booking_data;
     }
 
     public function UsersBookedWorkshop($module_id)
     { 
-        $user_Booked_workshop  = Bookings::with('Users')->Where('module_id',$module_id)->orderBy('workshop_id','desc')->paginate(15);
+        $user_Booked_workshop  = Bookings::with('Users')->Where('module_id',$module_id)->orderBy('booking_id','desc')->paginate(15);
         return $user_Booked_workshop;
+    }
+
+    public function UsersBookings($userType){
+        $booking_data      = Bookings::select('bookings.booking_id','bookings.user_id','bookings.booking_no','bookings.status','bookings.payment_mode','bookings.payment_id','workshop.workshop_id','workshop.title','workshop.date','workshop.price','workshop.time')
+        ->join('workshop','workshop.workshop_id','=','bookings.module_id') 
+        ->Where(function($query) use ($userType) {
+            if (isset($userType) && $userType == 'user') { 
+                $query->where('user_id',Session::get('user_id'));
+            }  
+        })
+        ->orderBy('booking_id','desc')
+        ->paginate(15);
+        return $booking_data;
+    }
+
+    public function UsersBookingsTotal($userType){
+        $booking_total      = Bookings::join('workshop','workshop.workshop_id','=','bookings.module_id')
+        ->Where(function($query) use ($userType) {
+            if (isset($userType) && $userType == 'user') { 
+                $query->where('user_id',Session::get('user_id'));
+            }  
+        })->sum('workshop.price');
+        return $booking_total;
     }
       
 }
