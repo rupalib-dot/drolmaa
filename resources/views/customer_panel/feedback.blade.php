@@ -7,7 +7,7 @@
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.client_sidebar')
-                        <div class="col-md-9">
+                        <div class="col-lg-10">
                             <div class="dashboard-panel">
                                 <h3 class="order-content">My Feedbacks</h3>
                                 <div class="row">
@@ -20,10 +20,7 @@
                                                             <div class="feedback-box"
                                                                 style="background-image:url({{asset('front_end/images/blogimg.jpg')}});">
                                                             </div>
-                                                            <h3>{{$feedbackBy->feedbackTo_users->full_name}}</h3>
-                                                            <p class="java-tech">Feedback On:- {{ucwords(strtolower(array_search($feedbackBy->module_type,config('constant.FEEDBACK'))))}}</p>
-                                                        </div>
-                                                        <div class="star" style="top: -70px;">
+                                                            <div class="star">
                                                             <!-- <span class="review-star">{{$feedbackBy->rating}}</span> -->
                                                             @if($feedbackBy->rating == 1)
                                                                 <span class="fa fa-star checked"></span>
@@ -56,6 +53,9 @@
                                                                 <span class="fa fa-star checked"></span>
                                                                 <span class="fa fa-star checked"></span>
                                                             @endif
+                                                        </div>
+                                                            <h3>{{$feedbackBy->feedbackTo_users->full_name}}</h3>
+                                                            <p class="java-tech">Feedback On:- {{ucwords(strtolower(array_search($feedbackBy->module_type,config('constant.FEEDBACK'))))}}</p>
                                                         </div>
                                                     </div>
                                                     <p class="quote-feedback"

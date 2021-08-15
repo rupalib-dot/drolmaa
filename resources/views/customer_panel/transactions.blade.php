@@ -23,12 +23,12 @@
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.client_sidebar')
-                        <div class="col-md-10">
+                        <div class="col-lg-10">
                             <div class="profile-form">
                                 @include('include.validation_message')
                                 @include('include.auth_message')
                                 <h3 class="order-content text-center">Welcome to y DrolMaa Constellation Club || </h3>
-                     <div class="mt-3">
+                     <div class="my-3">
                         <div class="profile-form">
                         <h3 class="order-content">{{$title}}</h3>
                            
@@ -69,7 +69,6 @@
                                         </div>
                                     </a>
                                 </div>
-                                
                              </div>
                            </div> 
                         </div>

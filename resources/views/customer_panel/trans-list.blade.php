@@ -8,10 +8,10 @@
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.client_sidebar')
-                        <div class="col-md-9">
+                        <div class="col-lg-10">
                             <div class="dashboard-panel">
                                 <h3 class="order-content">{{ucwords($type)}} Transaction Listings</h3>
-                                <table class="table table-bordered appoint-table">
+                                <table class="table-responsive table table-bordered appoint-table">
                                     <thead>  
                                         <tr>
                                             <?php if($type == 'order'){ ?>
@@ -43,7 +43,7 @@
                                         <tr>
                                     </tbody>
                                 </table>
-                                <table class="table table-bordered appoint-table">
+                                <table class="table-responsive table table-bordered appoint-table">
                                     <thead>  
                                         <tr>
                                             <th>ID</th>

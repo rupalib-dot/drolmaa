@@ -17,24 +17,24 @@
                         @elseif(Session::get('role_id') == 2)
                             @include('include.expert_sidebar')
                         @endif
-                        <div class="col-md-9">
+                        <div class="col-lg-9">
                         @include('include.validation_message')
                         @include('include.auth_message')
                             <div class="dashboard-panel">
-                                <div class="row">
+                                <div class="row my-4">
                                     <div class="col-lg-6">
                                         <h3 class="order-content">My Wishlist</h3>
                                     </div>
                                     
-                                    <div class="col-lg-6" style="text-align:right;padding-top: 20px;">
+                                    <div class="col-lg-6 text-lg-right">
                                         <span class="view-icon"><a style="color:white" onclick="dele_multi()" class="btn btn-danger">DELETE</a></span> 
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
+                                <div class="my-3 row">
+                                    <div class="mt-3 col-lg-6">
                                         <a href="#"><button class="w-100 @if(!isset($request['type']) || $request['type'] == 'current') curent-appoint @else previous-appoint @endif">Expert List</button></a>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="mt-3 col-lg-6">
                                         
                                 <a href="#"><button class="w-100 @if($request['type'] == 'previous') curent-appoint @else previous-appoint @endif">Product List </button></a>
                                     </div>

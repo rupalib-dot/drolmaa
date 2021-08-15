@@ -22,7 +22,7 @@
             <div class="back-appoint">
                 <div class="row">
                     @include('include.expert_sidebar')
-                    <div class="col-md-10">
+                    <div class="col-lg-10">
                         <div class="profile-form">
                             @include('include.validation_message')
                             @include('include.auth_message')
@@ -111,12 +111,12 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <div class="col-lg-3" style="padding-right:0px">
+                                        <div class="col-sm-3 pr-sm-0 ">
                                             <div class="input-group mb-4">
                                                 <input type="text" class="form-control" aria-label="Country Code" aria-describedby="basic-addon1" name="country_code" value="+91" ReadOnly>
                                             </div> 
                                         </div>
-                                        <div class="col-lg-9" style="padding-left:0px">  
+                                        <div class="col-sm-9  pl-sm-0">  
                                             <div class="input-group mb-4">
                                                 <input type="text" class="form-control" placeholder="Mobile Number"
                                                 aria-label="Mobile Number" aria-describedby="basic-addon1" name="mobile_number" value="{{old('mobile_number', $record_data->mobile_number)}}">

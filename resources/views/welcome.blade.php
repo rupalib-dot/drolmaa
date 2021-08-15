@@ -21,7 +21,7 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalCenterTitle">Speak With Our Experts in Just One Click</h5>
+                                        <h5 class="modal-title" id="exampleModalCenterTitle">Get Your Coupan Code</h5>
                                         <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                         </button>
@@ -110,7 +110,7 @@
                                     foreach($services as $service){?>
                                         @if($service->services_title == 'Our Experts')
                                             <div class="col-sm-4"> 
-                                                <div class="serviceBox" style="z-index: 999;">
+                                                <div class="serviceBox" style="z-index:1;">
                                                     <a href="{{route('our_experts')}}">
                                                         <div class="serviceImage">
                                                             <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
@@ -121,7 +121,7 @@
                                             </div> 
                                         @elseif($service->services_title == 'Our Training')
                                             <div class="col-sm-4"> 
-                                                <div class="serviceBox" style="z-index: 999;">
+                                                <div class="serviceBox" style="z-index:1;">
                                                     <a href="{{route('our_training')}}">
                                                         <div class="serviceImage">
                                                             <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
@@ -132,7 +132,7 @@
                                             </div>  
                                         @elseif($service->services_title == 'Live Workshops')
                                             <div class="col-sm-4"> 
-                                                <div class="serviceBox" style="z-index: 999;">
+                                                <div class="serviceBox" style="z-index: 1;">
                                                     <a href="{{route('live_webinar')}}">
                                                         <div class="serviceImage">
                                                             <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
@@ -143,7 +143,7 @@
                                             </div>  
                                         @elseif($service->services_title == 'Shops')
                                             <div class="col-sm-4"> 
-                                                <div class="serviceBox" style="z-index: 999;">
+                                                <div class="serviceBox" style="z-index: 1;">
                                                     <a href="{{route('page.shop')}}">
                                                         <div class="serviceImage">
                                                             <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
@@ -154,7 +154,7 @@
                                             </div>  
                                         @elseif($service->services_title == 'Other Activities')
                                             <div class="col-sm-4"> 
-                                                <div class="serviceBox" style="z-index: 999;">
+                                                <div class="serviceBox" style="z-index: 1;">
                                                     <a href="{{route('other_activities')}}">
                                                         <div class="serviceImage">
                                                             <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
@@ -186,7 +186,7 @@
                                 foreach($services as $service){?> 
                                     @if($service->services_title == 'Our Experts')
                                         <div class="col-sm-4"> 
-                                            <div class="serviceBox" style="z-index: 999;">
+                                            <div class="serviceBox" style="z-index: 2;">
                                                 <a href="{{route('our_experts')}}">
                                                     <div class="serviceImage">
                                                         <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
@@ -197,7 +197,7 @@
                                         </div> 
                                     @elseif($service->services_title == 'Our Training')
                                         <div class="col-sm-4"> 
-                                            <div class="serviceBox" style="z-index: 999;">
+                                            <div class="serviceBox" style="z-index: 2;">
                                                 <a href="{{route('our_training')}}">
                                                     <div class="serviceImage">
                                                         <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
@@ -208,7 +208,7 @@
                                         </div>  
                                     @elseif($service->services_title == 'Live Workshops')
                                         <div class="col-sm-4"> 
-                                            <div class="serviceBox" style="z-index: 999;">
+                                            <div class="serviceBox" style="z-index: 2;">
                                                 <a href="{{route('live_webinar')}}">
                                                     <div class="serviceImage">
                                                         <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
@@ -219,7 +219,7 @@
                                         </div>  
                                     @elseif($service->services_title == 'Shops')
                                         <div class="col-sm-4"> 
-                                            <div class="serviceBox" style="z-index: 999;">
+                                            <div class="serviceBox" style="z-index: 2;">
                                                 <a href="{{route('page.shop')}}">
                                                     <div class="serviceImage">
                                                         <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
@@ -230,7 +230,7 @@
                                         </div>  
                                     @elseif($service->services_title == 'Other Activities')
                                         <div class="col-sm-4"> 
-                                            <div class="serviceBox" style="z-index: 999;">
+                                            <div class="serviceBox" style="z-index: 2;">
                                                 <a href="{{route('other_activities')}}">
                                                     <div class="serviceImage">
                                                         <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
@@ -353,16 +353,16 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-lg-7">
                     <div class="bookImage">
                         <img src="{{asset('front_end/images/bookimg1.png')}}" alt="" class="img-fluid mb-4 imgOne">   
                         <a href="#"><button class="sub">Subscribe Now</button></a>  
                     </div>
                 </div>
 
-                <div class="col-md-5">
+                <div class="col-lg-5">
                     <div class="resourceText">
-                        <img src="{{asset('front_end/images/resourceimg.png')}}" alt="" class="mb-4">
+                        <img src="{{asset('front_end/images/resourceimg.png')}}" alt="" class="img-fluid mb-4">
                         <div class="resourcechannel">
                         <a href="#"><button class="sub">Subscribe Now</button></a>
                         </div>
@@ -456,7 +456,7 @@
                                             <div class="blogBox" style="background-image:url({{asset('storage/category/'.$categorys->category_image)}});">
                                             </div>
                                             <div class="blogText"> 
-                                            <h5>{{$categorys->category_name}}</h5>
+                                            <h5 class="mb-0">{{$categorys->category_name}}</h5>
                                             </div>
                                         </div> 
                                     </a>

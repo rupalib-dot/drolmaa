@@ -7,7 +7,7 @@
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.expert_sidebar')
-                        <div class="col-md-10">
+                        <div class="col-lg-10">
                             <div class="dashboard-panel" style="padding-top: 20px;">
                                 @include('include.validation_message')
                                 @include('include.auth_message')

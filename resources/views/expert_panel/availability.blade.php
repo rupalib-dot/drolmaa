@@ -7,7 +7,7 @@
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.expert_sidebar')
-                        <div class="col-md-10">
+                        <div class="col-lg-10">
                             <div class="dashboard-panel">
                                 <h3>Set your availability</h3>
                                 <p class="schedule-choose">Choose a schedule below to edit or create a new one that you can apply to your event types</p> 

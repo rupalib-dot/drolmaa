@@ -15,10 +15,10 @@
         @include('include.validation_message')
         @include('include.auth_message')
         @if(count($cart)>0)
-            <dv cliass="row">
+            <dv class="row">
                 <div class="col-md-8 col-lg-8 col-xl-8">
                     <div class="cart-box">
-                        <table class="table box-demo" style="margin-bottom:0px">
+                        <table class="d-lg-table table-responsive table box-demo" style="margin-bottom:0px">
                             <thead class="text-black">
                                 <tr>
                                     <th scope="col">Product</th>

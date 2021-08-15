@@ -7,18 +7,16 @@
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.expert_sidebar')
-                        <div class="col-md-10">
+                        <div class="col-lg-10">
                             <div class="dashboard-panel">
                                 @include('include.validation_message')
                                 @include('include.auth_message')
                                 <h3 class="order-content">My Availability</h3> 
                                 <div class="row" style="margin-bottom:20px">
-                                    <div class="col-lg-6">
-                                    </div>
-                                    <div class="col-lg-6" style="text-align: right;">
+                                    <div class="col-lg-12">
                                         {{-- <a href="{{route('availabilty.create')}}"> <button type="button" style="background-color: #ba4811;border-color: #ba4811;" class="filter">Add Availability</button></a> --}}
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="filter btn btn-primary" style="background-color: #ba4811;border-color: #ba4811;" data-toggle="modal" data-target="#exampleModal">Add Availability</button>
+                                    <button type="button" class="float-lg-right filter btn btn-primary" style="background-color: #ba4811;border-color: #ba4811;" data-toggle="modal" data-target="#exampleModal">Add Availability</button>
                                     <!-- Modal -->
                                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
@@ -63,7 +61,7 @@
                                     </div>
                                     </div>
                                 </div>
-                                <table class="table table-bordered appoint-table" style="width:100%">
+                                <table class="table-responsive table table-bordered appoint-table" style="width:100%">
                                     <thead>
                                         <tr>  
                                             <th>Day</th> 

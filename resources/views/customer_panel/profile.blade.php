@@ -7,7 +7,7 @@
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.client_sidebar')
-                        <div class="col-md-9">
+                        <div class="col-lg-9">
                             <div class="profile-form">
                                 @include('include.validation_message')
                                 @include('include.auth_message')
@@ -48,12 +48,12 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="row">
-                                            <div class="col-lg-2" style="padding-right:0px">
+                                            <div class="col-sm-2 pr-sm-0">
                                                 <div class="input-group mb-4">
                                                     <input type="text" class="form-control" aria-label="Country Code" aria-describedby="basic-addon1" name="country_code" value="+91" ReadOnly>
                                                 </div> 
                                             </div>
-                                            <div class="col-lg-10" style="padding-left:0px"> 
+                                            <div class="col-sm-10  pl-sm-0"> 
                                                 <div class="input-group mb-4">
                                                     <input type="text" class="form-control" placeholder="Mobile Number"
                                                         aria-label="Mobile Number" aria-describedby="basic-addon1" name="mobile_number" value="{{old('mobile_number', $record_data->mobile_number)}}">
@@ -99,9 +99,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                         <!-- Button trigger modal -->
-<button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
-  Change Password
-</button>
+                                        <button type="button" class=" mb-3 btn btn-info" data-toggle="modal" data-target="#exampleModal">Change Password</button>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

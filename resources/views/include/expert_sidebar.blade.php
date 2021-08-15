@@ -1,8 +1,20 @@
-
-
-<div class="col-md-2 appoint-dash">
-    <div class="appoint-box">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    $(".data-name").toggle(200);
+  });
+});
+</script>
+<style>
+.main {
+  left:-500px;
+}
+</style>
+<div class="col-lg-2 appoint-dash">
+    <div class="justify-content-between appoint-box">
         <h3>Expert Panel</h3>
+        <button type="submit" style="background-color:var(--yellow)" class="btn"><i class="fas fa-bars"></i></button>
     </div>
     <div class="appoint-profile">
         <div class="appoint-status" style="background-image:url({{asset('front_end/images/blogimg.jpg')}});"></div>
@@ -46,6 +58,9 @@
             <ul class="list-unstyled flex-column pl-3 collapse" id="submenu1" aria-expanded="false">
               <li class="nav-item" style="padding: 5px 0px;border: none;"><a class="nav-link" href="{{route('exptransaction.index',['type'=>'registration'])}}" >Subscriptions</a></li>
               <li class="nav-item" style="padding: 0px 0px;border: none;"><a class="nav-link" href="{{route('exptransaction.index',['type'=>'appointment'])}}">Appoinments</a></li>
+              <!-- <li class="nav-item" style="padding: 0px 0px;border: none;"><a class="nav-link" href="{{route('exptransaction.index',['type'=>'order'])}}">Order</a></li> -->
+              <!-- <li class="nav-item" style="padding: 0px 0px;border: none;"><a class="nav-link" href="{{route('exptransaction.index',['type'=>'booking'])}}">Workshop</a></li> -->
+            
             </ul> 
         </li>
 

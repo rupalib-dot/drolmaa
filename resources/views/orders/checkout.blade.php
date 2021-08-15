@@ -123,7 +123,7 @@
                     <h3 class="billing-text mb-4">Your order</h3>
                     <div class="detail-cart h-fnt">
                         <div class="detail-cart">
-                            <table class="table box-demo mb-0">
+                            <table class="d-lg-table table-responsive table box-demo mb-0">
                                 <thead class="text-black">
                                     <tr>
                                         <th scope="col">Price Details</th>
