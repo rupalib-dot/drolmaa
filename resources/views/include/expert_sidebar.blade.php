@@ -1,8 +1,26 @@
-
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+      $("button").click(function(){
+        $(".data-name").toggleClass("left_toggle");
+        // $(".col-md-9").toggleClass("top_right");
+      });
+    });
+    </script>
+    <style>
+        .left_toggle{
+            display:none;
+        }
+        .top_right{
+            top: -650px;
+        }
+    </style>
 <div class="col-md-2 appoint-dash">
-    <div class="appoint-box">
-        <h3>Expert Panel</h3>
+    <div class="justify-content-between appoint-box">
+        <h5 class="mt-2">Expert Panel</h5>
+        <button class="bg-dark navbar-toggler" type="button">
+            <span class="navbar-toggler-icon"></span>
+          </button>
     </div>
     <div class="appoint-profile">
         <div class="appoint-status" style="background-image:url({{asset('front_end/images/blogimg.jpg')}});"></div>
