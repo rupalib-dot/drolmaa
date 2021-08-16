@@ -70,7 +70,7 @@ class ExpertController extends BaseController
             return $this->sendFailed($validator->errors()->all(), 200);       
         }else{
              //otp function
-                $otp = rand(1, 1000000);   
+                $otp = rand(1111,9999);   
                 $sms_text = "Dear User " .$otp. " is your one time password (OTP) for registration. Please enter the OTP to proceed";
                 $response = CommonFunction::sendSMS($request->mobile_number,$sms_text); 
 			return $this->sendSuccess(['email_address' => $request->email_address,'mobile_number' => $request->mobile_number, 'mobile_otp' =>  $otp],'Data verified successfully');     
@@ -121,7 +121,7 @@ class ExpertController extends BaseController
 			'address_details.max' 		=> 'Address maximum :max characters',
             'user_password.min'         => 'Password minimun lenght :min characters',
             'user_password.max'         => 'Password maximum lenght :max characters',
-            'user_password.regex'       => 'Password Should contain at-least 1 Uppercase, 1 Lowercase, 1 Numeric and 1 special character',
+            // 'user_password.regex'       => 'Password Should contain at-least 1 Uppercase, 1 Lowercase, 1 Numeric and 1 special character',
             'same'                      => 'Confirm password did not matched',
             'user_password.required' 	=> 'Password should be required',
 			'confirm_password.required' => 'Confirm password should be required',
@@ -145,7 +145,7 @@ class ExpertController extends BaseController
 			'state_id' 	        			=> 'required',
 			'city_id' 	        			=> 'required',
 			'address_details' 				=> 'required|max:150',
-            'user_password'					=> 'required|min:8|max:16|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+            'user_password'					=> 'required|min:8|max:16',
             'confirm_password'				=> 'required|required_with:user_password|same:user_password',
 			'designation_id' 	    		=> 'required',
 			'office_phone_number' 			=> 'required|digits:10',
@@ -154,6 +154,7 @@ class ExpertController extends BaseController
 			'pan_card_pic' 	                => 'required|mimes:jpeg,jpg,png',
 			'aadhar_card_pic' 	            => 'required|mimes:jpeg,jpg,png',
 			'professional_certificate_pic' 	=> 'required|mimes:jpeg,jpg,png',
+			'description'					=> 'required',
             // 'amount'                        => 'required',
             // 'razorpay_payment_id'           => 'required', 
             // 'month'                         => 'required',
@@ -435,6 +436,99 @@ class ExpertController extends BaseController
     {
         //
     }
+
+	public function professional_update(Request $request, $user_id)
+	{ 
+		$error_message = 	[ 
+			'description'					=> 'description shoup be required', 
+			'special_plan'					=> 'special_plan should be required',
+			'designation_id.required'       => 'Designation should be required',
+			'office_phone_number'			=> 'Office contact should be required',
+			'user_experience.required' 	    => 'Experience should be required',
+			'digits' 	                    => 'Phone number shoud be :digits digits', 
+		];
+
+		$rules = [ 
+			'designation_id' 	    		=> 'required',
+			'office_phone_number' 			=> 'required|digits:10',
+			'user_experience' 	    		=> 'required', 
+			'description'					=> 'required', 
+            'special_plan'                  => 'required', 
+		];
+
+		$validator = Validator::make($request->all(), $rules, $error_message);
+
+        if($validator->fails()){
+            return $this->sendFailed($validator->errors()->all(), 200);       
+        }
+       
+		try
+		{
+            
+			if(count(explode(',',$request->special_plan))>2){
+				return $this->sendFailed('Select only 2 Plan', 200);   
+			} 
+				User::findOrfail($user_id)->update($request->all());
+				$user_data = new Expert(User::findOrfail($user_id));
+			\DB::commit();
+			return $this->sendSuccess($user_data, 'Profile updated successfully');
+		}
+		catch (\Throwable $e)
+    	{
+            \DB::rollback();
+    		return $this->sendFailed($e->getMessage().' on line '.$e->getLine(), 400);  
+    	}
+	}
+	
+
+	public function document_update(Request $request, $user_id)
+	{  
+		try
+		{
+		    $userData = User::where('user_id',$user_id)->first(); 
+			$licance_pic = $userData->licance_pic;
+			$pan_card_pic = $userData->pan_card_pic;
+			$professional_certificate_pic = $userData->professional_certificate_pic ;
+			$aadhar_card_pic = $userData->aadhar_card_pic ;
+			
+            if($request->hasFile('licance_pic'))
+            {
+    			$licance_pic = 'licance_pic_' . time() . '.' . $request->file('licance_pic')->getClientOriginalExtension();
+    			$request->file('licance_pic')->move(public_path('expert_documents'), $licance_pic);
+            }
+            if($request->hasFile('pan_card_pic'))
+            {
+    			$pan_card_pic = 'pan_card_pic_' . time() . '.' . $request->file('pan_card_pic')->getClientOriginalExtension();
+    			$request->file('pan_card_pic')->move(public_path('expert_documents'), $pan_card_pic);
+            }
+             if($request->hasFile('aadhar_card_pic'))
+            {
+    			$aadhar_card_pic = 'aadhar_card_pic_' . time() . '.' . $request->file('aadhar_card_pic')->getClientOriginalExtension();
+    			$request->file('aadhar_card_pic')->move(public_path('expert_documents'), $aadhar_card_pic);
+            }
+             if($request->hasFile('professional_certificate_pic'))
+            {
+    			$professional_certificate_pic = 'professional_certificate_pic_' . time() . '.' . $request->file('professional_certificate_pic')->getClientOriginalExtension();
+    			$request->file('professional_certificate_pic')->move(public_path('expert_documents'), $professional_certificate_pic);
+            }
+			$document =array(
+				'licance_pic'  => $licance_pic,
+				'pan_card_pic'  => $pan_card_pic,
+				'professional_certificate_pic' => $professional_certificate_pic,
+				'aadhar_card_pic' => $aadhar_card_pic,
+			);
+
+			User::findOrfail($user_id)->update($document);
+			$user_data = new Expert(User::findOrfail($user_id)); 
+
+			return $this->sendSuccess($user_data, 'Profile updated successfully');
+		}
+		catch (\Throwable $e)
+    	{
+            \DB::rollback();
+    		return $this->sendFailed($e->getMessage().' on line '.$e->getLine(), 400);  
+    	}
+	} 
 
     	//expert list
 	public function expertList(Request $request){ 

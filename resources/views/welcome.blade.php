@@ -21,28 +21,35 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalCenterTitle">Speak With Our Experts in Just One Click</h5>
+                                        <h5 class="modal-title" id="exampleModalCenterTitle">Get Your Coupan Code</h5>
                                         <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <form action="" method="post" class="form-contact">
-                                  
+                                    <form action="{{route('contact-submit')}}" method="post" class="form-contact">
+                                        @csrf
+                                    <input type="hidden" value="{{config('constant.ENQUIERY.TALK TO EXPERT')}}" name="module_type">
+                                     <input type="hidden" value="0" name="module_id">
                                     <div class="modal-body">
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" name="name" placeholder="Name" required>
+                                            <input type="text" maxlength="30" class="form-control" value="{{old('name')}}" placeholder="Name" name="name"  required>
                                         </div>
                                         <div class="input-group mb-3">
-                                            <input type="email" class="form-control" name="email" placeholder="E-Mail" required>
+                                            <input type="email" class="form-control" value="{{old('email')}}" name="email" placeholder="Email" aria-describedby="emailHelp" placeholder="Enter email"required>
                                         </div>
                                         <div class="input-group mb-3">
-                                            <input type="number" class="form-control" name="number" placeholder="Mobile Number" required>
+                                            <input type="text"  maxlength="12" class="form-control" value="{{old('phone')}}" placeholder="Phone" name="phone"  required>
                                         </div>
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" name="topic" placeholder="Topic" required>
+                                            <select class="form-control"  name="topic_id" id="topic_id">
+                                                <option value="">Select Topic</option>
+                                                @foreach(config('constant.SPECIAL_PLANS') as $value => $key)
+                                                    <option {{ old('topic_id') == $key ? 'selected' : ''}} value="{{$key}}">{{ucfirst(strtolower($value))}}</option>
+                                                @endforeach
+                                            </select>  
                                         </div>
                                         <div class="input-group mb-3">
-                                            <textarea class="form-control" name="message" placeholder="Message" required></textarea>
+                                            <textarea class="form-control" name="message" maxlength="250" id="exampleFormControlTextarea1" rows="3" required>{{old('message')}}</textarea>
                                         </div>
                                     </div>
                                     <div class="modal-footer border-top-0 d-flex justify-content-center">
@@ -61,6 +68,8 @@
         </div>
     </section>
     <section id="aboutUs" class="aboutUs" role="aboutus">
+    @include('include.validation_message')
+                    @include('include.auth_message')
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
@@ -99,27 +108,62 @@
                             <div class="row">
                                 <?php if(count($services) >0 ){
                                     foreach($services as $service){?>
-                                        <div class="col-sm-4">
-                                            @if($service->services_title == 'Our Experts')
-                                                <a href="{{route('our_experts')}}">
-                                            @elseif($service->services_title == 'Our Training')
-                                                <a href="{{route('our_training')}}">
-                                            @elseif($service->services_title == 'Live Workshops')
-                                            
-                                                <a href="{{route('live_webinar')}}">
-                                                 @elseif($service->services_title == 'Shops')
-                                                <a href="{{route('page.shop')}}">
-                                            @elseif($service->services_title == 'Other Activities')
-                                                <a href="{{route('other_activities')}}">
-                                            @endif
-                                                <div class="serviceBox">
-                                                    <div class="serviceImage">
-                                                        <img src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
-                                                    </div>
-                                                    <p>{{$service->services_title}}</p>
-                                                </div>
-                                            </a>
-                                        </div> 
+                                        @if($service->services_title == 'Our Experts')
+                                            <div class="col-sm-4"> 
+                                                <div class="serviceBox" style="z-index:1;">
+                                                    <a href="{{route('our_experts')}}">
+                                                        <div class="serviceImage">
+                                                            <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
+                                                        </div>
+                                                        <p>{{$service->services_title}}</p>
+                                                    </a>
+                                                </div> 
+                                            </div> 
+                                        @elseif($service->services_title == 'Our Training')
+                                            <div class="col-sm-4"> 
+                                                <div class="serviceBox" style="z-index:1;">
+                                                    <a href="{{route('our_training')}}">
+                                                        <div class="serviceImage">
+                                                            <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
+                                                        </div>
+                                                        <p>{{$service->services_title}}</p>
+                                                    </a>
+                                                </div> 
+                                            </div>  
+                                        @elseif($service->services_title == 'Live Workshops')
+                                            <div class="col-sm-4"> 
+                                                <div class="serviceBox" style="z-index: 1;">
+                                                    <a href="{{route('live_webinar')}}">
+                                                        <div class="serviceImage">
+                                                            <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
+                                                        </div>
+                                                        <p>{{$service->services_title}}</p>
+                                                    </a>
+                                                </div> 
+                                            </div>  
+                                        @elseif($service->services_title == 'Shops')
+                                            <div class="col-sm-4"> 
+                                                <div class="serviceBox" style="z-index: 1;">
+                                                    <a href="{{route('page.shop')}}">
+                                                        <div class="serviceImage">
+                                                            <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
+                                                        </div>
+                                                        <p>{{$service->services_title}}</p>
+                                                    </a>
+                                                </div> 
+                                            </div>  
+                                        @elseif($service->services_title == 'Other Activities')
+                                            <div class="col-sm-4"> 
+                                                <div class="serviceBox" style="z-index: 1;">
+                                                    <a href="{{route('other_activities')}}">
+                                                        <div class="serviceImage">
+                                                            <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
+                                                        </div>
+                                                        <p>{{$service->services_title}}</p>
+                                                    </a>
+                                                </div> 
+                                            </div>  
+                                        @endif 
                                 <?php }} ?>
                             </div>
                         </div>
@@ -139,27 +183,63 @@
                     <div class="col-sm-9">
                         <div class="row">
                             <?php if(count($services) >0 ){
-                                foreach($services as $service){?>
-                                    <div class="col-sm-4">
-                                        @if($service->services_title == 'Our Experts')
-                                            <a href="{{route('our_experts')}}">
-                                        @elseif($service->services_title == 'Our Training')
-                                            <a href="{{route('our_training')}}">
-                                        @elseif($service->services_title == 'Live Workshops')
-                                            <a href="{{route('live_webinar')}}">
-                                        @elseif($service->services_title == 'Shops')
-                                            <a href="{{route('page.shop')}}">
-                                        @elseif($service->services_title == 'Other Activities')
-                                            <a href="{{route('other_activities')}}">
-                                        @endif
-                                            <div class="serviceBox">
-                                                <div class="serviceImage">
-                                                    <img src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
-                                                </div>
-                                                <p>{{$service->services_title}}</p>
-                                            </div>
-                                        </a>
-                                    </div> 
+                                foreach($services as $service){?> 
+                                    @if($service->services_title == 'Our Experts')
+                                        <div class="col-sm-4"> 
+                                            <div class="serviceBox" style="z-index: 2;">
+                                                <a href="{{route('our_experts')}}">
+                                                    <div class="serviceImage">
+                                                        <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
+                                                    </div>
+                                                    <p>{{$service->services_title}}</p>
+                                                </a>
+                                            </div> 
+                                        </div> 
+                                    @elseif($service->services_title == 'Our Training')
+                                        <div class="col-sm-4"> 
+                                            <div class="serviceBox" style="z-index: 2;">
+                                                <a href="{{route('our_training')}}">
+                                                    <div class="serviceImage">
+                                                        <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
+                                                    </div>
+                                                    <p>{{$service->services_title}}</p>
+                                                </a>
+                                            </div> 
+                                        </div>  
+                                    @elseif($service->services_title == 'Live Workshops')
+                                        <div class="col-sm-4"> 
+                                            <div class="serviceBox" style="z-index: 2;">
+                                                <a href="{{route('live_webinar')}}">
+                                                    <div class="serviceImage">
+                                                        <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
+                                                    </div>
+                                                    <p>{{$service->services_title}}</p>
+                                                </a>
+                                            </div> 
+                                        </div>  
+                                    @elseif($service->services_title == 'Shops')
+                                        <div class="col-sm-4"> 
+                                            <div class="serviceBox" style="z-index: 2;">
+                                                <a href="{{route('page.shop')}}">
+                                                    <div class="serviceImage">
+                                                        <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
+                                                    </div>
+                                                    <p>{{$service->services_title}}</p>
+                                                </a>
+                                            </div> 
+                                        </div>  
+                                    @elseif($service->services_title == 'Other Activities')
+                                        <div class="col-sm-4"> 
+                                            <div class="serviceBox" style="z-index: 2;">
+                                                <a href="{{route('other_activities')}}">
+                                                    <div class="serviceImage">
+                                                        <img style="border-radius: 100%;height: 60px; margin-top: -10px;" src="{{asset('services/'.$service->services_photo)}}" class="img-fluid" alt="">
+                                                    </div>
+                                                    <p>{{$service->services_title}}</p>
+                                                </a>
+                                            </div> 
+                                        </div>  
+                                    @endif 
                             <?php }} ?>
                         </div>
                     </div>
@@ -188,10 +268,9 @@
                     <a class="text-dark" href="{{route('page.shop',['category_id'=>$categorys->category_id])}}">
                     <div class="gallery-cell">
                         <div class="card border-0" style="width:18rem;">
-                            <img src="{{asset('front_end/images/product_1.png')}}" width="232px" height="223px" class="card-img-top" alt="...">
+                            <img src="{{asset('storage/category/'.$categorys->category_image)}}"  width="232px" height="223px" class="card-img-top" alt="...">
                             <div class="text-center card-body">
-                                <h5 class="card-title">{{$categorys->category_name}}</h5>
-                                
+                                <h5 class="card-title">{{$categorys->category_name}}</h5> 
                             </div>
                         </div>
                     </div>
@@ -203,19 +282,7 @@
                 <a style="background-color: var(--yellow); height: 32px; padding: 5px 20px; border-radius: 3px; color: var(--white); font-size: 14px;" href="{{route('page.shop')}}" class=" commonHeading">View All</a> 
             </div>
         </div>
-                                   
-                                    <!-- <a href="{{route('page.shop',['category_id'=>$categorys->category_id])}}">
-                                        <div class="serviceBox">
-                                            <div class="serviceImage">
-                                                 <img src="{{asset('category/'.$categorys->category_image)}}" class="img-fluid" alt="">
-                                            </div>
-                                            <p></p>
-                                        </div>
-                                    </a>
-                            </div> -->
-                     
-                       
-       
+                                    
         
         
      <!--    <div class="container mcontainer">
@@ -286,16 +353,16 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-lg-7">
                     <div class="bookImage">
                         <img src="{{asset('front_end/images/bookimg1.png')}}" alt="" class="img-fluid mb-4 imgOne">   
                         <a href="#"><button class="sub">Subscribe Now</button></a>  
                     </div>
                 </div>
 
-                <div class="col-md-5">
+                <div class="col-lg-5">
                     <div class="resourceText">
-                        <img src="{{asset('front_end/images/resourceimg.png')}}" alt="" class="mb-4">
+                        <img src="{{asset('front_end/images/resourceimg.png')}}" alt="" class="img-fluid mb-4">
                         <div class="resourcechannel">
                         <a href="#"><button class="sub">Subscribe Now</button></a>
                         </div>
@@ -347,35 +414,19 @@
                     <div class="row">
                         <div class="swiper-container">
                             <!-- Additional required wrapper -->
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide col-md-6">
-                                    <div class="testimonialBox" style="background-image:url({{asset('front_end/images/quote.png')}})">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                            tempor
-                                            incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet,
-                                            consectetur
-                                            adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                            aliqua.
-                                        </p>
-                                        <div class="testimonialImage" style="background-image:url({{asset('front_end/images/testimg.png')}})">
-                                            <h5>Albert Willson</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide col-md-6">
-                                    <div class="testimonialBox" style="background-image:url({{asset('front_end/images/quote.png')}})">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                            tempor
-                                            incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet,
-                                            consectetur
-                                            adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                            aliqua.
-                                        </p>
-                                        <div class="testimonialImage" style="background-image:url({{asset('front_end/images/testimg.png')}})">
-                                            <h5>Albert Willson</h5>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="swiper-wrapper">    
+                                @if(count($testimonial)>0)
+                                    @foreach($testimonial as $testi)
+                                        <div class="swiper-slide col-md-6">
+                                            <div class="testimonialBox" style="background-image:url({{asset('front_end/images/quote.png')}})">
+                                                <p>{{$testi->testimonial_detail}}
+                                                </p>
+                                                <div class="testimonialImage" style="height: 30px; background-image:url({{asset('public/testimonial/'.$testi->person_photo)}})"> </div>
+                                                <h5>{{$testi->person_name}}</h5>
+                                            </div>
+                                        </div> 
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -397,39 +448,21 @@
                         labore et dolore magna aliqua. Lorem ipsum dolor sit amet,
                     </p>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="blogImage">
-                                <div class="blogBox" style="background-image:url({{asset('front_end/images/blogimg.jpg')}});">
+                        <?php if(count($blogcategory) >0 ){
+                            foreach($blogcategory as $categorys){?> 
+                                <div class="col-md-4">
+                                    <a href="{{route('page.bloglist',$categorys->category_id)}}">
+                                        <div class="blogImage">
+                                            <div class="blogBox" style="background-image:url({{asset('storage/category/'.$categorys->category_image)}});">
+                                            </div>
+                                            <div class="blogText"> 
+                                            <h5 class="mb-0">{{$categorys->category_name}}</h5>
+                                            </div>
+                                        </div> 
+                                    </a>
                                 </div>
-                                <div class="blogText">
-                                <p>February 5, 2021</p>
-                                <h5>Mental Health</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="blogImage">
-                                <div class="blogBox" style="background-image:url({{asset('front_end/images/blogimg.jpg')}});">
-                                </div>
-                                <div class="blogText">
-                                <p>February 5, 2021</p>
-                                <h5>Mental Health</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="blogImage">
-                                <div class="blogBox" style="background-image:url({{asset('front_end/images/blogimg.jpg')}});">
-                                </div>
-                                <div class="blogText">
-                                <p>February 5, 2021</p>
-                                <h5>Mental Health</h5>
-                                </div>
-                            </div>
-                        </div>
-                        
-                      
-                    </div>
+                        <?php } } ?>
+                    </div> 
                     <div class="text-center">
                         <a href="{{route('page.blog')}}"><button class="sub">View All Categories</button></a>
                         </div>

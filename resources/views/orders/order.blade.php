@@ -11,7 +11,7 @@
                         @elseif(Session::get('role_id') == 2)
                             @include('include.expert_sidebar')
                         @endif
-                        <div class="col-md-9">
+                        <div class="col-lg-10">
                             <div class="dashboard-panel">
                             @include('include.validation_message')
                                 @include('include.auth_message')
@@ -29,7 +29,7 @@
                                     <button type="submit" class="filter" style="margin-left:0px;margin-right: 5px !important;">Filter</button> 
                                     <a href="{{url('appointment')}}"> <button type="button" class="filter" style="">Clear </button></a>
                                 </form>
-                                <table class="table table-bordered appoint-table" style="width:100%">
+                                <table class="d-lg-table table-responsive table table-bordered appoint-table" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Order No</th>

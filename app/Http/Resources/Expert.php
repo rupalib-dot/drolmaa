@@ -63,6 +63,7 @@ class Expert extends JsonResource
             'designation' 	        		=> CommonFunction::GetSingleField('designation','designation_title','designation_id',$this->designation_id),
 			'office_phone_number' 			=> $this->office_phone_number,
 			'user_experience' 	    		=> $this->user_experience,
+            'description' 	    		=> $this->description,
 			'licance_pic' 	                => asset('public/expert_documents/'.$this->licance_pic),
 			'pan_card_pic' 	                => asset('public/expert_documents/'.$this->pan_card_pic),
 			'aadhar_card_pic' 	            => asset('public/expert_documents/'.$this->aadhar_card_pic),

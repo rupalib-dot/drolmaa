@@ -1,6 +1,21 @@
-<div class="col-md-2 appoint-dash">
-    <div class="appoint-box">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    $(".data-name").toggle(200);
+  });
+});
+</script>
+<style>
+.main {
+  left:-500px;
+}
+</style>
+
+<div class="col-lg-2 appoint-dash">
+    <div class="justify-content-between appoint-box">
         <h3>Customer Panel</h3>
+        <button type="submit" style="background-color:var(--yellow)" class="btn"><i class="fas fa-bars"></i></button>
     </div>
     <div class="appoint-profile">
         <div class="appoint-status" style="background-image:url({{asset('front_end/images/blogimg.jpg')}});"></div>

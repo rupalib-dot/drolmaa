@@ -16,7 +16,7 @@
             <div class="col-lg-6" style="text-align: right;margin-bottom: 30px;"></div> 
             <div class="col-lg-6" style="text-align: right;margin-bottom: 30px;"> <a href="{{route('customer.order')}}"><button class="update btn ">Back</button></a> </div>
         </div>
-        <div class="row order-details_aftr" >    
+        <div class="m-1 row order-details_aftr" >    
             <div class="col-lg-6">  
                 <p>Name :- {{$order['full_name']}}</p>
                 <p>Company Name :- @if($order['company_name'] == '') N/A @else {{$order['company_name']}} @endif </p>
@@ -41,7 +41,6 @@
                 <p>Refund Amount :- @if($order['refund_amount'] == '') N/A @else<i class="fas fa-rupee-sign"></i> {{number_format($order['refund_amount'],2,'.',',')}}@endif </p> 
             </div>  
         </div>
-        <hr class="mt-0">
     </div>
 </section>
 <section id="your-cart" class="your-cart">
@@ -49,7 +48,7 @@
         <div class="row">
             <div class="col-md-12 col-lg-12 col-xl-12">
                 <div class="cart-box">
-                    <table class="table box-demo" style="margin-bottom:0px">
+                    <table class="d-lg-table table-responsive table box-demo" style="margin-bottom:0px">
                         <thead class="text-black">
                             <tr>
                                 <th scope="col">Product</th>

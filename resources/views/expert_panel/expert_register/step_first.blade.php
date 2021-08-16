@@ -23,27 +23,27 @@
                         <p class="clientP">Expert Register</p>
                     </div>
                     <div class="row">
-                        <div class="col-md-3 d-flex justify-content-center cont">
+                        <div class="col-lg-3 d-flex justify-content-center cont">
                             <div class="expert-detail">
                                 <span class="count-back"><i class="fa fa-check" aria-hidden="true"></i></span>
 
                             </div>
                             <p class="detail-heading">Personal Details</p>
                         </div>
-                        <div class="col-md-3 d-flex justify-content-center cont">
+                        <div class="col-lg-3 d-flex justify-content-center cont">
                             <div class="expert-count">
                                 <span class="count-back">2</span>
                             </div>
                             <p class="pro-heading">Professional Details</p>
                         </div>
-                        <div class="col-md-3 d-flex justify-content-center cont">
+                        <div class="col-lg-3 d-flex justify-content-center cont">
                             <div class="expert-count">
                                 <span class="count-back">3</span>
 
                             </div>
                             <p class="pro-heading">Documents</p>
                         </div>
-                        <div class="col-md-3 d-flex justify-content-center cont">
+                        <div class="col-lg-3 d-flex justify-content-center cont">
                             <div class="expert-count">
                                 <span class="count-back">4</span>
                             </div>
@@ -97,12 +97,12 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="row">
-                                    <div class="col-lg-3" style="padding-right:0px">
+                                    <div class="col-md-3 pr-md-0">
                                         <div class="input-group mb-4">
                                             <input type="text" class="form-control" aria-label="Country Code" aria-describedby="basic-addon1" name="country_code" value="+91" ReadOnly>
                                         </div> 
                                     </div>
-                                    <div class="col-lg-9" style="padding-left:0px">  
+                                    <div class="col-md-9 pl-md-0">  
                                         <div class="input-group mb-4">
                                             <input type="text" class="form-control" placeholder="Mobile Number"
                                                 aria-label="Phone" aria-describedby="basic-addon1" name="mobile_number"

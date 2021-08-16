@@ -87,7 +87,7 @@
                     </div>
                 </nav>
             <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <!-- <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                   <div class="row">
                     <div class="col-lg-6">
                       <p>Address:- {{$infoPersonal['address_details']}}</p>
@@ -111,7 +111,7 @@
                       <label> Aadhar Card Pic </label><img style="margin-right:20px;" width= 100px; height= 100px; src="{{$infoPersonal['aadhar_card_pic']}}" alt="">
                       <label> Professional Certificate Pic </label><img style="margin-right:20px;" width= 100px; height= 100px; src="{{$infoPersonal['professional_certificate_pic']}}" alt="">
                   </div>
-                </div>
+                </div> -->
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"> 
                   @if(count($availSlots) >0)
                   <div class="row">

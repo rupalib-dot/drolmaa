@@ -8,10 +8,10 @@
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.expert_sidebar')
-                        <div class="col-md-10">
+                        <div class="col-lg-10">
                             <div class="dashboard-panel">
                                 <h3 class="order-content">{{ucwords($type)}} Transaction Listings</h3>
-                                <table class="table table-bordered appoint-table">
+                                <table class="d-lg-table table-responsive table table-bordered appoint-table">
                                     <thead>  
                                         <tr>
                                             <?php if($type == 'registration'){ ?>
@@ -35,7 +35,7 @@
                                         <tr>
                                     </tbody>
                                 </table>
-                                <table class="table table-bordered appoint-table">
+                                <table class="table-responsive table table-bordered appoint-table">
                                     <thead>  
                                         <tr>
                                             <th>ID</th>  

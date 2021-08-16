@@ -35,6 +35,7 @@ return [
         "CONTACT"   => 110,
         "BLOG"      => 111,  
         "WORKSHOP"  => 125,  
+        'TALK TO EXPERT' =>126,
     ],
 
     'FEEDBACK' => [

@@ -7,7 +7,7 @@
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.client_sidebar')
-                        <div class="col-md-9">
+                        <div class="col-lg-10">
                             <div class="dashboard-panel">
                                 @include('include.validation_message')
                                 @include('include.auth_message')
@@ -21,7 +21,7 @@
                                     <a href="{{url('bookings')}}"> <button type="button" class="filter" style="margin-left:0px">Clear Filter</button></a>
                                     {{-- <a href="{{route('bookings.create')}}"> <button type="button" style="background-color: #ba4811;border-color: #ba4811;" class="filter">Add Booking</button></a> --}}
                                 </form>
-                                <table class="table table-bordered appoint-table" style="width:100%">
+                                <table class="table-responsive table table-bordered appoint-table" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>ID</th>

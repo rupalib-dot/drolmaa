@@ -20,7 +20,8 @@
 <script src="{{asset('assets/plugins/bootstrap-select/bootstrap-select.min.js')}}"></script>
 <script src="{{asset('assets/plugins/editors/markdown/simplemde.min.js')}}"></script>
 <script src="{{asset('assets/plugins/editors/markdown/custom-markdown.js')}}"></script>
-<script>
+<script>  
+      
     setTimeout(function(){
         $('.error-bg').hide();
         $('.success-bg').hide();

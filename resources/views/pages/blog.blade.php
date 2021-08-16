@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2 class="hall-heading">Mental Health Blogs</h2>
+                <h2 class="hall-heading">{{CommonFunction::GetSingleField('category','category_name','category_id',$catid)}} Blogs</h2>
             </div>
         </div>
     </div>
@@ -13,131 +13,25 @@
 <section id="blog-inner">
     <div class="container">
         <div class="row">
-            <a href="{{route('page.blogDetail')}}">
-                <div class="col-md-4"> 
-                    <div class="card blog-success">
-                        <img src="{{asset('front_end/images/group1.png')}}" class="card-img-top" alt="...">
-                        <div class="card-body">    
-                                <h3 class="card-title text-dark">Mental Health</h3>
-                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut enim ad minim </p>
-                                <a href="{{route('page.blogDetail')}}" class="read-more">Read More</a>
+            <?php if(count($blogs) >0 ){
+                foreach($blogs as $blog){ ?>
+                    <a href="{{route('page.blogDetail',$blog->blog_id)}}">
+                        <div class="col-md-4"> 
+                            <div class="card blog-success" style=" height: 320px;">
+                                <img style=" height: 120px;" src="{{asset('public/blog_image/'.$blog->blog_image)}}" class="card-img-top" alt="...">
+                                <div class="card-body">    
+                                        <h3 class="card-title text-dark">{{$blog->blog_title}}</h3>
+                                        <p class="text-left"  style="display:block;white-space: nowrap; overflow: hidden;text-overflow: ellipsis;max-width: 400px; "> {{$blog->blog_details}}</p>
+                                        <a href="{{route('page.blogDetail',$blog->blog_id)}}" class="read-more">Read More</a>
+                                </div>
+                            </div> 
                         </div>
-                    </div> 
+                    </a>
+            <?php }}else{?>
+                <div class="col-md-12">  
+                    <h3 style="text-align: center;">No Record Found</h3> 
                 </div>
-            </a>
-             <a href="{{route('page.blogDetail')}}">
-                <div class="col-md-4"> 
-                    <div class="card blog-success">
-                    <img src="{{asset('front_end/images/group1.png')}}" class="card-img-top" alt="...">
-                    <div class="card-body">    
-                                <h3 class="text-dark">Mental Health</h3>
-                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut enim ad minim </p>
-                                <a href="{{route('page.blogDetail')}}" class="read-more">Read More</a>
-                        </div>
-                    </div> 
-                </div>
-             </a><a href="{{route('page.blogDetail')}}">
-                <div class="col-md-4"> 
-                    <div class="card blog-success">
-                    <img src="{{asset('front_end/images/group1.png')}}" class="card-img-top" alt="...">
-                        <div class="card-body">    
-                                <h3 class="text-dark">Mental Health</h3>
-                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut enim ad minim </p>
-                                <a href="{{route('page.blogDetail')}}" class="read-more">Read More</a>
-                        </div>
-                    </div> 
-                </div>
-             </a><a href="{{route('page.blogDetail')}}">
-                <div class="col-md-4"> 
-                    <div class="card blog-success">
-                    <img src="{{asset('front_end/images/group1.png')}}" class="card-img-top" alt="...">
-                        <div class="card-body">    
-                                <h3 class="text-dark">Mental Health</h3>
-                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut enim ad minim </p>
-                                <a href="{{route('page.blogDetail')}}" class="read-more">Read More</a>
-                        </div>
-                    </div> 
-                </div>
-             </a><a href="{{route('page.blogDetail')}}">
-                <div class="col-md-4"> 
-                    <div class="card blog-success">
-                    <img src="{{asset('front_end/images/group1.png')}}" class="card-img-top" alt="...">
-                        <div class="card-body">    
-                                <h3 class="text-dark">Mental Health</h3>
-                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut enim ad minim </p>
-                                <a href="{{route('page.blogDetail')}}" class="read-more">Read More</a>
-                        </div>
-                    </div> 
-                </div>
-             </a><a href="{{route('page.blogDetail')}}">
-                <div class="col-md-4"> 
-                    <div class="card blog-success">
-                    <img src="{{asset('front_end/images/group1.png')}}" class="card-img-top" alt="...">
-                        <div class="card-body">    
-                                <h3 class="text-dark">Mental Health</h3>
-                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut enim ad minim </p>
-                                <a href="{{route('page.blogDetail')}}" class="read-more">Read More</a>
-                        </div>
-                    </div> 
-                </div>
-             </a><a href="{{route('page.blogDetail')}}">
-                <div class="col-md-4"> 
-                    <div class="card blog-success">
-                    <img src="{{asset('front_end/images/group1.png')}}" class="card-img-top" alt="...">
-                        <div class="card-body">    
-                                <h3 class="text-dark">From Failure To Success</h3>
-                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut enim ad minim </p>
-                                <a href="{{route('page.blogDetail')}}" class="read-more">Read More</a>
-                        </div>
-                    </div> 
-                </div>
-             </a><a href="{{route('page.blogDetail')}}">
-                <div class="col-md-4"> 
-                    <div class="card blog-success">
-                    <img src="{{asset('front_end/images/group1.png')}}" class="card-img-top" alt="...">
-                        <div class="card-body">    
-                                <h3 class="text-dark">From Failure To Success</h3>
-                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut enim ad minim </p>
-                                <a href="{{route('page.blogDetail')}}" class="read-more">Read More</a>
-                        </div>
-                    </div> 
-                </div>
-             </a><a href="{{route('page.blogDetail')}}">
-                <div class="col-md-4"> 
-                    <div class="card blog-success">
-                    <img src="{{asset('front_end/images/group1.png')}}" class="card-img-top" alt="...">
-                        <div class="card-body">    
-                                <h3 class="text-dark">From Failure To Success</h3>
-                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut enim ad minim </p>
-                                <a href="{{route('page.blogDetail')}}" class="read-more">Read More</a>
-                        </div>
-                    </div> 
-                </div>
-             </a><a href="{{route('page.blogDetail')}}">
-                <div class="col-md-4"> 
-                    <div class="card blog-success">
-                    <img src="{{asset('front_end/images/group1.png')}}" class="card-img-top" alt="...">
-                        <div class="card-body">    
-                                <h3 class="text-dark">From Failure To Success</h3>
-                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut enim ad minim </p>
-                                <a href="{{route('page.blogDetail')}}" class="read-more">Read More</a>
-                        </div>
-                    </div> 
-                </div>
-             </a>
-                    </div> 
-                </div>
-            </a>
+            <?php } ?>
         </div>
     </div>
 </section>

@@ -7,7 +7,7 @@
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.expert_sidebar')
-                        <div class="col-md-10">
+                        <div class="col-lg-10">
                             <div class="dashboard-panel" style="padding-top: 20px;">
                                 <div class="container">
                                     <div class="justify-content-center row">

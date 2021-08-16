@@ -60,6 +60,7 @@
     @csrf
         <input type="hidden" value="{{config('constant.ENQUIERY.CONTACT')}}" name="module_type">
         <input type="hidden" value="0" name="module_id">
+        <input type="hidden" class="form-control" value="0"  name="topic_id" placeholder="Topic">
         <div class="row">
             <div class="col-md-4">
                 <div class="input-group mb-4">

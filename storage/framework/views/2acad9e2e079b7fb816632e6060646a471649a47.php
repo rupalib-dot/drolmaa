@@ -1,0 +1,1 @@
+<?php echo $record->privacy; ?><?php /**PATH J:\xampp\htdocs\drolmaa\resources\views/privacy.blade.php ENDPATH**/ ?>

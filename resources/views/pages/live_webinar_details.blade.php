@@ -22,22 +22,23 @@
                                 <div class="modal-body">
                                     <input type="hidden" value="{{config('constant.ENQUIERY.WORKSHOP')}}" name="module_type">
                                     <input type="hidden" value="{{$workshop->workshop_id}}" name="module_id">
+                                    <input type="hidden" class="form-control" value="0"  name="topic_id" placeholder="Topic">
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="name_user">Name</label>
-                                            <input type="text" class="form-control" value="{{old('name')}}" placeholder="Name" name="name"  required>
+                                            <input type="text" maxlength="30" class="form-control" value="{{old('name')}}" placeholder="Name" name="name"  required>
                                         </div>
                                         <label for="email1">Email address</label>
                                         <input type="email" class="form-control" value="{{old('email')}}" name="email" placeholder="Email" aria-describedby="emailHelp" placeholder="Enter email"required>
-                                        <small id="emailHelp" class="form-text text-muted">Your information is safe with us.</small>
+                                        <!-- <small id="emailHelp" maxlength="50" class="form-text text-muted">Your information is safe with us.</small> -->
                                     </div>
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="name_user">Phone</label>
-                                            <input type="text" class="form-control" value="{{old('phone')}}" placeholder="Phone" name="phone"  required>
+                                            <input type="text"  maxlength="12" class="form-control" value="{{old('phone')}}" placeholder="Phone" name="phone"  required>
                                         </div>
                                         <label for="exampleFormControlTextarea1">Message</label>
-                                        <textarea class="form-control" name="message" id="exampleFormControlTextarea1" rows="3" required>{{old('message')}}</textarea>
+                                        <textarea class="form-control" name="message" maxlength="250" id="exampleFormControlTextarea1" rows="3" required>{{old('message')}}</textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer border-top-0 d-flex justify-content-center">
@@ -53,6 +54,8 @@
                 </div>
             </div>
             <div class="pt-4 col-lg-8">
+            @include('include.validation_message')
+              @include('include.auth_message')
                 <div class="card border-0 mb-3" style="max-width:100%;">
                     <div class="row no-gutters">
                         <div class="col-md-3">

@@ -60,10 +60,13 @@ Route::resource('customer', CustomerController::class);
 
 // Expert API
 Route::resource('expert', ExpertController::class);
+Route::post('expert/{user_id}', [ExpertController::class, 'update']);
 Route::post('storePayment', [ExpertController::class, 'store_payment']);
 Route::post('checkPhoneEmail', [ExpertController::class, 'checkPhoneEmail']);
 Route::post('expert_list', [ExpertController::class, 'expertList']);
-Route::get('expert_detail/{user_id}', [ExpertController::class, 'expertDetail']);
+Route::get('expert_detail/{user_id}', [ExpertController::class, 'expertDetail']); 
+Route::post('professional_update/{user_id}', [ExpertController::class, 'professional_update']);
+Route::post('document_update/{user_id}', [ExpertController::class, 'document_update']); 
 Route::post('renew_subscription', [ExpertController::class, 'store_payment']);
 
 //home api

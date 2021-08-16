@@ -23,7 +23,7 @@
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.client_sidebar')
-                        <div class="col-md-10">
+                        <div class="col-lg-10">
                             <div class="profile-form">
                                 @include('include.validation_message')
                                 @include('include.auth_message')
@@ -77,7 +77,7 @@
                                     </a>
                                 </div>
                              </div>
-                            <div class="row layout-top-spacing" style="margin-top:40px"> 
+                            <div class="my-3 row layout-top-spacing" style="margin-top:40px"> 
                                     <!-- <div class="widget-heading col-lg-12">
                                         <h5 class="">Current Month Records</h5>
                                     </div> -->
