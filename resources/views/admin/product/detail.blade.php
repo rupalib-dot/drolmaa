@@ -74,8 +74,8 @@
                                 <ul class="contacts-block list-unstyled" style="max-width: 100%;">
                                     <li><b>Expiry Date:-</b> {{date('d M,Y',strtotime($product->expiry_date))}}</li>
                                     <li><b>Quantity:-</b> {{$product->quantity}}</li> 
-                                    <li><b>Selling Price:-</b> {{$product->selling_price}}</li>  
-                                    <li><b>MRP:-</b> {{$product->mrp}}</li>   
+                                    <li><b>Selling Price:-</b> <i class="fas fa-rupee-sign"></i> {{number_format($product->selling_price,2,'.',',')}}</li>  
+                                    <li><b>MRP:-</b> <i class="fas fa-rupee-sign"></i> {{number_format($product->mrp,2,'.',',')}}</li>   
                                     <li><b>Category Name:-</b> {{CommonFunction::GetSingleField('category','category_name','category_id',$product->category_id)}}</li>
 
                                 </ul>
@@ -99,8 +99,7 @@
                                         <span class="view-icon" title="Delete"><a onclick="return confirm('Are you sure you want to delete this product Image?')" href="{{route('productImage.delete',['id'=>$productImg->product_image_id,'product_id'=>$product->product_id])}}" style="cursor:pointer"><i class="far fa-times-circle"></i></a></span>
                                         <img style="width: 150px;" src="<?php if(!empty($productImg->image_name)){?>{{asset('products/'.$productImg->image_name)}}<?php }else{?>{{asset('front_end/images/blogimg.jpg')}}<?php }?>"> 
                                     </div> 
-                                <?php }
-                            } ?>      
+                            <?php } } ?>      
                         </div>             
                     </div>
                 </div> 

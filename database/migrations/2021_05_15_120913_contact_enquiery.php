@@ -19,6 +19,7 @@ class ContactEnquiery extends Migration
             $table->integer('user_id')->nullable();
             $table->string('phone',10)->nullable(); 
             $table->string('email',50)->nullable();
+            $table->integer('topic_id')->nullable();
             $table->string('message',255)->nullable(); 
             $table->integer('module_type')->nullable(); 
             $table->integer('module_id')->nullable();

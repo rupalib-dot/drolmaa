@@ -21,7 +21,7 @@ class ContactEnquiery extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'enquiery_id','name','user_id','phone','email','message','module_type','module_id','created_at','updated_at' 
+        'enquiery_id','name','user_id','topic_id','phone','email','message','module_type','module_id','created_at','updated_at' 
     ];
 
     protected $dates = [ 'deleted_at' ];

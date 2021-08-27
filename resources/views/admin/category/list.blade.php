@@ -11,7 +11,7 @@
                     <div class="widget-header">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                <h4>Category Listing</h4>
+                                <h4>Categorys Listing</h4>
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                                             <tr>  
                                                 <td>{{$i}}</td>
                                                 <td>{{$aGetData->category_name}}</td>   
-                                                <td>  <img style="width: 80px;" src="<?php if(!empty($aGetData->category_image)){?>{{asset('storage/category/'.$aGetData->category_image)}}<?php }else{?>{{asset('front_end/images/blogimg.jpg')}}<?php }?>"> </td>
+                                                <td>  <img style="width: 80px;" src="<?php if(!empty($aGetData->category_image)){?>{{asset('category/'.$aGetData->category_image)}}<?php }else{?>{{asset('front_end/images/blogimg.jpg')}}<?php }?>"> </td>
                                                 <td>{{ucwords(strtolower(array_search($aGetData->category_status,config('constant.BLK_UNBLK'))))}}</td>
                                                 <td>
                                                     @if($aGetData->category_status == config('constant.BLK_UNBLK.BLOCK'))

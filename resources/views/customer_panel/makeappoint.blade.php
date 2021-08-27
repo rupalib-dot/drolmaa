@@ -7,7 +7,7 @@
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.client_sidebar')
-                        <div class="col-md-9">
+                        <div class="col-lg-10">
                             <div class="dashboard-panel">
                                 @include('include.validation_message')
                                 @include('include.auth_message')
@@ -18,13 +18,16 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group mb-4">
-                                                <input type="text" value="{{old('name')}}" name="name" class="form-control" placeholder="Name" aria-label="Name"
-                                                    aria-describedby="basic-addon1">
+                                                <input type="hidden" name="expert_id_hidden" id="expert_id_hidden" value="{{old('expert',$request['user_id'])}}">
+                                                <select class="form-control expert_list" id="exampleFormControlSelect1"
+                                                    placeholder="Expert" name="expert" aria-label="Expert"
+                                                    aria-describedby="basic-addon2"> 
+                                                </select>
                                             </div>
-                                        </div>
+                                        </div> 
                                         <div class="col-md-6">
-                                            <div class="input-group mb-4">
-                                                <select class="form-control" id="exampleFormControlSelect1" name="plan" placeholder="Plan"
+                                            <div class="input-group mb-4"> 
+                                                <select onchange="getAmount(this.value)" class="form-control" id="exampleFormControlSelect1" name="plan" placeholder="Plan"
                                                     aria-label="Plan" aria-describedby="basic-addon2">
                                                     <option value="">Select Plan</option>
                                                     @foreach(config('constant.PLAN') as $value => $key)
@@ -35,24 +38,25 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group mb-4">
+                                                <input readOnly type="text" value="{{old('amount')}}" name="amount" id="amount" class="form-control" placeholder="Enter Amount" aria-label="Amount"
+                                                    aria-describedby="basic-addon1">
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-6">
+                                            <div class="input-group mb-4">
                                                 <select onchange="expert_list(this.value)" class="form-control" id="exampleFormControlSelect1"
                                                     placeholder="Designation" name="designation" aria-label="Designation"
-                                                    aria-describedby="basic-addon2">
-                                                    <option value="">Designation</option>
+                                                    aria-describedby="basic-addon2"> 
                                                     @foreach($designation_list as $designation)
-                                                        <option {{ old('designation') == $designation->designation_id ? 'selected' : ''}} value="{{$designation->designation_id}}">{{ucfirst(strtolower($designation->designation_title))}}</option>
+                                                        <option {{ old('designation',$request['designation_id']) == $designation->designation_id ? 'selected' : ''}} value="{{$designation->designation_id}}">{{ucfirst(strtolower($designation->designation_title))}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group mb-4">
-                                                <input type="hidden" name="expert_id_hidden" id="expert_id_hidden" value="{{old('expert')}}">
-                                                <select class="form-control expert_list" id="exampleFormControlSelect1"
-                                                    placeholder="Expert" name="expert" aria-label="Expert"
-                                                    aria-describedby="basic-addon2">
-                                                    <option value="">select Designation First</option> 
-                                                </select>
+                                                <input type="text" value="{{old('name')}}" name="name" class="form-control" placeholder="Name" aria-label="Name"
+                                                    aria-describedby="basic-addon1">
                                             </div>
                                         </div>
                                         
@@ -72,8 +76,9 @@
                                                 </select>
                                             </div>
                                         </div>  
-                                        
-                                        <button class="login1 btn" type="submit" name="submit">Submit</button>
+                                        <div class="col-md-12">
+                                            <button class="login1 btn" type="submit" name="submit">Submit</button>
+                                        </div>
                                 </form> 
                             </div>  
                         </div>
@@ -87,6 +92,12 @@
 @include('include.script')
 <script>
 $(document).ready(function() {
+    var Plan = $("select[name=plan]").val();
+    if(Plan != '')
+    { 
+        getAmount(Plan);
+    } 
+
     var date = $("input[name=date]").val(); 
     if(date != '')
     { 

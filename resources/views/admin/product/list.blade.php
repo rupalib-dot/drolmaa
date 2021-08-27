@@ -59,9 +59,9 @@
                                                 <td>{{$i}}</td>
                                                 <td>{{$aGetData->product_name}}</td> 
                                                 <td>{{$aGetData->quantity}}</td>
-                                                <td>{{$aGetData->mrp}}</td> 
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($aGetData->mrp,2,'.',',')}}</td> 
                                                 <td>{{CommonFunction::GetSingleField('category','category_name','category_id',$aGetData->category_id)}}</td>
-                                                <td>{{$aGetData->selling_price}}</td>
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($aGetData->selling_price,2,'.',',')}}</td>
                                                 <td>{{date('d M,Y',strtotime($aGetData->expiry_date))}}</td>
                                                 <td>{{ucwords(strtolower(array_search($aGetData->status,config('constant.BLK_UNBLK'))))}}</td>
                                                 <td>

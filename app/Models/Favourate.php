@@ -22,7 +22,7 @@ class Favourate extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'user_id','product_id','created_at','updated_at'
+        'user_id','product_id','module_type','created_at','updated_at'
     ];
  
     protected $dates = [ 'deleted_at' ]; 

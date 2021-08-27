@@ -59,7 +59,7 @@
                                                 <td>{{date('d M,Y',strtotime($aGetData->date))}}</td>
                                                 <td>{{date('h:i A',strtotime($aGetData->time)) .' - '. date("h:i A",strtotime('+1 hours',strtotime($aGetData->time)))}}</td>
                                                 <td>{{ucwords(strtolower(array_search($aGetData->status,config('constant.STATUS'))))}}</td>
-                                                <td>{{$aGetData->amount}}</td>
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($aGetData->amount, 2, '.', ',')}}</td>
                                                 <td><span class="view-icon"><a href="{{route('adminappoinment.show',$aGetData->appointment_id)}}" title="Details"><i class="fas fa-eye"></i></a></span> </td> 
                                             </tr> 
                                         @php $i++; @endphp

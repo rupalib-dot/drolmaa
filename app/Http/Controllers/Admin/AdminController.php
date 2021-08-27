@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
 use URL;
+use App\Models\SubscribeEmail;
 use CommonFunction;
 use App\Models\ContactEnquiery;
+use DB;
 use App\Models\UserRole;
 use Session;
 
@@ -34,7 +36,7 @@ class AdminController extends Controller
     public function contact_enquiery(Request $request)
     { 
         $title  = "Contact Inquiry";
-        $contact_enquiery = ContactEnquiery::paginate(15);  
+        $contact_enquiery = ContactEnquiery::orderBy('enquiery_id','desc')->paginate(15);  
         $data   = compact('title','contact_enquiery','request');
         return view('admin.contact_enquiery', $data);       
     }
@@ -153,4 +155,14 @@ class AdminController extends Controller
         Session()->flush();
         return redirect('/admin/login');
     }
+
+    public function EmailSubscribeEnquery(Request $request)
+    {
+        $title="Email Subscription List";
+        $emailSubscribe = SubscribeEmail::paginate(10);
+        $data = compact('emailSubscribe','request','title');
+        return view('admin.email_subscribe', $data); 
+    }
+
+    
 }

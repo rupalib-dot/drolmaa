@@ -26,21 +26,7 @@ class ExpertAppoinmentController extends Controller
     public function index(Request $request)
     {
        $title  = "Appointment"; 
-       
-    // if ((isset($request['from_date']) && !empty($request['from_date'])) || (isset($request['to_date']) && !empty($request['to_date']))) { 
-    //     $error_message = 	[
-	// 		'from_date.before'         => 'From date must be less than to date',
-    //         'to_date.after'              => 'To date must be greater than From date',
-	// 	];
-
-	// 	$validatedData = $request->validate([
-	// 		'from_date'         => 'before:to_date',
-    //         'to_date'         => 'after:from_date',  		 
-    //     ], $error_message);
-              
-    // } 
         
-
        $appointment_list   = $this->Appointment->expert_appoinment_list(Session::get('user_id'),$request['from_date'],$request['payment_type'],$request['to_date'],$request['type']);
      
         $data   = compact('title','appointment_list','request');

@@ -1,34 +1,42 @@
 @include('include.header')
 @include('include.nav')
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container">
-        <div class="row">
+    <div class="px-0 container-fluid">
+        <div class="">
             <div class="col-sm-12">
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.expert_sidebar')
-                        <div class="col-md-9">
+                        <div class="col-lg-10">
                             <div class="dashboard-panel">
                                 @include('include.validation_message')
                                 @include('include.auth_message')
-                                <h3>My Appointment</h3>
-                                <a href="{{route('expappointment.index',['type'=>'current'])}}"> <button class="@if(!isset($request['type']) || $request['type'] == 'current') curent-appoint @else previous-appoint @endif">Current Appointment</button></a>
+                                <h3>My Appointments</h3>
+                                <a href="{{route('expappointment.index',['type'=>'current'])}}"> <button class="mb-3 @if(!isset($request['type']) || $request['type'] == 'current') curent-appoint @else previous-appoint @endif">Current Appointment</button></a>
                                 <a href="{{route('expappointment.index',['type'=>'previous'])}}"> <button class="@if($request['type'] == 'previous') curent-appoint @else previous-appoint @endif">Previous Appointment</button></a>
                                 <form action="{{route('expappointment.index')}}" class="form-appoint">
-
-                                    <input type="date" name="from_date" value="{{old('from_date',$request['from_date'])}}" class="">
-
-                                    <input type="date" name="to_date" value="{{old('to_date',$request['to_date'])}}">
-                                    <select  name="payment_type" style="border: 1px solid var(--black1);padding: 8px;">
-                                    <option value="">Select Payment</option>
-                                        @foreach(config('constant.PAYMENT_MODE') as $value => $key)
-                                            <option {{ old('payment_type',$request['payment_type']) == $key ? 'selected' : ''}} value="{{$key}}">{{ucfirst(strtolower($value))}}</option>
-                                        @endforeach
-                                    </select>
-                                    <button type="submit" class="filter" style="margin-left:0px">Filter</button> 
+                                    <div class="row">
+                                    <div class="my-3 col-md-4">
+                                        <input type="date" name="from_date" value="{{old('from_date',$request['from_date'])}}" class="form-control mr-3">
+                                    </div>
+                                    <div class="my-3 col-md-4">
+                                        <input  class="form-control " type="date" name="to_date" value="{{old('to_date',$request['to_date'])}}">  
+                                    </div>
+                                    <div class="my-3 col-md-4">
+                                        <select  name="payment_type" style="border: 1px solid var(--black1);padding: 9px;margin-right: 5px !important;">
+                                        <option value="">Select Payment</option>
+                                            @foreach(config('constant.PAYMENT_MODE') as $value => $key)
+                                                <option {{ old('payment_type',$request['payment_type']) == $key ? 'selected' : ''}} value="{{$key}}">{{ucfirst(strtolower($value))}}</option>
+                                            @endforeach
+                                        </select> 
+                                    </div>
+                                    </div>
+                                    
+                                   
+                                    <button type="submit" class="filter" style="margin-left:0px;margin-right: 5px !important;">Filter</button> 
                                     <a href="{{url('expert/expappointment')}}"> <button type="button" class="filter"  style="margin-left:0px">Clear</button></a>
                                 </form>
-                                <table class="table table-bordered appoint-table" style="width:100%">
+                                <table class="d-lg-table table-responsive table table-bordered appoint-table" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -38,7 +46,7 @@
                                             <th>Plan</th>
                                             <th>Designation</th>
                                             <th>Appointment type</th> 
-                                            <td>Amount</td>
+                                            <th>Amount</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -53,7 +61,7 @@
                                                 <td>{{ucwords(strtolower(array_search($appointment->plan,config('constant.PLAN'))))}}</td>
                                                 <td>{{$appointment->designations->designation_title}}</td>
                                                 <td>{{ucwords(strtolower(array_search($appointment->payment_mode,config('constant.PAYMENT_MODE'))))}}</td>
-                                                <td>{{$appointment->amount}}</td>
+                                                <td><i class="fas fa-rupee-sign"></i> {{number_format($appointment->amount,2,'.',',')}}</td>
                                                 <td>
                                                     <span class="view-icon" title="Note"><a style="cursor:pointer" onclick="addNote('{{$appointment->appointment_id}}','{{$appointment->note}}')"><i class="far fa-comments"></i></a></span> 
 
@@ -94,7 +102,7 @@
                                 </table>
                             </div>
                             <div class="paginationPara">  
-                            {{$appointment_list->appends($request->all())->render()}}
+                            {{$appointment_list->appends($request->all())->render('vendor.pagination.custom')}}
                                 <!-- <ul class="pagination justify-content-center">
                                     <li class="page-serial"><a class="page-start" href="#"><button
                                                 class="page-next">Previouss</button>

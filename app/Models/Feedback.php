@@ -45,8 +45,7 @@ class Feedback extends Authenticatable
 
         if(!isset($feedback_by) && empty($feedback_by)){
             $feedback_by = Session::get('user_id');
-        }
-        
+        }  
         if(isset($module_type) && $module_type != ''){
             $feedback_data['feedbackBy']   = Feedback::with('feedbackTo_users')
             ->Where(function($query) use ($module_id,$feedback_by,$feedback_to,$module_type) {
@@ -60,10 +59,10 @@ class Feedback extends Authenticatable
                 if (isset($feedback_to) && !empty($feedback_to)) { 
                     $query->where('feedback_to',$feedback_to);                 
                 }  
-            })->get();
+            })->orderBy('feedback_id','desc')->paginate(15);
             $feedback_data['feedbackTo']   = Feedback::with('feedbackBy_users')
             ->Where(function($query) use ($module_id,$feedback_by,$feedback_to,$module_type) {
-                if (isset($apoinment_id) && !empty($module_id)) { 
+                if (isset($module_id) && !empty($module_id)) { 
                     $query->where('module_id',$module_id)
                     ->where('module_type',$module_type);
                 } 
@@ -73,10 +72,10 @@ class Feedback extends Authenticatable
                 if (isset($feedback_by) && !empty($feedback_by)) { 
                     $query->where('feedback_to',$feedback_by);                 
                 }  
-            })->get();
+            })->orderBy('feedback_id','desc')->paginate(15);
         }else{
-            $feedback_data['feedbackBy']   = Feedback::with('feedbackBy_users')->where('feedback_to',$feedback_by)->get();
-        }
+            $feedback_data['feedbackBy']   = Feedback::with('feedbackBy_users')->where('feedback_to',$feedback_by)->orderBy('feedback_id','desc')->paginate(15);
+        }  
         return $feedback_data;
     }
 }

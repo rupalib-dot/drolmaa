@@ -1,17 +1,21 @@
 @include('include.header')
 @include('include.nav')
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container">
-        <div class="row">
+    <div class="container-fluid">
+        <div class="">
             <div class="col-sm-12">
                 <div class="back-appoint">
                     <div class="row">
-                        @include('include.client_sidebar')
-                        <div class="col-md-9">
+                    @if(Session::get('role_id') == 3)
+                            @include('include.client_sidebar')
+                        @elseif(Session::get('role_id') == 2)
+                            @include('include.expert_sidebar')
+                        @endif
+                        <div class="col-lg-10">
                             <div class="dashboard-panel">
                                 @include('include.validation_message')
                                 @include('include.auth_message')
-                                <h3 class="order-content">My Bookings</h3> 
+                                <h3 class="order-content"> Workshop/Webinar </h3> 
                          
                                 <form action="{{route('bookings.index')}}"class="form-appoint">
                                     <input type="date" name="from_date" value="{{$request['from_date']}}" class="">
@@ -19,9 +23,9 @@
                                     <input type="date" name="to_date" value="{{$request['to_date']}}" class="">
                                     <a href="#"> <button type="submit" class="filter" style="margin-left:0px">Filter</button></a>
                                     <a href="{{url('bookings')}}"> <button type="button" class="filter" style="margin-left:0px">Clear Filter</button></a>
-                                    <a href="{{route('bookings.create')}}"> <button type="button" style="background-color: #ba4811;border-color: #ba4811;" class="filter">Add Booking</button></a>
+                                    {{-- <a href="{{route('bookings.create')}}"> <button type="button" style="background-color: #ba4811;border-color: #ba4811;" class="filter">Add Booking</button></a> --}}
                                 </form>
-                                <table class="table table-bordered appoint-table" style="width:100%">
+                                <table class="table-responsive table table-bordered appoint-table" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -46,7 +50,7 @@
                                                     <td>{{CommonFunction::GetSingleField('designation','designation_title','designation_id',$booking->designation)}}</td>
                                                     <td>{{date('M d,Y',strtotime($booking->date))}}</td>
                                                     <td>{{date('h:i A',strtotime($booking->time))}}</td>
-                                                    <td>{{$booking->price}}</td> 
+                                                    <td><i class="fas fa-rupee-sign"></i> {{number_format($booking->price,2,'.',',')}}</td> 
                                                     <td>
                                                         @php $exist = CommonFunction::GetRow('feedback','feedback_by',Session::get('user_id'),'module_type',config("constant.FEEDBACK.BOOKING"),'module_id',$booking->booking_id);@endphp
                                                         @if(empty($exist))
@@ -66,7 +70,7 @@
                                 </table>
                             </div>
                             <div class="paginationPara">
-                            {{$booking_list->appends($request->all())->render()}}
+                            {{$booking_list->appends($request->all())->render('vendor.pagination.custom')}}
                                 <!-- <ul class="pagination justify-content-center">
                                     <li class="page-serial"><a class="page-start" href="#"><button class="page-next">Previouss</button></a></li>
                                     <li class="page-serial"><a class="page-start" href="#">01</a></li>

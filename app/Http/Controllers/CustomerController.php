@@ -107,7 +107,22 @@ class CustomerController extends Controller
                 $user_role->user_id = $user->user_id;
                 $user_role->save();
             \DB::commit();
-            return redirect()->route('login')->with('Success', 'Account created successfully, Check your email inbox to verify your email...');  
+            $otp = rand(1111,9999);
+            //  print_r($otp);exit;
+            $request->session()->put('user_id',$user->user_id);
+            $request->session()->put('otp',$otp); 
+            
+             //mail to new user
+             $details = array(
+                'name'         => $request->full_name,
+                'mobile' 		=>  $request->mobile_number,
+                'email' 		=> $request->email_address,   
+                'password'      => $request->user_password,
+                'user_id'       => $user->user_id,
+                'otp'           => $otp
+            );   
+            \Mail::to($request->email_address)->send(new \App\Mail\NewUserMail($details));
+            return redirect()->route('verify.otp',['module'=>'phone','page'=>'login','user_id'=>base64_encode($user->user_id),'otp'=>base64_encode($otp)])->with('Success', 'Account created successfully, Check your email inbox to verify your email...');  
         }
         catch (\Throwable $e)
     	{

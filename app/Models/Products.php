@@ -22,7 +22,7 @@ class Products extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'product_id','product_name','description','instructions','referenceses','rating','category_id','created_by','quantity','selling_price','mrp','expiry_date','status','created_at','updated_at'
+        'product_id','product_name','description','instructions','referenceses','rating','category_id','created_by','quantity','selling_price','mrp','expiry_date','status','is_featured','created_at','updated_at'
     ];
 
     protected $dates = [ 'deleted_at' ];

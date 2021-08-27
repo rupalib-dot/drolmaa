@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Session;
 
 class Appointment extends Authenticatable
 {
@@ -43,35 +44,26 @@ class Appointment extends Authenticatable
     }
 
     public function appoinment_list($user_id,$from_date,$payment_type,$to_date,$type)
-    { 
+    {  
         $appoinment_data      = Appointment::with('expertUsers','designations')
         ->Where(function($query) use ($from_date,$to_date,$type,$payment_type) {
-            if (isset($from_date) && !empty($from_date)) { 
-                $query->where('date','>=',$from_date);
-            } 
-            if (isset($to_date) && !empty($to_date)) { 
-                $query->where('date','<=',$to_date);                 
-            } 
+            if ((isset($from_date) && !empty($from_date)) && (isset($to_date) && !empty($to_date))) { 
+                $query->whereBetween('date',[$from_date,$to_date]);
+            }  
             if (isset($payment_type) && !empty($payment_type)) { 
                 $query->where('payment_mode',$payment_type);                 
             } 
             if (isset($type) && !empty($type)) { 
-                if($type == 'current'){
-                    $query->where('status',config('constant.STATUS.PENDING'))
-                    ->orWhere('status',config('constant.STATUS.ACCEPTED'));  
-                }else if($type == 'previous'){
-                    $query->where('status',config('constant.STATUS.REJECTED'))
-                    ->orWhere('status',config('constant.STATUS.COMPLETED'))
-                    ->orWhere('status',config('constant.STATUS.CANCELLED')); 
+                if($type == 'previous'){
+                    $query->whereIn('status',[config('constant.STATUS.REJECTED'),config('constant.STATUS.COMPLETED'),config('constant.STATUS.CANCELLED')]);
                 }else{
-                    $query->where('status',config('constant.STATUS.PENDING'))
-                    ->orWhere('status',config('constant.STATUS.ACCEPTED'));  
+                    $query->whereIn('status',[config('constant.STATUS.PENDING'),config('constant.STATUS.ACCEPTED')]);  
                 }            
             } else{
-                $query->where('status',config('constant.STATUS.PENDING'))
-                ->orWhere('status',config('constant.STATUS.ACCEPTED'));  
+                $query->whereIn('status',[config('constant.STATUS.PENDING'),config('constant.STATUS.ACCEPTED')]);
             }
-        })->Where('user_id',$user_id)->paginate(15);
+        })->orderBy('appointment_id','desc')->Where('user_id',$user_id)->paginate(15);
+        
         return $appoinment_data;
     }
 
@@ -79,38 +71,49 @@ class Appointment extends Authenticatable
     { 
         $appoinment_data      = Appointment::with('users','designations')
         ->Where(function($query) use ($from_date,$to_date,$type,$payment_type) {
-            if (isset($from_date) && !empty($from_date)) { 
-                $query->where('date','>=',$from_date);
-            } 
-            if (isset($to_date) && !empty($to_date)) { 
-                $query->where('date','<=',$to_date);                 
-            } 
+            if ((isset($from_date) && !empty($from_date)) && (isset($to_date) && !empty($to_date))) { 
+                $query->whereBetween('date',[$from_date,$to_date]);
+            }  
             if (isset($payment_type) && !empty($payment_type)) { 
                 $query->where('payment_mode',$payment_type);                 
             } 
             if (isset($type) && !empty($type)) { 
-                if($type == 'current'){
-                    $query->where('status',config('constant.STATUS.PENDING'))
-                    ->orWhere('status',config('constant.STATUS.ACCEPTED'));  
-                }else if($type == 'previous'){
-                    $query->where('status',config('constant.STATUS.REJECTED'))
-                    ->orWhere('status',config('constant.STATUS.COMPLETED'))
-                    ->orWhere('status',config('constant.STATUS.CANCELLED')); 
+                if($type == 'previous'){
+                    $query->whereIn('status',[config('constant.STATUS.REJECTED'),config('constant.STATUS.COMPLETED'),config('constant.STATUS.CANCELLED')]);
                 }else{
-                    $query->where('status',config('constant.STATUS.PENDING'))
-                    ->orWhere('status',config('constant.STATUS.ACCEPTED'));  
+                    $query->whereIn('status',[config('constant.STATUS.PENDING'),config('constant.STATUS.ACCEPTED')]);  
                 }            
             } else{
-                $query->where('status',config('constant.STATUS.PENDING'))
-                ->orWhere('status',config('constant.STATUS.ACCEPTED'));  
+                $query->whereIn('status',[config('constant.STATUS.PENDING'),config('constant.STATUS.ACCEPTED')]);
             }
-        })->Where('expert',$user_id)->paginate(15);
+        })->Where('expert',$user_id)
+        ->orderBy('appointment_id','desc')->paginate(15);
         return $appoinment_data;
     }
 
-    public function admin_appoinment_list()
+    public function admin_appoinment_list($userid = '')
     { 
-        $appoinment_data      = Appointment::with('users','expertUsers','designations')->orderBy('appointment_id','desc')->paginate(15);
+        $appoinment_data      = Appointment::with('users','expertUsers','designations')
+        ->Where(function($query) use ($userid) {
+            if (isset($userid) && !empty($userid)) { 
+                $query->where('expert',$userid);
+            }   
+        })
+        ->orderBy('appointment_id','desc')->paginate(15);
         return $appoinment_data;
+    }
+
+    public function appoinment_list_trans($userType)
+    { 
+        $appoinment_trans_data = Appointment::with('expertUsers')->select('expert','appointment_id','name','appoinment_no','plan','date','time','status','payment_mode','amount','payment_id','refund_id','amount_refund')
+        ->Where(function($query) use ($userType) {
+            if (isset($userType) && $userType == 'user') { 
+                $query->where('user_id',Session::get('user_id'));
+            }  
+            if (isset($userType) && $userType == 'expert') { 
+                $query->where('expert',Session::get('user_id'));
+            }  
+        }) ->orderBy('appointment_id','desc')->paginate(15);
+        return $appoinment_trans_data;
     }
 }

@@ -1,13 +1,13 @@
 @include('include.header')
 @include('include.nav')
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container">
-        <div class="row">
+    <div class="container-fluid">
+        <div class="">
             <div class="col-sm-12">
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.client_sidebar')
-                        <div class="col-md-9">
+                        <div class="col-lg-9">
                             <div class="profile-form">
                                 @include('include.validation_message')
                                 @include('include.auth_message')
@@ -24,8 +24,10 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="input-group mb-4">
-                                            <input type="text" class="form-control" placeholder="Email" aria-label="Email"
-                                            aria-describedby="basic-addon1" name="email_address" value="{{ old('email_address', $record_data->email_address) }}">
+                                            <input type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" name="email_address" value="{{ old('email_address', $record_data->email_address) }}">
+                                            @if($record_data->email_status == "")
+                                                <a href="{{route('verify.Profile',['module'=>'email','user_id'=>base64_encode(Session::get('user_id'))])}}"><button type="button" class="btn btn-danger verify_back input-group-text">Verify</button></a>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -47,18 +49,31 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="input-group mb-4">
-                                            <input type="text" class="form-control" placeholder="Mobile Number"
-                                                aria-label="Mobile Number" aria-describedby="basic-addon1" name="mobile_number" value="{{old('mobile_number', $record_data->mobile_number)}}">
+                                        <div class="row">
+                                            <div class="col-sm-2 pr-sm-0">
+                                                <div class="input-group mb-4">
+                                                    <input type="text" class="form-control" aria-label="Country Code" aria-describedby="basic-addon1" name="country_code" value="+91" ReadOnly>
+                                                </div> 
+                                            </div>
+                                            <div class="col-sm-10  pl-sm-0"> 
+                                                <div class="input-group mb-4">
+                                                    <input type="text" class="form-control" placeholder="Mobile Number" aria-label="Mobile Number" aria-describedby="basic-addon1" name="mobile_number" value="{{old('mobile_number', $record_data->mobile_number)}}">
+                                                    @if($record_data->phone_status == "")
+                                                        <a href="{{route('verify.Profile',['module'=>'phone','user_id'=>base64_encode(Session::get('user_id'))])}}"><button type="button" class="btn btn-danger verify_back input-group-text">Verify</button></a>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="input-group mb-4">
                                             <select class="form-control" class="form-control country_id" id="exampleFormControlSelect1" name="country_id" onchange="state_list(this.value)">
                                                 <option value="">Select Country</option>
-                                                @foreach($country_list as $con_list)
+                                                <!-- @foreach($country_list as $con_list)
                                                     <option {{ old('country_id', $record_data->country_id) == $con_list->country_id ? 'selected' : ''}} value="{{$con_list->country_id}}">{{$con_list->country_name}}</option>
-                                                @endforeach
+                                                @endforeach -->
+                                                <option {{ old('country_id', '101',$record_data->country_id) == 101 ? 'selected' : ''}} value="101">India</option>
+
                                             </select>
                                         </div>
                                     </div>
@@ -81,11 +96,81 @@
                                         </div>
                                     </div>
                                     <div class="back-next">
-                                        <button type="submit" class="next">Update Profile</button>
+                                        <button type="submit" class="next mr-2">Update Profile</button>
                                         <a href="{{url('profile')}}/{{Session::get('user_id')}}/edit"><button type="button" class="next" style="background-color: #aca4a2;">Cancel</button></a>
                                     </div>
+</div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class=" mb-3 btn btn-info" data-toggle="modal" data-target="#exampleModal">Change Password</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title order-content text-light" id="exampleModalLabel">{{$title}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <div class="">
+                                @include('include.validation_message')
+                                @include('include.auth_message')
+                                <!-- <h3 class="order-content">{{$title}}</h3> -->
+                                <p class="fnt">Your new password must be different from previous used password.</p>
+                                <form action="{{route('change-password-submit')}}" method="POST" class="formLogIn">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-md-11 mb-5">
+                                            <div class="input-group mb-4">
+                                                <input type="password" maxlength="16" value="{{old('CurrentPass')}}" name="CurrentPass"  id="login_password"  required class="form-control"
+                                                    placeholder="Old Password" aria-label="Name"
+                                                    aria-describedby="basic-addon1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="ShowPass('login_password')" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                            </div>
+                                            <div class="col-md-4"></div>
+                                        </div>
+                                        <div class="col-md-11 mb-5">
+                                            <div class="input-group mb-4">
+                                                <input type="password" maxlength="16" name="NewPass" id="new_password" value="{{old('NewPass')}}"  required class="form-control"
+                                                    placeholder="New Password" aria-label="Name"
+                                                    aria-describedby="basic-addon1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="ShowPass('new_password')" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                            </div>
+                                            <div class="col-md-4"></div>
+                                        </div>
+                                        <div class="col-md-11">
+                                            <div class="input-group mb-4">
+                                                <input type="password" maxlength="16" name="ConfirmPass" id="confirm_password" value="{{old('ConfirmPass')}}" required class="form-control"
+                                                    placeholder="Confirm Password" aria-label="Name"
+                                                    aria-describedby="basic-addon1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="ShowPass('confirm_password')" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                            </div>
+                                            <div class="col-md-4"></div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="input-group mb-4">
+                                                <button class="login1 btn" type="submit" name="submit">Submit</button>
+                                            </div>
+                                        </div>
+
+                                </form>
+                            </div>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+                                    </div>
+                                    </div>
                             </form>
-                        </div>
+                  
                     </div>
                 </div>
             </div>

@@ -34,12 +34,16 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     { 
-        $title  = "Make Booking";
-        $workshop_list   = Workshop::OrderBy('title')->where('date','>',date('Y-m-d'))->get(); 
-        $data   = compact('title','workshop_list');
-        return view('customer_panel.makebooking', $data);
+        if(!isset($request['id']) && empty($request['id'])){
+            return redirect()->route('live_webinar')->with('Failed', 'Select Workshop first');
+        }else{
+            $title  = "Make Booking";
+            $workshop_list   = Workshop::OrderBy('title')->where('date','>',date('Y-m-d'))->where('workshop_id',$request['id'])->get(); 
+            $data   = compact('title','workshop_list','request');
+            return view('customer_panel.makebooking', $data);
+        }
     }
 
     /**
@@ -60,7 +64,7 @@ class BookingController extends Controller
 
         $input = $request->all();
   
-        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+        $api = new Api("rzp_test_tazXyaYClLVzyb", "QcFkC78PT0dkVGsPO8FWVMNB");
   
         $payment = $api->payment->fetch($input['razorpay_payment_id']);
   
@@ -89,15 +93,15 @@ class BookingController extends Controller
                         return redirect()->back()->with('Failed', 'Something went wrong');
                     } 
                 }else{
-                    return redirect()->back()->with('Failed', 'This workshop has been already booked');
+                    return redirect()->back()->withInput($request->all())->with('Failed', 'You have alerady booked this workshop');
                 } 
             }
             catch (\Throwable $e) 
             {
-                return redirect()->back()->with('Failed',$e->getMessage());
+                return redirect()->back()->withInput($request->all())->with('Failed',$e->getMessage());
             } 
         }else{
-            return redirect()->back()->with('Failed', 'Something went wrong');
+            return redirect()->back()->withInput($request->all())->with('Failed', 'Something went wrong');
         }
     }
 

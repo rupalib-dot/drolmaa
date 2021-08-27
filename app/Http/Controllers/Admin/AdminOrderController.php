@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use DB;
 use CommonFunction;
 use App\Models\Feedback;
 use App\Models\OrderDetail;
@@ -56,7 +57,7 @@ class AdminOrderController extends Controller
         $title  = "Order Detail";
         $order = Order::where('order_id',$id)->first();
         $orderDetail = OrderDetail::where('order_id',$id)->get();
-        $feedback_list   = Feedback::where(['module_id'=>$id,'module_type'=>config('constant.FEEDBACK.ORDER')])->get();
+        $feedback_list   = Feedback::where(['module_id'=>$id,'module_type'=>config('constant.FEEDBACK.ORDER')])->orderBy('feedback_id','desc')->get();
         $data   = compact('title','order','orderDetail','feedback_list','request');
         return view('admin.order.detail', $data);
     }
@@ -102,7 +103,7 @@ class AdminOrderController extends Controller
 
         if($request['status'] == config('constant.STATUS.CANCELLED')){
             $order = Order::findOrfail($request['id']); 
-            $refundData = CommonFunction::refundPayment($order->payment_id ,$order->grand_total); 
+            $refundData = CommonFunction::refundPayment($order->payment_id ,$order->grand_total,'Order'); 
             $count_row = Order::where(['order_id'=>$request['id']])->update(['refund_amount'=>$refundData['amount_refund'],'refund_id'=>$refundData['id'], 'refund_status'=>'refund '.$refundData['status'],'updated_at'=>date('Y-m-d H:i:s')]);
             $msg = $refundData['description']; 
         }

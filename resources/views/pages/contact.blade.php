@@ -1,7 +1,7 @@
 @include('include.header')
 @include('include.nav')
 <section id="contact-page-inner" id="contact-page-inner" role="contact"
-    style="background-image:url({{asset('front_end/images/contactimg.png')}})">
+    style="background-image:url({{asset('front_end/images/contactimg.jpg')}})">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -10,85 +10,102 @@
         </div>
     </div>
 </section>
-<section id="get-touch" class="get-touch" role="get-touch">
+ 
+<section id="contact-inner-map" class="contact-inner-map" style="padding-top: 100px;">
     <div class="container">
         <div class="row">
-            <div class="col-sm-12">
-                <h3>Get in Touch with Us</h3>
-                <p>Any question or remarks? Just write us a message!</p>
-            </div>
-        
-    
-            <div class="col-md-4">
-                <div class="single-cta">
-                    <span class="icon">
-                        <i class="fa fa-map-marker" aria-hidden="true"></i>
-                    </span>
-                    <span class="cta-text">
-                        <h4> Address:</h4>
-                        <span>40 Park Ave, Brooklyn, New York</span>
-                    </span>
+            <div class="col-lg-6">
+                <div class="p-3  heading_contact_form">
+                    <h3>Get in Touch with Us</h3>
+                    <p>Any question or remarks? Just write us a message!</p>
+                </div>
+                <div class="p-3  contact_page_details">
+                    <ul>
+                        <li>
+                            <div class="row">
+                                <div class="">
+                                    <img src="{{asset('front_end/images/phone_contact.png')}}" alt="">
+                                </div>
+                                <div class="ml-3">
+                                    <h5>Phone:</h5>
+                                    <p>1-800-000-111</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <div class="">
+                                    <img src="{{asset('front_end/images/mail_contact.png')}}" alt="">
+                                </div>
+                                <div class="ml-3">
+                                    <h5>Email:</h5>
+                                    <p>drolmaa@gmail.com</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <div class="">
+                                    <img src="{{asset('front_end/images/map_contact.png')}}" alt="">
+                                </div>
+                                <div class="ml-3">
+                                    <h5>Address:</h5>
+                                    <p>40 Park Ave, Brooklyn, New York</p>
+                                </div>
+                            </div>
+                            
+                        </li>
+                    </ul>
+                </div>
+                <div class="m-2 mb-3 social_contact_page">
+                    <h4>Social Media</h4>
+                    <div class="d-flex">
+                        <div class="mr-2">
+                            <a href="#"><img src="{{asset('front_end/images/insta_contact.png')}}" alt=""></a>
+                        </div>
+                        <div class="mr-2">
+                            <a href="#"><img src="{{asset('front_end/images/twitter_contact.png')}}" alt=""></a>
+                        </div>
+                        <div class="mr-2">
+                            <a href="#"><img src="{{asset('front_end/images/fb_contact.png')}}" alt=""></a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="single-cta">
-                    <span class="icon">
-                        <i class="fa fa-phone" aria-hidden="true"></i>
-                    </span>
-                    <span class="cta-text">
-                        <h4> Phone:</h4>
-                        <span><a href="tel:1-800-000-111" class="infodes">1-800-000-111</a></span>
-                    </span>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="single-cta">
-                    <span class="icon">
-                        <i class="fa fa-envelope" aria-hidden="true"></i>
-                    </span>
-                    <span class="cta-text">
-                        <h4> Email:</h4>
-                        <span><a href="mailto:drolmaa@gmail.com" class="infodes">drolmaa@gmail.com</a></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-    
-        @include('include.validation_message')
-        @include('include.auth_message')
-    <form action="{{route('contact-submit')}}" method="post" class="form-contact">
-    @csrf
-        <input type="hidden" value="{{config('constant.ENQUIERY.CONTACT')}}" name="module_type">
-        <input type="hidden" value="0" name="module_id">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="input-group mb-4">
-                    <input type="text" class="form-control" value="{{old('name')}}" placeholder="Name" name="name" aria-label="Name"
-                        aria-describedby="basic-addon1">
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="input-group mb-4">
-                    <input type="text" class="form-control" value="{{old('phone')}}" name="phone" placeholder="Phone" aria-label="Phone"
-                        aria-describedby="basic-addon1">
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="input-group mb-4">
-                    <input type="text" class="form-control" value="{{old('email')}}" name="email" placeholder="Email" aria-label="Email"
-                        aria-describedby="basic-addon1">
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <textarea class="form-control" name="message" id="exampleFormControlTextarea1" rows="3"
-                    placeholder="Message">{{old('message')}}</textarea>
-            </div>
-            <button name="submit" class="submit-contact">Sumbit</button>
-        </div>
-        </div>
+            <div class="col-lg-6">
+                <div class="p-3  contact_right_side">
+                    <div class="heading_contact_form">
+                        <h5 class="text-light">Send Message</h5>
+                    </div>
+                    <form action="{{route('contact-submit')}}" method="post" class="py-3 form-contact">
+                        @csrf
+                        <input type="hidden" value="{{config('constant.ENQUIERY.CONTACT')}}" name="module_type">
+                        <input type="hidden" value="0" name="module_id">
+                        <div class="form-group">
+                            <input type="text" placeholder="Name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                          </div>
+                          <div class="form-group">
+                            <input type="number" placeholder="Phone" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"required>
+                          </div>
 
+                        <div class="form-group">
+                          <input type="email" placeholder="Email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"required>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control @error('message') is-invalid @enderror" name="message" id="exampleFormControlTextarea1" rows="4"
+                                placeholder="Message" @error('message') autofocus @enderror>{{old('message')}}</textarea>
+                                @error('message') 
+                                <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                        </div>
+                        <button type="submit" class="button_contact_page btn btn-outline-danger">Submit</button>
+                      </form>
+                </div>        
+            </div>
+        </div>
+    </div>
 </section>
-<section id="contact-inner-map" class="contact-inner-map">
+<section id="contact-inner-map" class="mt-3 contact-inner-map">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">

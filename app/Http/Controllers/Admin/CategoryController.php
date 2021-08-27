@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category; 
+use DB;
 use Session;
 
 class CategoryController extends Controller
@@ -69,12 +70,13 @@ class CategoryController extends Controller
                 'created_at'        => date('Y-m-d H:i:s'),
                 'updated_at'        => date('Y-m-d H:i:s'),
             ]);  
+            // print_r($category['category_id']);exit;
             if(!empty($category['category_id'])){
                 if($request->hasFile('category_image'))
                 {
                     $sImages     = $request->file('category_image'); 
                     $category_pic = time() * rand() . '.' . $sImages->getClientOriginalExtension();
-                    $sImages->storeAs('category', $category_pic, 'public'); 
+                    $sImages->move(public_path('category'), $category_pic);  
 
                     $category = Category::where('category_id',$category['category_id'])->update(['category_image'   => $category_pic]);  
                 } 
@@ -146,9 +148,10 @@ class CategoryController extends Controller
             if($request->hasFile('category_image'))
             {
                 $sImages     = $request->file('category_image');  
-                $category_pic = time() * rand() . '.' . $sImages->getClientOriginalExtension();
-                $sImages->storeAs('category', $category_pic, 'public');  
-
+                $category_pic = time() * rand() . '.' . $sImages->getClientOriginalExtension(); 
+                $sImages->move(public_path('category'), $category_pic);
+                
+                
                 Category::where('category_id',$id)->update(['category_image' => $category_pic]);  
             } 
             if(!empty($category)){ 
@@ -170,7 +173,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         $category_data = Category::where('category_id',$id)->update([
             'deleted_at'    => date('Y-m-d H:i:s'),
@@ -183,7 +186,7 @@ class CategoryController extends Controller
         } 
     }
 
-    public function changeStatus($id,$status)
+    public function changeStatus(Request $request,$id,$status)
     {
         $category_data = Category::where('category_id',$id)->update([
             'category_status'    => $status,

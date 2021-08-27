@@ -6,18 +6,18 @@
         cursor: pointer;
         width: 16px;
         position: absolute;
-        top: 6px;
-        left: 496px;
+        top: 13px;
+        left: 405px;
     }
 </style>
 <section id="appointment" class="appointment padding-top" role="appointments">
-    <div class="container">
-        <div class="row">
+    <div class="container-fluid">
+        <div class="">
             <div class="col-sm-12">
                 <div class="back-appoint">
                     <div class="row">
                         @include('include.client_sidebar')
-                        <div class="col-md-9">
+                        <div class="col-lg-10">
                             <div class="dashboard-panel">
                                 @include('include.validation_message')
                                 @include('include.auth_message')

@@ -22,7 +22,7 @@ class Availability extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'time_slot','status','date','user_id','time','created_at','updated_at'
+        'time_slot','status','date','user_id','time','created_at','note','updated_at'
     ];
  
     protected $dates = [ 'deleted_at' ];

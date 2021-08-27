@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Category; 
+use DB;
 use App\Models\ProductImages;
 use Session;
 
@@ -37,7 +38,7 @@ class ProductController extends Controller
     public function create()
     {
         $title  = "Add Product"; 
-        $category = Category::where('category_status',config('constant.BLK_UNBLK.UNBLOCK'))->get();
+        $category = Category::where('category_status',config('constant.BLK_UNBLK.UNBLOCK'))->orderBy('category_id','desc')->get();
         $data   = compact('title','category');
         return view('admin.product.add', $data);
     }
@@ -53,8 +54,8 @@ class ProductController extends Controller
         $error_message = 	[
 			'product_name.required'        => 'Product name should be required',
             'product_name.min'             => 'Product name should be minimum of 3 characters',
-            'product_name.max'             => 'Product name should be maximum of 30 characters',
-            'product_name.regex'             => 'Product name should be alphabets only',
+            'product_name.max'             => 'Product name should be maximum of 50 characters',
+            'product_name.regex'             => 'Product name should be alphanumeric only',
             'product_name.unique' 		   => 'Product name already exist', 
 			'selling_price.required' 	   => 'Selling price should be required', 
             'description.required'         => 'Description should be required', 
@@ -68,7 +69,7 @@ class ProductController extends Controller
 		];
 
 		$validatedData = $request->validate([
-			'product_name' 	  => 'required|min:3|max:30|regex:/^[\pL\s\']+$/u|unique:products,product_name',
+			'product_name' 	  => 'required|min:3|max:30|regex:/^[\pL0-9\s]+$/u|unique:products,product_name',
 			'selling_price'   => 'required|numeric',
             'description' 	  => 'required',
             'instructions'    => 'required',
@@ -78,6 +79,7 @@ class ProductController extends Controller
             'mrp' 	          => 'required|numeric',
             'expiry_date' 	  => 'required', 
             'category' 	  => 'required',
+            'images'    => 'nullable|max:5120',
         ], $error_message);
 
         
@@ -153,8 +155,9 @@ class ProductController extends Controller
     {
         $title  = "Edit Product";
         $product = Products::find($id);   
-        $category = Category::get();
-        $data   = compact('title','product','category');
+        $product_image = $this->ProductImages->prod_image_list($id);
+        $category = Category::where('category_status',config('constant.BLK_UNBLK.UNBLOCK'))->orderBy('category_id','desc')->get();
+        $data   = compact('title','product','category','product_image');
         return view('admin.product.edit', $data);
     }
 
@@ -170,8 +173,8 @@ class ProductController extends Controller
         $error_message = 	[
 			'product_name.required'        => 'Product name should be required',
             'product_name.min'             => 'Product name should be minimum of 3 characters',
-            'product_name.max'             => 'Product name should be maximum of 30 characters',
-            'product_name.regex'             => 'Product name should be alphabets only',
+            'product_name.max'             => 'Product name should be maximum of 50 characters',
+            'product_name.regex'             => 'Product name should be alphanumeric only',
             'product_name.unique' 		   => 'Product name already exist', 
 			'selling_price.required' 	   => 'Selling price should be required', 
             'description.required'         => 'Description should be required', 
@@ -181,11 +184,12 @@ class ProductController extends Controller
             'quantity.required'            => 'Quantity should be required',
             'mrp.required'                 => 'MRP should be required',
             'expiry_date.required'         => 'Expiry date should be required',
-            'category.required'         => 'Category must not be empty'
+            'category.required'         => 'Category must not be empty',
+            'images.mimes'         => 'Category must not be empty'
 		];
 
 		$validatedData = $request->validate([
-			'product_name' 	  => 'required|min:3|max:30|regex:/^[\pL\s\']+$/u|unique:products,product_name,'.$id.',product_id',
+			'product_name' 	  => 'required|min:3|max:30|regex:/^[\pL0-9\s]+$/u|unique:products,product_name,'.$id.',product_id',
 			'selling_price'   => 'required|numeric',
             'description' 	  => 'required',
             'instructions'    => 'required',
@@ -195,6 +199,7 @@ class ProductController extends Controller
             'quantity' 	      => 'required|numeric', 
             'mrp' 	          => 'required|numeric',
             'expiry_date' 	  => 'required', 
+            'images'    => 'nullable|max:5120',
         ], $error_message);
 
         
@@ -246,14 +251,15 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         $product_data = Products::where('product_id',$id)->update([
             'deleted_at'    => date('Y-m-d H:i:s'),
             'updated_at'    => date('Y-m-d H:i:s'),
         ]); 
         if(!empty($product_data)){
-            return redirect()->route('product.index')->with('Success', 'Product Deleted Successfully');
+            DB::table('cart')->where(['product_id'=>$id])->delete();
+            return redirect()->back()->with('Success', 'Product Deleted Successfully');
         }else{
             return redirect()->back()->withInput($request->all())->with('Failed', 'Something went wrong');
         } 
@@ -265,14 +271,14 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy_pImage($id,$product_id)
+    public function destroy_pImage(Request $request,$id,$product_id)
     {
         $product_image_data = ProductImages::where('product_image_id',$id)->update([
             'deleted_at'    => date('Y-m-d H:i:s'),
             'updated_at'    => date('Y-m-d H:i:s'),
         ]); 
         if(!empty($product_image_data)){
-            return redirect()->route('product.show',$product_id)->with('Success', 'Product Image deleted successfully');
+            return redirect()->back()->with('Success', 'Product Image deleted successfully');
         }else{
             return redirect()->back()->withInput($request->all())->with('Failed', 'Something went wrong');
         } 
@@ -284,14 +290,14 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function changeStatus($id,$status)
+    public function changeStatus(Request $request,$id,$status)
     {
         $product_data = Products::where('product_id',$id)->update([
             'status'    => $status,
             'updated_at'    => date('Y-m-d H:i:s'),
         ]); 
         if(!empty($product_data)){
-            return redirect()->route('product.index')->with('Success', 'Product '.ucwords(strtolower(array_search($status,config('constant.BLK_UNBLK')))).' Successfully');
+            return redirect()->route('product.index')->with('Success', 'Product has been '.strtolower(array_search($status,config('constant.BLK_UNBLK'))).'ed Successfully');
         }else{
             return redirect()->back()->withInput($request->all())->with('Failed', 'Something went wrong');
         } 

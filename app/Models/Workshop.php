@@ -22,7 +22,7 @@ class Workshop extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'workshop_id','title','designation','expert','date','price','time','created_at','updated_at'
+        'workshop_id','title','designation','expert','date','start_date','description','duration','image','price','time','created_by','created_at','updated_at'
     ];
 
     protected $dates = [ 'deleted_at' ];

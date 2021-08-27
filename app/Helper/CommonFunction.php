@@ -1,7 +1,72 @@
 <?php 
+use App\Models\Availability;
+use App\Models\Designation;
+use App\Models\User;
+use App\Models\Bookings;
+use App\Models\Feedback;
 
 class CommonFunction 
 {
+    public static function workshops($requestData,$user_id){
+        if(count($requestData)>0){
+            foreach($requestData as $request){
+                $workshopBooked = Bookings::where('user_id',$user_id)->where('module_id',$request->workshop_id)->first();
+                $workshopFeedback = Feedback::where('feedback_by',$user_id)->where('module_id',$request->workshop_id)->where('module_type',config('constant.FEEDBACK.BOOKING'))->first();
+                
+                if(!empty($workshopBooked)){ $Bookstatus = True;  }else{ $Bookstatus = False; }
+                if(!empty($workshopFeedback)){ $FeedBackstatus = True;  }else{ $FeedBackstatus = False; }
+
+                $designation    = Designation::find($request->designation); 
+                $user           = User::find($request->expert);
+                $data[] = [
+                    'workshop_id'       => $request->workshop_id,
+                    'title'             => $request->title,
+                    'price'             => $request->price,
+                    'description'       => $request->description,
+                    'image' 	        => asset('public/workshop/'.$request->image),
+                    'date'              => date('d M, Y', strtotime($request->date)),
+                    'start_date'        => date('d M, Y', strtotime($request->start_date)),
+                    'time'              => date('h:i A', strtotime($request->time)),
+                    'created_at'        => date('d M, Y', strtotime($request->created_at)),
+                    'designation_id'    => $request->designation,
+                    'total_bookings'    => CommonFunction::workshopBookedCount($request->workshop_id),
+                    'designation'       => $designation->designation_title,
+                    'duration'       =>  $request->duration,
+                    'expert'            => $user->full_name,
+                    'expert_id'         => $request->expert,
+                    'feedback_status'   => $Bookstatus,
+                    'Booking_status'   => $FeedBackstatus,
+                ];
+            }
+        }else{
+            $data = array();
+        }
+        return $data;
+    }
+
+
+    public static function getslotsData($userid){
+ 
+        $availSlots = array();
+        $begin = new DateTime( date('Y-m-d') );
+        $end   = new DateTime(date('Y-m-d',strtotime('+14 days',strtotime(date('Y-m-d')))));
+        for($i = $begin; $i <= $end; $i->modify('+1 day')){
+            $avail = array();
+            $date = $i->format("Y-m-d"); 
+            $slots = Availability::where('date',$date)->where('user_id',$userid)->get();
+            $slotsAvail = CommonFunction::GetDateSlotCount('availability','date',$date,'user_id',$userid,'status',config('constant.AVAIL_STATUS.AVAILABLE'));
+            $slotsBook = CommonFunction::GetDateSlotCount('availability','date',$date,'user_id',$userid,'status',config('constant.AVAIL_STATUS.BOOKED'));
+            
+            if(count($slots)>0){
+                foreach($slots as $slotavailability){
+                    $avail[] = array('start_time'=>$slotavailability->time_slot,'end_time'=>date("h:i A",strtotime('+1 hours',strtotime($slotavailability->time_slot))));
+                }
+            }
+            $availSlots[] = array('availability_id' =>$date,'date' =>date('d M, Y',strtotime($date)),'day' => date('l',strtotime($date)),'available_slots'=>  $slotsAvail,'booked_slots'=>  $slotsBook,'time_slot' =>  $avail,); 
+        } 
+        return $availSlots;
+    }
+
     public static function password_generate($chars) 
     {
         $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
@@ -22,14 +87,14 @@ class CommonFunction
 
     public static function GetData($table,$field, $value)
     {
-        $result = \DB::table($table)->where([$field => $value])->get();
+        $result = \DB::table($table)->where([$field => $value])->where('deleted_at',NULL)->get();
         return $result; 
     }
 
     //This funciton is used to get count of slots of particular date
     public static function GetDateSlotCount($table,$field, $value,$field2, $value2,$field3, $value3)
     {
-        $result = \DB::table($table)->where([$field => $value,$field3 => $value3,$field2 => $value2])->count();
+        $result = \DB::table($table)->where([$field => $value,$field3 => $value3,$field2 => $value2])->where('deleted_at',NULL)->count();
         return $result; 
     }
  
@@ -39,7 +104,6 @@ class CommonFunction
          $result = \DB::table($table)->select('time_slot')->where([$field => $value])->get();
          return $result; 
      } 
-
       //This funciton is used to get slots of particular date
       public static function GetMultiWhereData($table,$field, $value,$field2,$value2)
       {
@@ -95,12 +159,12 @@ class CommonFunction
      }
  
 
-     public static function refundPayment($payment_id,$amount)
+     public static function refundPayment($payment_id,$amount,$module)
 	{  
-        $amount = ($amount*35)/100 ;
-        $username = env('RAZORPAY_KEY');
-        $password = env('RAZORPAY_SECRET');
-        $curl = curl_init();
+        $amount = $amount ;
+        $username = "rzp_test_tazXyaYClLVzyb";
+        $password = "QcFkC78PT0dkVGsPO8FWVMNB";
+        $curl = curl_init(); 
         curl_setopt_array($curl, array( 
             CURLOPT_URL => "https://api.razorpay.com/v1/payments/".$payment_id."/refund",
             CURLOPT_RETURNTRANSFER => true,
@@ -123,13 +187,14 @@ class CommonFunction
  
 
 		$response = curl_exec($curl);
+        
         $err = curl_error($curl);
 		curl_close($curl); 
         $data = json_decode($response);  
         if(isset($data->id)){
             $response = array(
                 'id' => $data->id,
-                'description' => 'Appointment has been cancelled successfully and payment is refunded successfully' ,
+                'description' => $module.' has been cancelled successfully and payment is refunded successfully' ,
                 'status' =>'success',
                 'amount_refund'=>$data->amount,
             );
@@ -142,6 +207,43 @@ class CommonFunction
             ); 
         }  
 		 return $response;
+	} 
+
+    public static function sendSMS($sMblNum,$sMsg)
+	{
+		$API_KEY    = "350642AwlhUoOG9W5fec5ceaP1";
+        $SENDER_ID  = "LOOPTZ";
+        $ROUTE      = 4;
+
+		$postData = array(
+            'mobiles' => $sMblNum,
+            'message' => $sMsg,
+            'sender' => $SENDER_ID,
+            'route' => $ROUTE, 
+          	'country'=>91,
+        );
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.msg91.com/api/v2/sendsms",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => $postData,
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
+            CURLOPT_HTTPHEADER => array(
+                "authkey: $API_KEY",
+                "content-type: multipart/form-data"
+            ),
+        ));
+
+		$response = curl_exec($curl);
+        $err = curl_error($curl);
+		curl_close($curl); 
+		return $response;
 	} 
     // {"id":"rfnd_HHJRuEJChmgEr5","entity":"refund","amount":50000,"currency":"INR","payment_id":"pay_HHJRIs7NFFaH6L","notes":[],"receipt":null,"acquirer_data":{"arn":null},"created_at":1622445149,"batch_id":null,"status":"processed","speed_processed":"normal","speed_requested":"normal"}
     // stdClass Object ( [id] => rfnd_HHIa94svtyfwsC [entity] => refund [amount] => 50000 [currency] => INR [payment_id] => pay_HHIZrYO7ZpoRBy [notes] => Array ( ) [receipt] => [acquirer_data] => stdClass Object ( [arn] => ) [created_at] => 1622442095 [batch_id] => [status] => processed [speed_processed] => normal [speed_requested] => normal )

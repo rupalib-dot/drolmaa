@@ -59,12 +59,16 @@ class AppointmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $title  = "Make Appointment";
-        $designation_list   = Designation::OrderBy('designation_title')->get(); 
-        $data   = compact('title','designation_list');
-        return view('customer_panel.makeappoint', $data);
+        if(!isset($request['designation_id']) && empty($request['designation_id']) && !isset($request['user_id']) && empty($request['user_id'])){
+            return redirect()->route('our_experts')->with('Failed', 'Select appointment of expert');
+        }else{
+            $title  = "Make Appointment";
+            $designation_list   = Designation::OrderBy('designation_title')->where('designation_id',$request['designation_id'])->get(); 
+            $data   = compact('title','designation_list','request');
+            return view('customer_panel.makeappoint', $data);
+        }
     }
 
     /**
@@ -84,6 +88,7 @@ class AppointmentController extends Controller
             'expert.required'       => 'Expert should be required',
             'date.required'         => 'Date should be required',
             'time.required'         => 'Time should be required',
+            'price.required'         => 'Price should be required',
 		];
 
 		$validatedData = $request->validate([
@@ -92,7 +97,8 @@ class AppointmentController extends Controller
             'designation' 	=> 'required',
             'expert' 	    => 'required',
             'date' 	        => 'required',
-            'time' 	        => 'required',			 
+            'time' 	        => 'required',	
+            'price' 	        => 'required',			 
         ], $error_message);
 
         
@@ -109,6 +115,7 @@ class AppointmentController extends Controller
                 'expert'        => $request->expert,
                 'date'          => $request->date,
                 'time'          =>$time_slot[0] , 
+                'amount'           => $request->amount,
                 'created_at'    => date('Y-m-d H:i:s'),
                 'updated_at'    => date('Y-m-d H:i:s'),
             ); 
@@ -139,7 +146,7 @@ class AppointmentController extends Controller
     {
         $input = $request->all();
   
-        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+        $api = new Api("rzp_test_tazXyaYClLVzyb", "QcFkC78PT0dkVGsPO8FWVMNB");
   
         $payment = $api->payment->fetch($input['razorpay_payment_id']);
   
@@ -150,21 +157,21 @@ class AppointmentController extends Controller
                 $response   = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount'])); 
                 $appoinment     = $request->session()->get('appointment');
                 $appoinment['payment_id'] = $input['razorpay_payment_id'];
-                $appoinment['amount'] = round($payment['amount'], 2);
+                $appoinment['amount'] = substr($payment['amount'] , 0, -2);
                 $count_row = Appointment::create($appoinment);  
                 if(!empty($count_row)){
                     Availability::where('user_id',$appoinment['expert'])->where('time',Session::get('time_slot'))->update(['status'=>config('constant.AVAIL_STATUS.BOOKED')]);
                     return redirect()->route('appointment.index')->with('Success', 'Appointment created successfully');
                 }else{
-                    return redirect()->back()->with('Failed', 'Something went wrong');
+                    return redirect()->back()->withInput($request->all())->with('Failed', 'Something went wrong');
                 }
             } 
             catch (\Throwable $e) 
             {
-                return redirect()->route('expert.fourth.step')->with('Failed',$e->getMessage());
+                return redirect()->route('appoinment.create')->withInput($request->all())->with('Failed',$e->getMessage());
             }
         }else{
-            return redirect()->route('appoinment.create')->with('Failed', 'Something went wrong');
+            return redirect()->route('appoinment.create')->withInput($request->all())->with('Failed', 'Something went wrong');
         }
     }
  
@@ -218,7 +225,7 @@ class AppointmentController extends Controller
         $appoinment = Appointment::findOrfail($id);  
         $time1 = strtotime(date('Y-m-d H:i:s'));$time2 = strtotime(date('Y-m-d H:i:s',strtotime($appoinment->date.' '.$appoinment->time))); $difference = round(($time2 - $time1) / 3600);
         if($difference >= 48){   
-            $refundData = CommonFunction::refundPayment($appoinment->payment_id,$appoinment->amount);
+            $refundData = CommonFunction::refundPayment($appoinment->payment_id,($appoinment->amount*35)/100,'Appoinment');
             $count_row = Appointment::where('appointment_id',$id)->update(['amount_refund'=>$refundData['amount_refund'],'refund_id'=>$refundData['id'], 'status'=>$status,'updated_at'=>date('Y-m-d H:i:s')]); 
             if(!empty($count_row)){
                 if($refundData['status'] == 'success'){

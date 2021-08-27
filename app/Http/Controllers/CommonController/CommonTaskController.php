@@ -3,339 +3,266 @@
 namespace App\Http\Controllers\CommonController;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Administrator;
-use App\Model\Company;
-use App\Model\Business;
-use App\Helpers\CommonHelper; 
-use BusinessAccount;
-use App\Helpers\ExcelHelper; 
-use App\Model\Partner;
-use App\Model\ContactEnq;
-use App\Model\Country;
-use App\Model\State;
-use ZipArchive;
-use App\Model\BussInvoice;
-use App\Model\BankDetails;
-use App\Model\BussInvoiceDtl; 
-use App\Model\Miscellaneous;
-use App\Model\Invoice;
-use App\Model\Subscription;
-use PDF;
-use Response;
-use Excel;
+use Illuminate\Http\Request; 
+use App\Models\Designation;
+use App\Models\User;
+use App\Models\Feedback;
+use App\Http\Resources\Feedback as Feedbacks; 
+use App\Models\Workshop;
 use DB; 
+use Session;
+use App\Models\Blog;
+use App\Models\Training;
+use CommonFunction;
+use App\Models\Availability;
 
 class CommonTaskController extends Controller
 {
     public function __construct()
     {
-        $this->Company          = new Company;
-        $this->Business         = new Business; 
-        $this->Partner 			= new Partner;
-		$this->Country 			= new Country;
-		$this->Invoice			= new Invoice;
-		$this->BussInvoice		= new BussInvoice;
-		$this->BankDetails		= new BankDetails;
-		$this->BussInvoiceDtl	= new BussInvoiceDtl;  
-		$this->State 			= new State;
-		$this->Miscellaneous 	= new Miscellaneous;
-        $this->Subscription 	= new Subscription; 
-        $this->CommonHelper     = new CommonHelper;
-		$this->ExcelHelper 			= new ExcelHelper;
-        $this->ContactEnq = new ContactEnq;
+       
     }
 
-    public function DelRec(Request $request)
-    {
-        $lRecIdNo   = base64_decode($request['lRecIdNo']);
-        $sTblName   = base64_decode($request['sTblName']);
-        $sFldName   = base64_decode($request['sFldName']);
-
-        $oGetRec    = DB::table($sTblName)->Where($sFldName,$lRecIdNo)->first();
-        if(isset($oGetRec) && !empty($oGetRec->$sFldName))
-        {
-            $aValue = array(
-                "nDel_Status"   => config('constant.DEL_STATUS.DELETED'),
-            );
-            DB::table($sTblName)->Where($sFldName,$lRecIdNo)->update($aValue);
-            if($sTblName == 'mst_cntry'){
-                $saValue = array(
-                    "nDel_Status"   => config('constant.DEL_STATUS.DELETED'),
-                );
-                DB::table('mst_state')->Where('lCntry_IdNo',$lRecIdNo)->update($saValue);
+    public function live_workshops(Request $request)
+    { 
+        $title  = "Live Webinar";
+        $todaydate = date('Y-m-d');
+        $blogs = Blog::orderBy('blog_id','desc')->limit(5)->get();
+        $Workshops  = Workshop::OrderBy('workshop_id','desc')
+        ->Where(function($query) use($todaydate,$request) {  
+            if($request['status'] == 'previous'){
+                $query->where('date','<', $todaydate);
+            }else{
+                $query->where('start_date','>',$todaydate);
+                $query->orWhere('date','>',$todaydate); 
             }
-            return redirect()->back()->with('Success', 'Record deleted successfully...');
-        }
-        else
-        {
-            return redirect()->back()->withInput($request->all())->with('Failed', 'Unauthorized access...');
-        }
+            if(isset($request['keyword']) && !empty($request['keyword'])){
+                $query->where('title','LIKE', "%".$request['keyword']."%");
+                $query->orWhere('price','LIKE', "%".$request['keyword']."%"); 
+                $query->orWhere('description','LIKE', "%".$request['keyword']."%");  
+            }if(isset($request['date']) && !empty($request['date'])){
+                $query->where('start_date',$request['date']);
+                $query->orWhere('date',$request['date']); 
+            }if(isset($request['time']) && !empty($request['time'])){
+                $query->where('time',$request['time']); 
+            }if(isset($request['expert']) && !empty($request['expert'])){
+                $query->where('expert',$request['expert']); 
+            }
+        })
+        ->paginate(10);     
+        $expert  = User::select('users.*') 
+			->join('user_role','user_role.user_id','=','users.user_id')
+			->Where('user_role.role_id',2)
+			->orderBy('users.user_id','desc')->get(); 
+        $data   = compact('title','blogs','Workshops','expert','request');
+        return view('pages.live_webinar', $data);
+    }
+    public function live_workshops_details(Request $request,$id)
+    { 
+        $title  = "Workshop Details";
+        $workshop  = Workshop::where('workshop_id',$id)->first(); 
+        $data   = compact('title','workshop','request');
+        return view('pages.live_webinar_details', $data);
     }
 
-    public function ChngStatus(Request $request)
-    {
-        $lRecIdNo = base64_decode($request['lRecIdNo']);
-        $sTblName = base64_decode($request['sTblName']);
-        $sFldName = base64_decode($request['sFldName']);
-        $nStatus  = base64_decode($request['nStatus']);
-
-        $oGetRec  = DB::table($sTblName)->Where($sFldName,$lRecIdNo)->first();
-        if(isset($oGetRec) && !empty($oGetRec->$sFldName))
-        {
-            $aValue = array(
-                "nBlk_UnBlk"   => $nStatus,
-            );
-            DB::table($sTblName)->Where($sFldName,$lRecIdNo)->update($aValue);
-            if($sTblName == 'mst_cntry'){
-                $saValue = array(
-                    "nBlk_UnBlk"   => $nStatus,
-                );
-                DB::table('mst_state')->Where('lCntry_IdNo',$lRecIdNo)->update($saValue);
-            }
-            return redirect()->back()->with('Success', 'Status changed successfully...');
-        }
-        else
-        {
-            return redirect()->back()->withInput($request->all())->with('Failed', 'Unauthorized access...');
-        }
-    }
-
-    public function FrgtPass()
-    {
-        $sTitle         = "Forgot Password";
-        $aData          = compact('sTitle');
-        return view('forgot_password',$aData);
-    }
-
-    public function VldtEmail(Request $request)
-    {
-        $rules = [
-            'sUserEmail'      => 'required|max:50|regex:^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^',
-        ];
-        
-        $this->validate($request, $rules, config('constant.VLDT_MSG'));
-
-        try
-        {
-            $yCompExist = $this->Company->IsEmailExist($request['sUserEmail'], $oGetUser);
-            if($yCompExist)
-            {
-                $sEmailId   = $oGetUser->sComp_Email;
-                $sUserName  = $oGetUser->sPrsn_Name;
-                $sTkn       = $this->CommonHelper->RndmStrg(50);
-                $aTknArr    = $this->TknArr($sTkn);
-                $nRow       = $this->Company->UpDtRecrd($aTknArr, $oGetUser->lComp_IdNo);
-                $aEmailData = ['lRecIdNo' => $oGetUser->lComp_IdNo, 'sEmailId' => $sEmailId, 'sUserName' => $oGetUser->sPrsn_Name, 'sToken' => $sTkn];
-            }
-            else
-            {
-                $yBussExist = $this->Business->IsEmailExist($request['sUserEmail'], $oGetUser);
-                if($yBussExist)
-                {
-                    $sEmailId   = $oGetUser->sEmail_Id;
-                    $sUserName  = $oGetUser->sBuss_Name;
-                    $sTkn       = $this->CommonHelper->RndmStrg(50);
-                    $aTknArr    = $this->TknArr($sTkn);
-                    $nRow       = $this->Business->UpDtRecrd($aTknArr, $oGetUser->lBuss_IdNo);
-                    $aEmailData = ['lRecIdNo' => $oGetUser->lBuss_IdNo, 'sEmailId' => $sEmailId, 'sUserName' => $oGetUser->sBuss_Name, 'sToken' => $sTkn];
-                }
-            }
-            if(isset($aEmailData))
-            {
-                $this->CommonHelper->SendEmail($sEmailId, $sUserName, 'forgot_password', 'FlipBooks - Password Reset!', $aEmailData);
-                return redirect('/')->with('Success', 'Password reset link sent on your email..');
-            }
-            else
-            {
-                return redirect()->back()->withInput($request->all())->with('Failed', 'We could not found any account with that email..');
-            }
-        }
-        catch(\Exception $e)
-        {
-            \DB::rollback();
-            return redirect()->back()->withInput($request->all())->with('Failed', $e->getMessage()." on line ".$e->getLine());
-        }
-    }
-
-    public function TknArr($sTkn)
-    {
-        $aCmnArr = array(
-            "sRst_Token" => $sTkn,
-        );
-        return $aCmnArr;
-    }
-
-    public function RstPassFrm(Request $request)
-    {
-        try
-        {
-            $yLinkStatus = False;
-            $sToken     = $request['sToken'];
-            $sValid     = base64_decode($request['sValid']);
-            if(empty($sToken) || empty($sValid))
-            {
-                return redirect('/')->withInput($request->all())->with('Failed', 'Unauthorized access..');
-            }
-            else
-            {
-                $dHrDiff = round((strtotime(date('Y-m-d H:i:d')) - strtotime($sValid))/3600, 1);
-                if($dHrDiff > 1)
-                {
-                   return redirect('/')->withInput($request->all())->with('Failed', 'Reset password link expaired...'); 
-                }
-                else
-                {
-                    $yCompLink = $this->Company->IsTokenExist($sToken, $lCompIdNo);
-                    if($yCompLink)
-                    {
-                        $yLinkStatus = True;
-                    }
-                    else
-                    {
-                        $yBussLink = $this->Business->IsTokenExist($sToken, $lBussIdNo);
-                        if($yBussLink)
-                        {
-                            $yLinkStatus = True;
-                        }
-                    }
-                }
-
-                if(!$yLinkStatus)
-                {
-                    return redirect('/')->withInput($request->all())->with('Failed', 'This URL already used for rest passowrd...'); 
-                }
-                $sTitle   = "Reset Password";
-                $aData    = compact('sTitle','sToken');
-                return view('reset_password',$aData);
-            }
-        }
-        catch(\Exception $e)
-        {
-            return redirect('')->withInput($request->all())->with('Failed', $e->getMessage()." on line ".$e->getLine());
-        }
-    }
-
-    public function RstPassSave(Request $request)
-    {
-        $rules = [
-            'sLgnPass'      => 'required|min:8|max:16|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
-            'sCnfrmPass'    => 'required|required_with:sLgnPass|same:sLgnPass',
-        ];
-        
-        $this->validate($request, $rules, config('constant.VLDT_MSG'));
-
-        try
-        {
-            \DB::beginTransaction();
-                $sToken    = $request['sToken'];
-                $aPassArr  = $this->PassArr($request['sLgnPass']);
-                $yCompLink = $this->Company->IsTokenExist($sToken, $lCompIdNo);
-                if($yCompLink)
-                {
-                    $nRow           = $this->Company->UpDtRecrd($aPassArr, $lCompIdNo);
-                }
-                else
-                {
-                    $yBussLink = $this->Business->IsTokenExist($sToken, $lBussIdNo);
-                    if($yBussLink)
-                    {
-                        $nRow           = $this->Business->UpDtRecrd($aPassArr, $lBussIdNo);
-                    }
-                }
-            \DB::commit();
-            if(isset($nRow) && $nRow > 0)
-            {
-                return redirect('')->with('Success', 'Password successfully changed...');
-            }
-            else
-            {
-                return redirect()->back()->withInput($request->all())->with('Failed', 'Password did not changed, Please try again...');
-            }
-        }
-        catch(\Exception $e)
-        {
-            \DB::rollback();
-            return redirect()->back()->withInput($request->all())->with('Failed', $e->getMessage()." on line ".$e->getLine());
-        }
-    }
-
-    public function PassArr($sLgnPass)
-    {
-        $aHdArr = array(
-            "sLgn_Pass"     => md5($sLgnPass),
-            "sRst_Token"    => NULL,
-        );
-        return $aHdArr;
-    }
-
-    public function Download(Request $request,$type,$lBussInvIdNo)
-	{ 
-		$lBussInvIdNo = base64_decode($lBussInvIdNo);
-		$lBussIdNo  = session('LUSER_IDNO');
-        $ySubsExist = $this->Subscription->SubsExist($lBussIdNo);
-        if(!$ySubsExist)
-        {
-        	return redirect('subscription/payment');
-	    }
-
-		try
-        {
-			$sTitle			= "Download Invoice";
-			$oBussInv		= $this->BussInvoice->DtlBussInv($lBussInvIdNo);
-			$aBussInvDtl	= $this->BussInvoiceDtl->BussInvDtl($lBussInvIdNo); 
-			$aBankDtl		= $this->BankDetails->BankDtl($lBussInvIdNo); 
-			$oInvDtl		= $this->Invoice->InvCatDtl($oBussInv->lCatg_IdNo);
-			$oPrtnrDtl		= $this->Partner->RcrdDtl($oBussInv->lPrtnr_IdNo); 
-			$sBussRcrd		= $this->Business->RcrdDtl(session('LUSER_IDNO'));
-			$aData 			= compact('sTitle','oBussInv','aBussInvDtl','aBankDtl','sBussRcrd','oInvDtl','oPrtnrDtl'); 
-            if($type == 'print'){
-                return view('bussiness_panel.invoice_module.Viewold',$aData); 
-            }else{  
-                $pdf = PDF::loadView('bussiness_panel.invoice_module.Viewold', $aData); 
-                return $pdf->download($oBussInv->sInv_No.'.pdf'); 
+    public function our_experts(Request $request)
+    { 
+        $title  = "Expert List";
+        $designation_list = Designation::get();
+        $specialPlans = config('constant.SPECIAL_PLANS');
+        $experts = User::select('users.*')
+        ->Where(function($query) use ($request) {  
+            if (isset($request['keyword']) && !empty($request['keyword'])) { 
+                $query->where('full_name','LIKE', "%".$request['keyword']."%");
+                $query->orWhere('mobile_number',$request['keyword']);
+                $query->orWhere('email_address','LIKE', "%".$request['keyword']."%");
+                $query->orWhere('address_details','LIKE', "%".$request['keyword']."%");
+            }if(isset($request['designation'])&& !empty($request['designation'])){
+                $query->where('designation_id',$request['designation']);
+            }if(isset($request['specialization'])&& !empty($request['specialization'])){ 
+                $query->whereRaw('FIND_IN_SET('.$request['specialization'].',special_plan)');
             } 
-            
-	    }
-		catch(\Exception $e)
-		{
-			return redirect()->back()->withInput($request->all())->with('Failed', $e->getMessage()." on line ".$e->getLine());
-		}
-	}
-    
-    public function ContactUsSubmit(Request $request)
+        }) 
+        ->join('user_role','user_role.user_id','=','users.user_id')
+        ->Where('user_role.role_id',2)
+        ->orderBy('users.user_id','desc')->paginate(5); 
+        $data   = compact('title','experts','request','designation_list','specialPlans');
+        return view('pages.experts', $data);
+    }
+
+    //expert detail page
+	public function expert_details(Request $request,$id){ 
+      
+            $title  = "Expert Details";
+			$availSlots = array();
+			$feedback = array();
+			$availability = array();
+			$plansSpecial = array();
+			
+			$user_data = User::find($id);   
+
+			if(!empty($user_data)){
+				
+				//feedback data
+				$feedback    = Feedback::where('feedback_to',$id)->where('module_type','!=',config('constant.FEEDBACK.ORDER'))->get();
+				$feedback_data    = Feedback::where('feedback_to',$id)->where('module_type',config('constant.FEEDBACK.ORDER'))->sum('rating');
+				$rating = 0;
+				if($feedback_data > 0 && count($feedback) >0){
+					$feedback_count = count($feedback);
+					$rating = round($feedback_data/$feedback_count);       
+				} 
+				// $reviews = Feedbacks::collection($feedback);  
+ 
+				//personal data
+				$specialPlans = explode(',',$user_data->special_plan); 
+				if(count($specialPlans)>0){
+					foreach($specialPlans as $plans){ 
+						$plansSpecial[] = array_search($plans,config('constant.SPECIAL_PLANS'));
+					} 
+				}
+				$infoPersonal = array( 'rating' => $rating , 'description'=>$user_data->description,'full_name' => $user_data->full_name, 'mobile_number' => $user_data->mobile_number,'email_address' => $user_data->email_address, 'user_age' => $user_data->user_age,'user_dob' => $user_data->user_dob, 'user_gender' => array_search($user_data->user_gender,config('constant.GENDER')),'country' => CommonFunction::GetSingleField('country','country_name','country_id',$user_data->country_id), 'state' => CommonFunction::GetSingleField('state','state_name','state_id',$user_data->state_id), 'city' => CommonFunction::GetSingleField('city','city_name','city_id',$user_data->city_id), 'address_details' => $user_data->address_details,'designation' => CommonFunction::GetSingleField('designation','designation_title','designation_id',$user_data->designation_id),'designation_id' => $user_data->designation_id, 'office_phone_number' => $user_data->office_phone_number,'user_experience' => $user_data->user_experience.' Years', 'licance_pic' => asset('public/expert_documents/'.$user_data->licance_pic), 'pan_card_pic' => asset('public/expert_documents/'.$user_data->pan_card_pic), 'aadhar_card_pic' => asset('public/expert_documents/'.$user_data->aadhar_card_pic), 'professional_certificate_pic' 	=> asset('public/expert_documents/'.$user_data->professional_certificate_pic), 'special_plan' => $plansSpecial, 'user_image' => asset('public/user_images/'.$user_data->user_image),);
+				
+				//availability data
+				$avail_slots = Availability::where('user_id',$id)->get();
+				if(count($avail_slots) >0){
+                    $availSlots =  CommonFunction::getslotsData($id);
+				} 
+				
+                $designation_list = Designation::get();
+                $specialPlans = config('constant.SPECIAL_PLANS');
+
+				//final data
+				$data = compact('title','request','designation_list','specialPlans','infoPersonal','feedback','availSlots','id');
+				return view('pages.experts_details', $data); 
+			}else{
+				return redirect()->back()->with('Failed','No record found'); 
+			}
+    }
+
+
+
+    public function our_training(Request $request)
+    { 
+        $title  = "Training"; 
+        $trainings  = Training::OrderBy('training_id','desc')->paginate(10);     
+        $data   = compact('title','trainings','request');
+        return view('pages.training', $data);
+    } 
+
+    public function other_activities(Request $request)
     {  
-        try
-        { 
-            // \DB::beginTransaction(); 
-            
-            $aConArr = array(
-                'first_name'            => $request['firstname'],
-                'last_name'             => $request['lastname'],
-                'mobile_Number'         => $request['mobileNumber'],
-                'email_Address'         => $request['emailAddress'],
-                'questions'             => $request['questions'], 
-                'block_status'          => config('constant.STATUS.UNBLOCK'),
-                'delete_status'         => config('constant.DEL_STATUS.UNDELETED'),
-                'created_at'            => date('Y-m-d H:i:s'),
-                'updated_at'            => date('Y-m-d H:i:s'),
-            ); 
-            $oInsrtEnq = $this->ContactEnq->InsrtRecrd($aConArr);
-            if($oInsrtEnq)
-            { 
-                return redirect()->back()->with('Success', 'Inquiry Submitted Successful...');
+        $title  = "Other Activities";     
+        $data   = compact('title','request');
+        return view('pages.other_activities', $data); 
+    }
+    
+
+    public function verify_account(Request $request){
+        $email 	= base64_decode($request['email']);
+		$userId 	= base64_decode($request['userId']); 
+		
+		if(!empty($email) && !empty($userId))
+		{
+			try
+			{  
+                $emailExist = User::where(['user_id'=>$userId,'email_address'=>$email])->first();
+                if(!$emailExist)
+                {
+                    return redirect('user_login')->with('Failed', 'Unauthorized Access...');
+                }
+                else
+                {
+                    $nRow =User::where('user_id',$userId)->update(['email_status'=>config('constant.MAIL_STATUS.VERIFIED'),'updated_at'=>date('Y-m-d H:i:s')]);
+                    return redirect('user_login')->with('Success', 'Your account has been verified successfully.Please login using your email and password');
+                } 
+			}
+			catch(\Exception $e)
+			{
+				return redirect('user_login')->with('Failed', $e->getMessage().' on Line '.$e->getLine());
+			}
+		}
+		else
+		{
+			return redirect('user_login')->with('Failed', 'Unauthorized Access...');
+		}
+    }
+    
+    public function checkOtp(Request $request){ 
+        $otp     = base64_decode($request['otp']); 
+        $user_id =  base64_decode($request['user_id']);
+        $module     = $request['module'];
+        $page = $request['page'];
+        if(isset($_POST['submit'])){ 
+            if($module == 'email'){ 
+                $data =['email_status'=>config('constant.MAIL_STATUS.VERIFIED'),'updated_at'=>date('Y-m-d H:i:s')]; 
+            }else{ 
+                $data =['phone_status'=>config('constant.MAIL_STATUS.VERIFIED'),'updated_at'=>date('Y-m-d H:i:s')]; 
+            } 
+            if(!empty($otp))
+            {
+                if($otp == $request['otp_input']){
+                    $nRow = User::where('user_id',$user_id)->update($data);
+                    if($request['page'] == 'login'){
+                        Session()->flush();
+                        return redirect('user_login')->with('Success', 'Your '.$module.' has been verified successfully.Please login using your email and password');
+                    }else{   
+                        if(Session::has('user_id') && Session::has('role_id')){
+                            if(Session::get('role_id') == 2){ 
+                                return redirect('expert/profile/'.Session::get('user_id').'/edit')->with('Success', 'Your '.$module.' status has been verified successfully');
+                            }else if(Session::get('role_id') == 3){ 
+                                return redirect('profile/'.Session::get('user_id').'/edit')->with('Success', 'Your '.$module.' status has been verified successfully');
+                            }else{
+                                return redirect()->back()->with('Failed', 'Invalid details...');
+                            }
+                        }else{
+                            return redirect('user_login')->with('Failed', 'User not logged in');
+                        }  
+                    }                    
+                }else
+                {
+                    return redirect()->back()->with('Failed', 'You have entered wrong password...');
+                }
             }
             else
             {
-                return redirect()->back()->with('Failed', 'Inquiry Not Submitted Successful...');
+                return redirect()->back()->with('Failed', 'Otp does not exist...');
             }
- 
-            // \DB::commit(); 
+        }else{ 
+            $title              = "Verify Otp";  
+            $msg              = 'your otp to verify '.$module .' is '.$otp; 
+            $data               = compact('title','msg','user_id','module','page','otp');
+            return view('verify-otp',$data);
         }
-        catch(\Illuminate\Database\QueryException $ex)
-        {
+    }
+    
+     public function verifyProfile(Request $request)
+    {
+        
+        try
+        {   
+            $user_id = base64_decode($request->user_id);
+            $otp = rand(1111,9999); 
+            $request->session()->put('otp',$otp);
+            
+            $userdata = User::where('user_id',$user_id)->first(); 
+            if($request['module'] == 'email'){ 
+                $details = array(
+                    'name'         => $userdata->full_name,
+                    'mobile' 		=> $userdata->mobile,
+                    'email' 		=> $userdata->email,   
+                    'user_id'       => $user_id,
+                    'otp'           => $otp
+                );   
+                \Mail::to($userdata->email_address)->send(new \App\Mail\VerifyMail($details));
+                return redirect()->back()->with('Success', 'Otp has been sent on your email to verify your email...');  
+            }else{ 
+                return redirect()->route('verify.otp',['module'=>'phone','page'=>'profile','user_id'=>base64_encode($user_id),'otp'=>base64_encode($otp)])->with('Success', 'Otp sent successfully..');  
+            } 
+        }
+        catch (\Throwable $e)
+    	{
             \DB::rollback();
-            return redirect()->back()->withInput($request->all())->with('Failed', $ex->getMessage()." on line ".$ex->getLine());
-        }
+    		return redirect()->route('customer.create')->with('Failed', $e->getMessage())->withInput();  
+    	}
     }
 }

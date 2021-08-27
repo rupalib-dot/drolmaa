@@ -26,8 +26,10 @@ class Order extends Authenticatable
            
 
     protected $fillable = [
-        'user_id','full_name','user_gender','company_name','refund_id','refund_status','refund_amount','order_status','address1','address2','country_id','state_id','city_id','pincode','mobile_number','email_address','grand_total','order_no','payment_id','payment_type','payment_status','created_at','updated_at',
-    ];
+        'user_id','full_name','user_gender','company_name','refund_id','refund_status','refund_amount','order_status','address1',
+        'address2','country_id','state_id','city_id','pincode','mobile_number','email_address','grand_total','order_no','payment_id',
+        'payment_type','payment_status','coupon_id','coupon_code','comment','discount','orignal_grand_total','created_at','updated_at',
+    ]; 
  
     protected $dates = [ 'deleted_at' ];  
 }

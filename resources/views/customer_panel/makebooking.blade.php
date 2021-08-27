@@ -16,8 +16,12 @@
             <div class="col-sm-12">
                 <div class="back-appoint">
                     <div class="row">
-                        @include('include.client_sidebar')
-                        <div class="col-md-9">
+                    @if(Session::get('role_id') == 3)
+                            @include('include.client_sidebar')
+                        @elseif(Session::get('role_id') == 2)
+                            @include('include.expert_sidebar')
+                        @endif
+                        <div class="col-lg-10">
                             <div class="dashboard-panel">
                                 @include('include.validation_message')
                                 @include('include.auth_message')
@@ -27,9 +31,9 @@
                                         <select onchange="workshop_details(this.value)" class="form-control" id="exampleFormControlSelect1"
                                             placeholder="Workshop" name="module_id" aria-label="Workshop"
                                             aria-describedby="basic-addon2">
-                                            <option value=""> Select Workshop For Booking Which You Want To Book</option>
+                                            <!-- <option value=""> Select Workshop For Booking Which You Want To Book</option> -->
                                             @foreach($workshop_list as $workshop)
-                                                <option {{ old('module_id') == $workshop->workshop_id ? 'selected' : ''}} value="{{$workshop->workshop_id}}">{{ucfirst(strtolower($workshop->title))}}</option>
+                                                <option {{ old('module_id',$request['id']) == $workshop->workshop_id ? 'selected' : ''}} value="{{$workshop->workshop_id}}">{{ucfirst(strtolower($workshop->title))}}</option>
                                             @endforeach
                                         </select>
                                     </div> 
@@ -44,6 +48,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <p id="date"></p>
+                                            <p id="start_date"></p>
                                             <p id="time"></p>
                                         </div> 
                                         <form action="" id="payment" method="POST">
